@@ -17,9 +17,16 @@
         <div class="row">
             {{ "<!-- Contact Details -->" | safeHTML }}
             <div class="col-12 col-md-12">
-                <div class="map">
-                    <div id="map" data-lat="{{ .Site.Params.contact.mapLatitude }}" data-long="{{ .Site.Params.contact.mapLongitude }}" data-marker="{{ .Site.Params.contact.mapMarker | absURL }}"></div>
-                </div>
+                <!--div class="map">
+                    <div id="map" data-lat="{{ .Site.Params.contact.mapLatitude }}" data-long="{{ .Site.Params.contact.mapLongitude }}" data-marker="{{ .Site.Params.contact.mapMarker | absURL }}"> </div></div -->
+                    <div class="col-12 col-md-12">
+
+                           <iframe      style="width: 100%; height: 100%; border: 0;"
+                                        src="https://maps.google.com/maps?q=Wydzia%C5%82+Nauk+Ekonomicznych+i+Zarz%C4%85dzania+UMK+w+Toruniu;t=m&#038;z=12&#038;output=embed&#038"
+                                        title="{{ .Site.Params.contact.address }}"
+                                        aria-label="{{ .Site.Params.contact.address }}"
+                                ></iframe>
+                    </div>   
             </div>
            <!-- Contact Form 
             <div class="contact-form col-12 col-md-6 ">
@@ -58,7 +65,10 @@
         <div class="row">
             <div class="col-12 col-md-4 d-flex align-items-stretch" >
                 <div class="address-block contact-meta-block w-100">
-                    <i class="tf-ion-android-pin"></i>
+                    <a href="https://maps.google.com/maps?q=Wydzia%C5%82+Nauk+Ekonomicznych+i+Zarz%C4%85dzania+UMK+w+Toruniu" target="_blank" style="font-size: 50px; color: black;">
+                        <i class="tf-ion-android-pin"></i>
+                    </a>
+
                     <h4>Miejsce</h4>
                     <p>  </p>
                     {{ with .Site.Params.contact.address }}<p>{{ . | safeHTML }}</p>{{ end }}
@@ -68,7 +78,9 @@
             </div>
             <div class="col-12 col-md-4 d-flex align-items-stretch">
                 <div class="phone-block contact-meta-block w-100">
-                    <i class="tf-ion-ios-telephone"></i>
+                    <a href="tel: {{ .Site.Params.contact.phone }}" target="_blank" style="font-size: 50px; color: black;">
+                        <i class="tf-ion-ios-telephone"></i>
+                    </a>
                     <h4>Telefon w razie potrzeby</h4>
                     <p>  </p>
                     <p>
@@ -79,7 +91,9 @@
             </div>
             <div class="col-12 col-md-4 d-flex align-items-stretch" >
                 <div class="social-icons-block contact-meta-block w-100">
-                    <i class="tf-ion-ios-contact"></i>
+                    <a href="{{.Site.Params.contact.linkedin }}" target="_blank" style="font-size: 50px; color: black;">
+                       <i class="tf-ion-ios-contact"></i>
+                    </a>
                     <h4>Nasze social media</h4>
                     <ul class="list-inline social-icon">
                         {{ with .Site.Params.contact.facebook }}
