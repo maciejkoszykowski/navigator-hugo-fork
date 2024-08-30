@@ -1243,8 +1243,10 @@ a:focus, a:hover {
 }
 
 .service-2 .service-item .count {
+  display: block;
   font-size: 20px;
-  position: absolute;
+  text-align: left;
+
   top: 0;
   left: 20px;
   /* color: #f3f1f1;*/
