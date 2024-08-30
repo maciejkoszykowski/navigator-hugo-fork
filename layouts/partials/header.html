@@ -2,13 +2,13 @@
 {{ if .Site.Params.menufixed }}
 <section class="header navigation top-bar">
 {{ else }}
-<section class="header navigation">
+<section class="header navigation" style="background-color: rgb(255, 255, 255);">
 {{ end }}
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <nav class="navbar navbar-expand-lg">
-                    <a class="navbar-brand" href="{{ .Site.BaseURL | relLangURL }}">
+                <nav class="navbar navbar-expand-lg" style="padding-top: 0px; padding-bottom: 0px">
+                    <a class="navbar-brand" href="{{ .Site.BaseURL | relLangURL }}" style="padding-top: 0px; padding-bottom: 0px">
                         <img src="{{ .Site.Params.logo | absURL }}" alt="{{ .Site.Title }}">
                     </a>
                     <div class="d-flex align-items-center">
@@ -27,8 +27,9 @@
                     <div class="collapse navbar-collapse" id="navigation">
                         <ul class="navbar-nav ml-auto">
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ .Site.BaseURL }}">{{ with .Site.Params.home }}{{ . }}{{ end }}</a>
+                                <a class="nav-link" href="{{ .Site.BaseURL }}" style="padding-top: 6px !important; padding-bottom: 0px !important;">{{ with .Site.Params.home }}{{ . }}{{ end }}</a>
                             </li>
+                            
                             {{ range site.Menus.nav }}
                             {{ if .HasChildren }}
                             <li class="nav-item dropdown">
@@ -44,7 +45,7 @@
                             </li>
                             {{ else }}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ .URL | absLangURL }}">{{ i18n .Name }}</a>
+                                <a class="nav-link" href="{{ .URL }}" style="padding-top: 6px !important; padding-bottom: 0px !important; ">{{ .Name }}</a>
                             </li>
                             {{ end }}
                             {{ end }}

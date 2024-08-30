@@ -2,14 +2,19 @@
 
 {{ partial "page-title" . }}
 
-{{ partial "service.html" . }}
 
-{{ partial "clients.html" . }}
+<section class="blog-single section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <h2>{{ .Title }}</h2>
+                <article>
+                    {{ .Content }}
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
 
-{{ partial "team.html" . }}
-
-{{ partial "pricing.html" . }}
-
-{{ partial "testimonial.html" . }}
 
 {{ end }}

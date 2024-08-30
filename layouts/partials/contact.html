@@ -16,12 +16,12 @@
         </div>
         <div class="row">
             {{ "<!-- Contact Details -->" | safeHTML }}
-            <div class="col-12 col-md-6">
+            <div class="col-12 col-md-12">
                 <div class="map">
                     <div id="map" data-lat="{{ .Site.Params.contact.mapLatitude }}" data-long="{{ .Site.Params.contact.mapLongitude }}" data-marker="{{ .Site.Params.contact.mapMarker | absURL }}"></div>
                 </div>
             </div>
-            {{ "<!-- Contact Form -->" | safeHTML }}
+           <!-- Contact Form 
             <div class="contact-form col-12 col-md-6 ">
                 <form id="contact-form" method="post" action="sendmail.php" role="form">
                     <div class="form-group">
@@ -53,29 +53,34 @@
                     </div>
                 </form>
             </div>
+            -->
         </div>
         <div class="row">
-            <div class="col-12 col-md-4">
-                <div class="address-block contact-meta-block">
+            <div class="col-12 col-md-4 d-flex align-items-stretch" >
+                <div class="address-block contact-meta-block w-100">
                     <i class="tf-ion-android-pin"></i>
-                    <h4>Our Location</h4>
+                    <h4>Miejsce</h4>
+                    <p>  </p>
                     {{ with .Site.Params.contact.address }}<p>{{ . | safeHTML }}</p>{{ end }}
+                    {{ with .Site.Params.contact.address_line2 }}<p>{{ . | safeHTML }}</p>{{ end }}
+                    {{ with .Site.Params.contact.address_line3 }}<p>{{ . | safeHTML }}</p>{{ end }}
                 </div>
             </div>
-            <div class="col-12 col-md-4">
-                <div class="phone-block contact-meta-block">
+            <div class="col-12 col-md-4 d-flex align-items-stretch">
+                <div class="phone-block contact-meta-block w-100">
                     <i class="tf-ion-ios-telephone"></i>
-                    <h4>Call Us</h4>
+                    <h4>Telefon w razie potrzeby</h4>
+                    <p>  </p>
                     <p>
-                         {{ with .Site.Params.contact.phone }}Office: {{.}} {{ end }} 
-                        <br> {{ with .Site.Params.contact.fax }} Fax: {{ . }} {{ end }}
+                         {{ with .Site.Params.contact.phone }}  {{.}} {{ end }} 
+                        <!-- br  {{ with .Site.Params.contact.fax }} Fax: {{ . }} {{ end }} -->
                     </p>
                 </div>
             </div>
-            <div class="col-12 col-md-4">
-                <div class="social-icons-block contact-meta-block">
+            <div class="col-12 col-md-4 d-flex align-items-stretch" >
+                <div class="social-icons-block contact-meta-block w-100">
                     <i class="tf-ion-ios-contact"></i>
-                    <h4>We are social</h4>
+                    <h4>Nasze social media</h4>
                     <ul class="list-inline social-icon">
                         {{ with .Site.Params.contact.facebook }}
                         <li class="list-inline-item">

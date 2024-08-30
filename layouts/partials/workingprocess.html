@@ -22,20 +22,21 @@
             </div>
             <div class="row justify-content-center">
                 {{ range $index,  $element:= .item }}
-                    <div class="col-md-4 col-sm-6 p-0">
+                    <div class="col-md-8 col-sm-8 p-0">
                         <div class="service-item text-center">
-                            {{ with .number }}
-                                <span class="count">{{ . }}.</span>
-                            {{ end }}
-                            {{ with .icon }}
-                                <i class="{{ . }}"></i>
-                            {{ end }}
-                            {{ with .title }}
-                                <h4>{{ . }}</h4>
-                            {{ end }}
-                            {{ with .description }}
-                                <p>{{ . }}</p>
-                            {{ end }}
+                           <span class="count">{{ .start }} - {{ .end }} </span>
+                            {{ if  .who}}
+                                <h3>{{ .who}}</h3>
+                                <h5>{{ .title }}</h5>
+                            {{else}}
+                                {{ if .titlelong}}
+                                <h3>{{ .titlelong }}</h3>
+                                <h3>{{ .title }}</h3>
+                                {{else}}
+                                <h3>{{ .title }}</h3>
+                                {{end}}
+                            {{end}}
+                                <p>{{ .description  }}</p>
                         </div>
                     </div>
                     {{ if eq (mod $index 2) 1 }}

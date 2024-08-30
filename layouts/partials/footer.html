@@ -5,45 +5,31 @@
             <div class="row">
                 <div class="col-sm-3 col-md-3 col-lg-3">
                     <h3>{{ .Site.Params.footerAboutTitle }}</h3>
-                    {{ with .Site.Params.footerDescription }}<p>{{ . }}</p>{{ end }}
-                </div>
-                <div class="col-sm-3 col-md-3 col-lg-3">
-                    <h3>{{ .Site.Params.footerServiceTitle }}</h3>
-                    <ul>
-                        {{ range .Site.Menus.service }}
-                        <li>
-                            <a href="{{ .URL | absLangURL }}">{{ i18n .Name }}</a>
-                        </li>
-                        {{ end }}
-                    </ul>
-                </div>
+                    <p>{{.Site.Params.PMI_PC}}<br>
+                    {{.Site.Params.PMI_PC_pl}}<br>
+                    {{.Site.Params.PMI_PC_address_ul}}<br>
+                    {{.Site.Params.PMI_PC_address_code}}<br>
+                    {{.Site.Params.PMI_PC_NIP}}</p>
+                 </div>
                 <div class="col-sm-3 col-md-3 col-lg-3">
                     <h3>{{ .Site.Params.footerQuicklinkTitle }}</h3>
                     <ul>
                         {{ range .Site.Menus.quicklink }}
                         <li>
-                            <a href="{{ .URL | absLangURL }}">{{ i18n .Name }}</a>
+                            <a href="{{ .URL }}">{{ .Name }}</a>
                         </li>
                         {{ end }}
                     </ul>
                 </div>
                 <div class="col-sm-3 col-md-3 col-lg-3">
-                    <h3>{{ .Site.Params.footerSubscribeTitle }}</h3>
-                    <form class="subscribe-form">
-                        <div class="form-group">
-                            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-                        </div>
-                        <button type="submit" class="btn btn-main-sm">Subscribe Now</button>
-                    </form>
+                    <img src="{{ .Site.Params.footerServiceTitle | absURL }}" alt="{{ .Site.Title }}">
                 </div>
             </div>
         </div>
     </div>
     <div class="footer-bottom">
-        <h5>Copyright 2021. All rights reserved.</h5>
-        <h6>Design and Developed by Themefisher
-            <br>Get More
-            <a href="https://themefisher.com/hugo-themes/" target="_blank">Themefisher</a>
+        <h5>Copyright 2024. All rights reserved.</h5>
+        <h6>Page powered by Hugo and Themefisher Theme.
         </h6>
     </div>
 </footer>
@@ -76,7 +62,7 @@
 {{ if site.Params.cookies.enable }}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
 <div id="js-cookie-box" class="cookie-box cookie-box-hide">
-	This site uses cookies. By continuing to use this website, you agree to their use. <span id="js-cookie-button" class="btn btn-sm btn-outline-primary ml-2">I Accept</span>
+	Ta strona używa plików cookie. Kontynuując korzystanie z tej strony internetowej, zgadzasz się na ich użycie. Szczegóły w pliku dostępnym w stópce strony.<span id="js-cookie-button" class="btn btn-sm btn-outline-primary ml-2">Akceptuje</span>
 </div>
 <script>
 	(function ($) {

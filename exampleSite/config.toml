@@ -125,7 +125,7 @@ expire_days = 2
 # Hero Area Section
 [Languages.en.params.hero]
 enable = true
-heading = "We love to make brands grow"
+heading = "PM Connect Conference"
 description = "Lorem ipsum dolor sit amet, consectetur adipisicing elit. At quo dolor est incidunt suscipit minima, alias numquam voluptatum rerum porro. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore at laboriosam unde repellat id expedita quae quisquam libero officia consequatur."
 button = true
 btnText = "Know More"
