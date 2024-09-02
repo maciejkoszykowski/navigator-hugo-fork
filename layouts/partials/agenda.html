@@ -54,6 +54,9 @@
                     <div class="title text-center">
 
                         <br> <br>
+                        {{ with .topTitle }}
+                        <h4>{{ . }}</h4>
+                        {{ end }}
                         <span class="border"></span>
                         {{ with .day2_title }}
                             <h3>{{ . }}</h3>
