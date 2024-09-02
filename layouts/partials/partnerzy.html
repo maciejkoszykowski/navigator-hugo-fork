@@ -33,12 +33,13 @@
             </div>
             <div class="row">
                 {{ range .item }}
-                    <div class="col-4 mx-auto text-center">
-                            <img class="x-auto d-block" src="{{ .image | absURL }}" alt="portfolio-image" style="background-color: black;">
+                    <div class="col-12 ">
+                            <img class="x-auto d-block mx-auto text-center" src="{{ .image | absURL }}" alt="portfolio-image" style="background-color: black;">
                     </div>
                 {{ end }}
             </div>
         <!-- end row -->
+    </div>
     </section>
     {{ "<!-- End section -->" | safeHTML }}
     {{ end }}
