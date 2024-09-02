@@ -14,9 +14,12 @@
                             <h2>{{ . }}</h2>
                             <span class="border"></span>
                         {{ end }}
-                        {{ with .day1 }}
+                        {{ with .day1_title }}
                             <h3>{{ . }}</h3>
                         {{ end }}
+                        {{ with .day1_date }}
+                            <h5>{{ . }}</h5>
+                         {{ end }}
                     </div>
                 </div>
             </div>
@@ -51,9 +54,13 @@
                     <div class="title text-center">
 
                         <br> <br>
-                        {{ with .day2 }}
+                        <span class="border"></span>
+                        {{ with .day2_title }}
                             <h3>{{ . }}</h3>
                         {{ end }}
+                        {{ with .day2_date }}
+                        <h5>{{ . }}</h5>
+                         {{ end }}
                     </div>
                 </div>
             </div>
