@@ -13,21 +13,9 @@
                 {{ $body := split $content "---" }}
                 {{ $mainContent := index $body 2 }}
 
-            <div class="loaded-content">
+                <p>
                  {{ $mainContent | markdownify }}
-            </div>
-
-                {{ with .Site.Params.aboutSm.description }}
-                    <p>{{ . | markdownify }}</p>
-                {{ end }}
-
-                {{ with .Site.Params.aboutSm.description2 }}
-                    <p>{{ . | markdownify }}</p>
-                {{ end }}
-
-                {{ with .Site.Params.aboutSm.description3 }}
-                    <p>{{ . | markdownify }}</p>
-                {{ end }}
+                 </p>
             </div>
         </div>
     </div>
