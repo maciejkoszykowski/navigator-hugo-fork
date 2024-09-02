@@ -13,7 +13,7 @@
                 {{ $body := split $content "---" }}
                 {{ $mainContent := index $body 2 }}
 
-                <p>
+                <p style="color: black !important">
                  {{ $mainContent | markdownify }}
                  </p>
             </div>
