@@ -1842,3 +1842,10 @@ Prelegenci
   letter-spacing: 1px;
   text-transform: uppercase;
 }
+
+
+.likeH3 {
+  font-family: titillium web, sans-serif;
+  font-weight: 600;
+  text-align: center !important;
+}

@@ -1,99 +1,120 @@
 {{ $data := index .Site.Data .Site.Language.Lang }}
 {{ with $data.agenda }}
-    {{ if .enable }}
-    {{ "<!-- Work Process Section Start -->" | safeHTML }}
-    <section class="service-2 section bg-gray">
-        <div class="container">
-            <div class="row">
-                <div class="col">
-                    <div class="title text-center">
-                        {{ with .topTitle }}
-                            <h4>{{ . }}</h4>
-                        {{ end }}
-                        {{ with .title }}
-                            <h2>{{ . }}</h2>
-                            <span class="border"></span>
-                        {{ end }}
-                        {{ with .day1_title }}
-                            <h3>{{ . }}</h3>
-                        {{ end }}
-                        {{ with .day1_date }}
-                            <h5>{{ . }}</h5>
-                         {{ end }}
-                    </div>
+{{ if .enable }}
+{{ "<!-- Work Process Section Start -->" | safeHTML }}
+<section class="service-2 section bg-gray">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="title text-center">
+                    {{ with .topTitle }}
+                    <h4>{{ . }}</h4>
+                    {{ end }}
+                    {{ with .title }}
+                    <h2>{{ . }}</h2>
+                    <span class="border"></span>
+                    {{ end }}
+                    {{ with .day1_title }}
+                    <h3>{{ . }}</h3>
+                    {{ end }}
+                    {{ with .day1_date }}
+                    <h5>{{ . }}</h5>
+                    {{ end }}
                 </div>
             </div>
-            <div class="row justify-content-center">
-                {{ range $index,  $element:= .itemDay1 }}
-                    <div class="col-md-8 col-sm-8 p-0">
-                        <div class="service-item text-center">
-                           <span class="count">{{ .start }} - {{ .end }} </span>
-                            {{ if  .who}}
-                                <h3>{{ .who}}</h3>
-                                <h5>{{ .title }}</h5>
-                            {{else}}
-                                {{ if .titlelong}}
-                                <h3>{{ .titlelong }}</h3>
-                                <h3>{{ .title }}</h3>
-                                {{else}}
-                                <h3>{{ .title }}</h3>
-                                {{end}}
-                            {{end}}
-                                <p>{{ .description  }}</p>
-                        </div>
+        </div>
+        <div class="row justify-content-center">
+            <div id="accordionDay1">
+
+
+                {{ range $index, $element:= .itemDay1 }}
+                <div class="card ">
+                    <div class="card-header service-item" id="headingOne">
+                        <h5 class="mb-0">
+
+                            <h5 style="margin-bottom: 0px;"> <span style="font-size: medium; text-align: left; color: #514949; font-weight: 700;"> {{ .start }} - {{ .end }}  </span> 
+                                 <span style="text-align: center; font-weight: normal;"> &nbsp;&nbsp;&nbsp;&nbsp; {{ .who}} </span> 
+
+                                 <span> &nbsp;  {{ .title }} </span> </h5>
+
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne{{.number}}" style="font-size: small; color: #514949; padding-top: 0px;"
+                                aria-expanded="true" aria-controls="collapseOne{{.number}}"> rozwiń >>
+
+                            </button>
+                        </h5>
                     </div>
-                    {{ if eq (mod $index 2) 1 }}
-                        <div class="w-100"></div>
-                    {{ end }}
-                {{ end }}
+
+                    <div id="collapseOne{{.number}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                        <div class="card-body">
+                            <p style="color: black;">{{ .description }}</p>
+                        </div>
+                   </div>
+                {{end}}
+                </div>        
+
             </div>
 
-            <!-- Day 2 -->
-            <div class="row">
-                <div class="col">
-                    <div class="title text-center">
 
-                        <br> <br>
-                        {{ with .topTitle }}
-                        <h4>{{ . }}</h4>
-                        {{ end }}
-                        <span class="border"></span>
-                        {{ with .day2_title }}
-                            <h3>{{ . }}</h3>
-                        {{ end }}
-                        {{ with .day2_date }}
-                        <h5>{{ . }}</h5>
-                         {{ end }}
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                {{ range $index,  $element:= .itemDay2 }}
-                    <div class="col-md-8 col-sm-8 p-0">
-                        <div class="service-item text-center">
-                           <span class="count">{{ .start }} - {{ .end }} </span>
-                            {{ if  .who}}
-                                <h3>{{ .who}}</h3>
-                                <h5>{{ .title }}</h5>
-                            {{else}}
-                                {{ if .titlelong}}
-                                <h3>{{ .titlelong }}</h3>
-                                <h3>{{ .title }}</h3>
-                                {{else}}
-                                <h3>{{ .title }}</h3>
-                                {{end}}
-                            {{end}}
-                                <p>{{ .description  }}</p>
-                        </div>
-                    </div>
-                    {{ if eq (mod $index 2) 1 }}
-                        <div class="w-100"></div>
-                    {{ end }}
-                {{ end }}
-            </div>
+
 
         </div>
-    </section>
-    {{ "<!-- Work Process section end -->" | safeHTML }}
-    {{ end }}
+    </div>
+
+    <!-- Day 2 -->
+    <div class="row">
+        <div class="col">
+            <div class="title text-center">
+
+                <br> <br>
+                {{ with .topTitle }}
+                <h4>{{ . }}</h4>
+                {{ end }}
+                <span class="border"></span>
+                {{ with .day2_title }}
+                <h3>{{ . }}</h3>
+                {{ end }}
+                {{ with .day2_date }}
+                <h5>{{ . }}</h5>
+                {{ end }}
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+
+        <div id="accordionDay1">
+
+
+            {{ range $index, $element:= .itemDay2 }}
+            <div class="card ">
+                <div class="card-header service-item" id="headingTwo">
+                    <h5 class="mb-0">
+
+                        <h5 style="margin-bottom: 0px;"> <span style="font-size: medium; text-align: left; color: #514949; font-weight: 700;"> {{ .start }} - {{ .end }}  </span> 
+                             <span style="text-align: center; font-weight: normal;"> &nbsp;&nbsp;&nbsp;&nbsp; {{ .who}} </span> 
+
+                             <span> &nbsp;  {{ .title }} </span> </h5>
+
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo{{.number}}" style="font-size: small; color: #514949; padding-top: 0px;"
+                            aria-expanded="true" aria-controls="collapseTwo{{.number}}"> rozwiń >>
+
+                        </button>
+                    </h5>
+                </div>
+
+                <div id="collapseTwo{{.number}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                    <div class="card-body">
+                        <p style="color: black;">{{ .description }}</p>
+                    </div>
+               </div>
+            {{end}}
+            </div>        
+
+        </div>
+
+    </div>
+
+    </div>
+</section>
+{{ "<!-- Work Process section end -->" | safeHTML }}
+{{ end }}
 {{ end }}
