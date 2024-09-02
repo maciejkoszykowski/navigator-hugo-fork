@@ -1,3 +1,16 @@
+<script>
+    function collapseNavbar() {
+        var navbarToggler = document.querySelector('.navbar-toggler');
+        var collapse = document.querySelector('#navigation');
+        if (navbarToggler && collapse) {
+            var bsCollapse = new bootstrap.Collapse(collapse, {
+                toggle: false
+            });
+            bsCollapse.hide();
+        }
+    }
+</script>
+
 {{ "<!-- Fixed Navigation -->" | safeHTML }}
 {{ if .Site.Params.menufixed }}
 <section class="header navigation top-bar" style="background-color: rgb(255, 255, 255);">
@@ -52,7 +65,7 @@
                             </li>
                             {{ else }}
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ .URL }}" style="padding-top: 6px !important; padding-bottom: 0px !important; ">{{ .Name }}</a>
+                                <a class="nav-link" href="{{ .URL }}" style="padding-top: 6px !important; padding-bottom: 0px !important; " onclick="collapseNavbar()">{{ .Name }}</a>
                             </li>
                             {{ end }}
                             {{ end }}
