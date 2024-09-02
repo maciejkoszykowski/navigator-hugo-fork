@@ -9,6 +9,14 @@
                 {{ end }}
             </div>
             <div class="col-12 col-md-7">
+                {{ $content := readFile "content/index.md" }}
+                {{ $body := split $content "---" }}
+                {{ $mainContent := index $body 2 }}
+
+            <div class="loaded-content">
+                 {{ $mainContent | markdownify }}
+            </div>
+
                 {{ with .Site.Params.aboutSm.description }}
                     <p>{{ . | markdownify }}</p>
                 {{ end }}
