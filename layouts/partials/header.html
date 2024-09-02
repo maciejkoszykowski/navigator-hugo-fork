@@ -1,6 +1,6 @@
 {{ "<!-- Fixed Navigation -->" | safeHTML }}
 {{ if .Site.Params.menufixed }}
-<section class="header navigation top-bar">
+<section class="header navigation top-bar" style="background-color: rgb(255, 255, 255);">
 {{ else }}
 <section class="header navigation" style="background-color: rgb(255, 255, 255);">
 {{ end }}
@@ -8,14 +8,21 @@
         <div class="row">
             <div class="col-md-12">
                 <nav class="navbar navbar-expand-lg" style="padding-top: 0px; padding-bottom: 0px">
-                    <a class="navbar-brand" href="{{ .Site.BaseURL | relLangURL }}" style="padding-top: 0px; padding-bottom: 0px">
+
+                    <a class="navbar-brand d-none d-md-block" href="{{ .Site.BaseURL | relLangURL }}" style="padding-top: 0px; padding-bottom: 0px">
                         <img src="{{ .Site.Params.logo | absURL }}" alt="{{ .Site.Title }}">
                     </a>
+
+                    <a class="navbar-brand d-md-none d-lg-none" href="{{ .Site.BaseURL | relLangURL }}" style="padding-top: 0px; padding-bottom: 0px">
+                        <img src="{{ .Site.Params.logo_xsmall | absURL }}" alt="{{ .Site.Title }}">
+                    </a>
+
                     <div class="d-flex align-items-center">
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
                             aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
                             <span class="tf-ion-android-menu"></span>
                         </button>
+                        
                         <!-- Icones & drapeaux de choix des langues -->
                         <div id="drapeaux" class="select-language d-block d-lg-none">
                             <!-- Pour passer la langue actuelle (variable globale) dans la range => explicitement -->
