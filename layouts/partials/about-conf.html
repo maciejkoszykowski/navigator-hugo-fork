@@ -9,7 +9,7 @@
                 {{ end }}
             </div>
             <div class="col-12 col-md-7">
-                {{ $content := readFile "content/index.md" }}
+                {{ $content := readFile "content/about_conf.md" }}
                 {{ $body := split $content "---" }}
                 {{ $mainContent := index $body 2 }}
 
