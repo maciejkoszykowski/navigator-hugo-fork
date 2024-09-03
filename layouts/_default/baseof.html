@@ -1,12 +1,23 @@
 <!DOCTYPE html>
 <html class="no-js" lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
-    {{- partial "head.html" . -}}
-    <body id="body">
-        {{ partial "preloader.html" . }}
-        {{- partial "header.html" . -}}
-        <div id="content">
+
+
+
+{{- partial "head.html" . -}}
+
+<body id="body">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7C5FGBX" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    {{ partial "preloader.html" . }}
+    {{- partial "header.html" . -}}
+    <div id="content">
         {{- block "main" . }}{{- end }}
-        </div>
-        {{- partial "footer.html" . -}}
-    </body>
+    </div>
+    {{- partial "footer.html" . -}}
+</body>
+
 </html>
