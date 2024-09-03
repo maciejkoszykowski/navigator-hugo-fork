@@ -1,5 +1,12 @@
 <head>
 
+    <!-- hosting work around just if provider did not setup https -->
+    <script>
+        if (window.location.protocol !== 'https:' && window.location.hostname !== 'localhost') {
+          window.location.href = 'https://' + window.location.hostname + window.location.pathname + window.location.search;
+        }
+      </script>
+
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
     new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
