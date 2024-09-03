@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
+
+
+
+{{- partial "head.html" . -}}
+
+<body id="body">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7C5FGBX" height="0" width="0"
+            style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+     {{ partial "preloader.html" . }}
+    {{- partial "header-simple.html" . -}}
+    <div id="content">
+   
+      <section class="blog-single section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+                    <!-- img src="{{ with .Params.image }}{{ . | absURL }}{{ end }}" class="w-100 mb-3" alt="Post-Image" -->
+                    <h2>{{ .Title }}</h2>
+                    <!-- 
+                    <div class="post-meta mb-5">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">
+                                <span>By</span>
+                                 .Params.author
+                            </li>
+                            <li class="list-inline-item">
+                                <span>at</span>
+                                <span> .Date.Format .Site.Params.dateFormat </span>
+                            </li>
+                        </ul>
+                    </div> -->
+                    {{ .Content }}
+                </div>
+            </div>
+        </div>
+    </section>
+    
+   
+   
+    </div>
+    {{- partial "footer.html" . -}}
+</body>
+
+</html>
