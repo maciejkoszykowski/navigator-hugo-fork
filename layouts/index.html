@@ -2,16 +2,16 @@
 
   {{ partial "hero.html" . }}
 
-  {{ partial "about-conf.html" . }}
-  <div id="Prelegenci"></div>
-  {{ partial "feature.html" . }}
+  <div id="opisKonferencji"></div>
 
-  {{ partial "about.html" . }}
+  {{ partial "opis-konferencji.html" . }}
+
+  <div id="Prelegenci"></div>
+
+  {{ partial "prelegenci.html" . }}
 
   <div id="Agenda"></div>
   {{ partial "agenda.html" . }}
-
-  <!-- Partnerzy i Sponsorzy -->
 
   <div id="Partnerzy"></div>
   {{ partial "partnerzy.html" . }}
@@ -20,13 +20,15 @@
   <!--partial "team.html" . -->
 
   <div id="Bilety"></div>
-  {{ partial "pricing.html" . }}
+  {{ partial "bilety.html" . }}
 
-  {{ partial "testimonial.html" . }}
+  <!-- TODO: ??? testimonail ?? -->
+  {{ partial "_testimonial.html" . }}
 
-  {{ partial "blog.html" . }}
+  <!-- TODO: ??? blog ?? -->
+  {{ partial "_blog.html" . }}
   
   <div id="Lokalizacja"></div>
-  {{ partial "contact.html" . }}
+  {{ partial "lokalizacja.html" . }}
 
 {{ end }}

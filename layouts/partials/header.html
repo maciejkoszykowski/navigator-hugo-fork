@@ -1,3 +1,7 @@
+
+{{ "<!-- Fixed Navigation -->" | safeHTML }}
+
+<!-- skrypt ukrywajacy burger bar nav po klinieciu opcji-->
 <script>
     function collapseNavbar() {
         var navbarToggler = document.querySelector('.navbar-toggler');
@@ -11,7 +15,6 @@
     }
 </script>
 
-{{ "<!-- Fixed Navigation -->" | safeHTML }}
 {{ if .Site.Params.menufixed }}
 <section class="header navigation top-bar" style="background-color: rgb(255, 255, 255);">
 {{ else }}
