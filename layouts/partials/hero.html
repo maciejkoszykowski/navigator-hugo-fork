@@ -21,6 +21,7 @@
                     {{ with .Site.Params.hero.description }}
                         <h3>{{ . }}</h3>
                     {{ end }}
+
                     {{ if .Site.Params.hero.button }}
                         <ul class="list-inline wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".7s">
                             <li class="list-inline-item">
@@ -28,7 +29,18 @@
                             </li>
                         </ul>
                     {{ end }} 
-                    <br> <br> 
+                    <br> 
+                    {{ $data := index .Site.Data }}
+                    {{ with $data.agenda }}
+                    {{ if .enable }}
+                    <h3 style="font-size: larger; letter-spacing: 0.1em; "> Zapraszamy na: </h3>
+                    <h3 style="font-size: medium"> {{ .day1_date }}  <br> <span style="font-size: larger; letter-spacing: 0.1em; color: #DB81D2;" >{{  .day1_title }} </span>  </h3>
+                    <h3 style="font-size: medium"> {{ .day2_date }}  <br> <span style="font-size: larger; letter-spacing: 0.1em; color: #DB81D2; ">{{  .day2_title }}  {{ .day2_title_part2}} </span></h3>
+
+                    {{ end }}
+                    {{ end }}
+                <!-- key dates presented -->
+                    <br> 
                     <div class="block" style="background-color: rgb(255, 255, 255); border-radius: 4px; padding-left: 10px; padding-right: 10px;">
                         
                     <br>  <h5 style="color: rgb(31, 37, 50)"> Organizatorzy </h5> <br>
