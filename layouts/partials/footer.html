@@ -50,14 +50,25 @@
 <script src="{{ `plugins/lightbox2/dist/js/lightbox.min.js` | absURL }}"></script>
 {{ "<!-- Slick Carousel -->" | safeHTML }}
 <script src="{{ `plugins/slick-carousel/slick/slick.min.js` | absURL }}"></script>
-{{ "<!-- Portfolio Filtering -->" | safeHTML }}
-<script src="{{ `plugins/filterzr/jquery.filterizr.min.js` | absURL }}"></script>
+{{ "<!-- Portfolio Filtering  OFF -->" | safeHTML }}
+<!-- script src="{{ `plugins/filterzr/jquery.filterizr.min.js` | absURL }}"></script -->
 {{ "<!-- Smooth Scroll js -->" | safeHTML }}
 <script src="{{ `plugins/smooth-scroll/dist/js/smooth-scroll.min.js` | absURL }}"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script>
+<!-- google map api not used -->
+<!-- script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCC72vZw-6tGqFyRhhg5CkF2fqfILn2Tsw"></script -->
 {{ "<!-- Main Script -->" | safeHTML }}
 {{ $script := resources.Get "js/script.js" | minify}}
 <script src="{{ $script.Permalink }}"></script>
+
+
+
+{{ "<!-- Boostrap popover enable-->" | safeHTML }}
+<script>
+    $(document).ready(function(){
+          $('[data-toggle="popover"]').popover()
+    },500);
+</script>
+
 
 <!-- cookie -->
 {{ if site.Params.cookies.enable }}
