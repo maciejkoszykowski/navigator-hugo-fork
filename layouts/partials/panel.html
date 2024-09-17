@@ -1,0 +1,73 @@
+{{ $data := index .Site.Data }}
+{{ with $data.panel }}
+    {{ if .enable }}
+    {{ "<!-- Panel Section Start -->" | safeHTML }}
+    <section class="about section-sm" id="panel">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <div class="title text-center">
+                        {{ with .topTitle }}
+                            <h4>{{ . }}</h4>
+                        {{ end }}
+                        {{ with .title }}
+                            <h3>{{ . }}</h3>
+                            <span class="border"></span>
+                        {{ end }}
+                        {{ with .subtitle }}
+                            <h2>{{ . }}</h2>
+                        {{ end }}
+
+                        {{ with .message }}
+                        <p>{{ . | safeHTML }}</p>
+                    {{ end }}
+                    </div>
+                </div>
+            </div>
+            {{ range .item }}
+                    <div class="row mb-50 justify-content-center align-items-start">
+                        <div class="col-md-2 col-sm-12 text-center offset-md-1"
+                             style="padding-top: 9px; padding-bottom: 50px;" >
+                            <img src="{{ .image | absURL }}" 
+                            class="img-fluid rounded shadow" 
+                            alt="about-image">
+                        </div>
+                        <div class="col-md-8 col-sm-12">
+                            <div class="content" style="padding-top: 0px; margin-top: 0px;">
+                                <h2>{{ .name  }}</h2>
+                                <p class="readMoretextPanel" id="readMoretextPanel{{.id}}" style="padding-top: 0px; margin-top: 0px;">
+                                        {{ .description }}
+                                </p>
+
+                                    {{ $maxLength := 285 }}
+                                    {{ $content := .description }}
+                                    {{ if gt (len $content) $maxLength }}
+                                    <a href="javascript:void(0);" id="readMoreBtnPanel{{.id}}" class="readMoreBtn" >... czytaj więcej</a>
+                                    {{ end}}
+                                    <script>
+
+
+                                        document.getElementById("readMoreBtnPanel{{.id}}").addEventListener("click", function() {
+                                            var text = document.getElementById("readMoretextPanel{{.id}}");
+                                            var btn = document.getElementById("readMoreBtnPanel{{.id}}");
+                                    
+                                            if (text.style.display === "-webkit-box") {
+                                                text.style.display = "block";
+                                                btn.innerHTML = " << zwiń opis";
+                                            } else {
+                                                text.style.display = "-webkit-box";
+                                                btn.innerHTML = "... czytaj więcej";
+                                            }
+                                        });
+                                    </script>
+                               
+                            </div>
+                        </div>
+                    </div>
+                <br><br>
+            {{ end }}
+        </div>
+    </section>
+    {{"<!-- About section End -->" | safeHTML}}
+    {{ end }}
+{{ end }}

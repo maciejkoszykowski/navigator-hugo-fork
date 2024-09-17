@@ -22,35 +22,43 @@
             </div>
 
             {{ range .item }}
-                {{ if .positionRight }}
-                    <div class="row mt-50 justify-content-center">
-                        <div class="col-md-5 col-md-5 col-sm-12 offset-md-1">
-                            <div class="content">
-                                <h2>{{ .title }}</h2>
-                                <p>
-                                    {{ .description }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-5 col-sm-12 text-center">
-                            <img src="{{ .image | absURL }}" class="img-fluid rounded shadow" alt="about-image">
-                        </div>
-                    </div>
-                {{ else }}
                     <div class="row mb-50 justify-content-center">
-                        <div class="col-md-5 col-sm-12 text-center offset-md-1">
+                        <div class="col-md-5 col-sm-12 text-center offset-md-1"                          
+                           style="padding-top: 9px; padding-bottom: 50px;" >
                             <img src="{{ .image | absURL }}" class="img-fluid rounded shadow" alt="about-image">
                         </div>
                         <div class="col-md-5 col-sm-12">
-                            <div class="content">
+                            <div class="content" style="padding-top: 0px; margin-top: 0px;">
                                 <h2>{{ .title }}</h2>
-                                <p>
-                                    {{ .description }}
+                                <p class="readMoretext" id="readMoretext{{.id}}" style="padding-top: 0px; margin-top: 0px;">
+                                     {{ .description }}
                                 </p>
+
+                                {{ $maxLength := 573 }}
+                                {{ $content := .description }}
+                                {{ if gt (len $content) $maxLength }}
+                                <a href="javascript:void(0);" id="readMoreBtn{{.id}}" class="readMoreBtn" >... czytaj więcej</a>
+                                {{ end}}
+                                <script>
+
+
+                                    document.getElementById("readMoreBtn{{.id}}").addEventListener("click", function() {
+                                        var text = document.getElementById("readMoretext{{.id}}");
+                                        var btn = document.getElementById("readMoreBtn{{.id}}");
+                                
+                                        if (text.style.display === "-webkit-box") {
+                                            text.style.display = "block";
+                                            btn.innerHTML = " << zwiń opis";
+                                        } else {
+                                            text.style.display = "-webkit-box";
+                                            btn.innerHTML = "... czytaj więcej";
+                                        }
+                                    });
+                                </script>
                             </div>
                         </div>
                     </div>
-                {{ end }}
+
                 <br><br>
             {{ end }}
         </div>

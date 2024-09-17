@@ -1851,3 +1851,28 @@ Prelegenci
   text-transform: uppercase;
 }
 
+/* my read more */
+
+.readMoretext {
+  display: -webkit-box;
+  -webkit-line-clamp: 9; /* Liczba wierszy, które mają być widoczne */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.readMoretextPanel {
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* Liczba wierszy, które mają być widoczne */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.readMoreBtn {
+  color: #5C8BC5;
+  text-decoration: none;
+  cursor: pointer;
+  text-decoration: underline;
+  
+}
