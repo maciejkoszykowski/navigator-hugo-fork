@@ -1,7 +1,8 @@
-{{ $data := index .Site.Data .Site.Language.Lang }}
+{{ $data := index .Site.Data }} <!-- .Site.Language.Lang  -->
 {{ with $data.team }}
     {{ if .enable }}
     {{ "<!-- Team Section Start -->" | safeHTML }}
+
     <section class="team section bg-gray" id="team">
         <div class="container">
             <div class="row">
@@ -10,12 +11,106 @@
                         {{ with .topTitle }}<h4>{{ . }}</h4>{{ end }}
                         {{ with .title }}
                             <h2>{{ . }}</h2>
-                            <span class="border"></span>
+                            <!-- span class="border"></span -->
                         {{ end }}
                         {{ with .subtitle }}<p>{{ . }}</p>{{ end }}
                     </div>
                 </div>
             </div>
+            <div class="row">
+                <div class="col">
+                    <div class="title text-center">                        
+                        {{ with .titleRada }}
+                            <h3>{{ . }}</h3>
+                            <span class="border"></span>
+                        {{ end }}                        
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <!-- Rada Programowa -->
+                {{ range .rada }}
+                    {{ "<!-- Rada Programowa -->" | safeHTML }}
+                    <div class="col-12 col-md-3 col-sm-6">
+                        <div class="team-member text-center">
+                            <div class="member-photo">
+                                <img class="img-fluid" src="{{.image | absURL }}" alt="team people">
+                            </div>
+                            {{ "<!-- member name & designation -->" | safeHTML }}
+                            <div class="member-content">
+                                <h3>{{ .name }}</h3>
+                                <span>{{ .designation }}</span>
+                                <br> <br>
+                                <button type="button" 
+                                class="btn btn-link" 
+                                data-toggle="popover" 
+                                style="font-size: small; color: #514949; padding-top: 0px;"
+
+                                title="Opis" 
+                                data-content="{{ .description }}">Poznaj bliżej ... </button>
+                                <br> <br>
+                                <ul class="list-inline">
+                                    {{ with .linkedInURL  }}
+                                    <li class="list-inline-item">
+                                        <a href="{{.}}">
+                                            <i class="tf-ion-social-linkedin"></i>
+                                        </a>
+                                    </li>
+                                    {{ end }}
+                                    {{ with .facebookURL }}
+                                    <li class="list-inline-item">
+                                        <a href="{{.}}">
+                                            <i class="tf-ion-social-facebook"></i>
+                                        </a>
+                                    </li>
+                                    {{ end }}
+                                    {{ with .instagramURL }}
+                                    <li class="list-inline-item">
+                                        <a href="{{.}}">
+                                            <i class="tf-ion-social-instagram"></i>
+                                        </a>
+                                    </li>
+                                    {{ end }}
+                                    
+                                    {{ with .twitterURL }}
+                                    <li class="list-inline-item">
+                                        <a href="{{.}}">
+                                            <i class="tf-ion-social-twitter"></i>
+                                        </a>
+                                    </li>
+                                    {{ end }}
+                                    {{ with .gplusURL }}
+                                    <li class="list-inline-item">
+                                        <a href="{{.}}">
+                                            <i class="tf-ion-social-google-outline"></i>
+                                        </a>
+                                    </li>
+                                    {{ end }}
+                                    {{ with .dribbbleURL }}
+                                    <li class="list-inline-item">
+                                        <a href="{{.}}">
+                                            <i class="tf-ion-social-dribbble"></i>
+                                        </a>
+                                    </li>
+                                    {{ end }}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {{ "<!-- end rada  -->" | safeHTML }}
+                {{ end }}
+            </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="title text-center">                        
+                            {{ with .titleOrg }}
+                                <h3>{{ . }}</h3>
+                                <span class="border"></span>
+                            {{ end }}                        
+                        </div>
+                    </div>
+                </div>
+
             <div class="row justify-content-center">
                 {{ range .member }}
                     {{ "<!-- team member -->" | safeHTML }}
@@ -28,12 +123,34 @@
                             <div class="member-content">
                                 <h3>{{ .name }}</h3>
                                 <span>{{ .designation }}</span>
-                                <p>{{ .description }}</p>
+                                <br> <br>
+                                <button type="button" 
+                                class="btn btn-link" 
+                                data-toggle="popover" 
+                                style="font-size: small; color: #514949; padding-top: 0px;"
+
+                                title="Opis" 
+                                data-content="{{ .description }}">Poznaj bliżej ... </button>
+                                <br> <br>
                                 <ul class="list-inline">
+                                    {{ with .linkedInURL  }}
+                                    <li class="list-inline-item">
+                                        <a href="{{.}}">
+                                            <i class="tf-ion-social-linkedin"></i>
+                                        </a>
+                                    </li>
+                                    {{ end }}
                                     {{ with .facebookURL }}
                                     <li class="list-inline-item">
                                         <a href="{{.}}">
                                             <i class="tf-ion-social-facebook"></i>
+                                        </a>
+                                    </li>
+                                    {{ end }}
+                                    {{ with .instagramURL }}
+                                    <li class="list-inline-item">
+                                        <a href="{{.}}">
+                                            <i class="tf-ion-social-instagram"></i>
                                         </a>
                                     </li>
                                     {{ end }}
@@ -70,4 +187,8 @@
     </section>
     {{ "<!-- End section -->" | safeHTML }}
     {{ end }}
+
+
+
+
 {{ end }}
