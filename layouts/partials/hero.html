@@ -34,8 +34,8 @@
                     {{ with $data.agenda }}
                     {{ if .enable }}
                     <h3 style="font-size: larger; letter-spacing: 0.1em; "> Zapraszamy na: </h3>
-                    <h3 style="font-size: medium"> {{ .day1_date }}  <br> <span style="font-size: larger; letter-spacing: 0.1em; color: #DB81D2;" >{{  .day1_title }} </span>  </h3>
-                    <h3 style="font-size: medium"> {{ .day2_date }}  <br> <span style="font-size: larger; letter-spacing: 0.1em; color: #DB81D2; ">{{  .day2_title }}  {{ .day2_title_part2}} </span></h3>
+                    <h3 style="font-size: medium"> <span style="font-size: larger; letter-spacing: 0.1em; color: #E4A0DE;" >{{  .day1_title }} <br> </span> {{ .day1_date }}  </h3>
+                    <h3 style="font-size: medium"> <span style="font-size: larger; letter-spacing: 0.1em; color: #E4A0DE; ">{{  .day2_title }}  {{ .day2_title_part2}} </span> <br> {{ .day2_date }} </h3>
 
                     {{ end }}
                     {{ end }}
