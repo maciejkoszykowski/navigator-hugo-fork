@@ -1,56 +1,92 @@
 {{ if .Site.Params.hero.enable }}
 {{ "<!-- Hero Area -->" | safeHTML }}
-<section class="hero-area">
-    <div class="container">
+<section class="hero-area hero-div-image">
+    <div class="container hero-content-up">
         <div class="row">
-            <div class="col-md-6">
+            <!-- div class="col-md-6">
                 <div class="video-player">
                     <img class="img-fluid rounded" src="{{ with .Site.Params.hero.videoThumb }}{{.| absURL }}{{ end }}" alt="video-thumb">
-                    <!--
+                    < !--
                     <a class="play-icon" href="javascript:void(0)">
                         <i class="tf-ion-play" data-video="{{ with .Site.Params.hero.videoURL }}{{.}}{{ end }}?autoplay=1"></i>
-                    </a>-->
+                    </a>--
                     <br><br><br>
                 </div>
-            </div>
-            <div class="col-md-6">
+            </div -->
+            <div class="col-md-12">
                 <div class="block">
                     {{ with .Site.Params.hero.heading }}
-                        <h2 style="color: #aa2896; font-weight: bolder;">{{ . }}</h2>
+                    <span class="d-none d-md-block"> 
+                        <h2 style="background-color: #aa2896; color: white; font-weight: bolder; width: fit-content; padding-bottom: 0px; margin-bottom: 0px; padding-left: 12px; padding-right: 12px;"> {{ . }}</h2>
+                    </span>
+                    <span class="d-md-none d-sm-block"> 
+                        <h2 style="background-color: #aa2896; color: white; font-size: 31px; font-weight: bolder; width: fit-content; padding-bottom: 0px; margin-bottom: 0px; padding-left: 12px; padding-right: 12px;"> {{ . }}</h2>
+                    </span>
+
                     {{ end }}
                     {{ with .Site.Params.hero.description }}
-                        <h3>{{ . }}</h3>
-                    {{ end }}
-
-                    {{ if .Site.Params.hero.button }}
-                        <ul class="list-inline wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".7s">
-                            <li class="list-inline-item">
-                                <a href="{{ with .Site.Params.hero.btnURL }}{{.}}{{ end }}" target="_blank" class="btn btn-main">{{ with .Site.Params.hero.btnText }}{{.}}{{ end }}</a>
-                            </li>
-                        </ul>
-                    {{ end }} 
-                    <br> 
+                    <span class="d-none d-md-block"> 
+                        <h3 style="background-color: #2053A6; color: white; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;"> {{ . }}</h3>
+                    </span>
+                    <span class="d-md-none d-sm-block"> 
+                        <h3 style="background-color: #2053A6; color: white; font-size: 1.3rem; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;"> {{ . }}</h3>
+                    </span>
+                        {{ end }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="block">
+                    <br><br><br> <br><br> 
                     {{ $data := index .Site.Data }}
                     {{ with $data.agenda }}
                     {{ if .enable }}
-                    <h3 style="font-size: larger; letter-spacing: 0.1em; "> Zapraszamy na: </h3>
-                    <h3 style="font-size: medium"> <span style="font-size: larger; letter-spacing: 0.1em; color: #E4A0DE;" >{{  .day1_title }} <br> </span> {{ .day1_date }}  </h3>
-                    <h3 style="font-size: medium"> <span style="font-size: larger; letter-spacing: 0.1em; color: #E4A0DE; ">{{  .day2_title }}  {{ .day2_title_part2}} </span> <br> {{ .day2_date }} </h3>
+                    <h3 style="font-size: larger; letter-spacing: 0.1em; padding-left: 12px;"> Zapraszamy na: </h3>
+                    <br>
+                    <h3 style="font-size: larger; margin-bottom: 16px; background-color: #30374A; color: white; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;" >
+                          <span style="font-weight: bold; letter-spacing: 2px;"> {{  .day1_title }} </span>
+                          <br class="d-md-none d-lg-none">
+                          {{ .day1_date }}  </h3>
+                    <h3 style="font-size: larger; background-color: #30374A; color: white; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;" >
+                        <span style="font-weight: bold; letter-spacing: 2px;">{{  .day2_title }} 
+                           
+                             {{ .day2_title_part2}} </span>
+                            <br class="d-md-none d-lg-none">
+                             {{ .day2_date }} </h3>
 
                     {{ end }}
                     {{ end }}
                 <!-- key dates presented -->
-                    <br> 
-                    <div class="block" style="background-color: rgb(255, 255, 255); border-radius: 4px; padding-left: 10px; padding-right: 10px;">
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="block"> 
+                {{ if .Site.Params.hero.button }}
+                 <ul class="list-inline wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".7s">
+                     <li class="list-inline-item">
+                        <a href="{{ with .Site.Params.hero.btnURL }}{{.}}{{ end }}" target="_blank" class="btn btn-main2">{{ with .Site.Params.hero.btnText }}{{.}}{{ end }}</a>
+                     </li>
+                   </ul>
+                 {{ end }} 
+
+                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="block">
+                    <br> <br> <br> 
                         
-                    <br>  <h5 style="color: rgb(31, 37, 50)"> Organizatorzy </h5> <br>
+                    <h5 style="color: white; padding-left: 12px;"> Organizatorzy </h5> <br>
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
-                            <img class="mx-auto d-block" src="{{ .Site.Params.logo_pmi | absURL }}" alt="{{ .Site.Title }}">
+                            <img class="mx-auto d-block" style="padding-top: 9px; padding-bottom: 55px;" src="{{ .Site.Params.logo_pmi | absURL }}" alt="{{ .Site.Title }}">
                         </div> 
                         
                         <div class="col-md-6 col-sm-12">
-                        <img class="mx-auto d-block" src="{{ .Site.Params.logo_umk | absURL }}" alt="{{ .Site.Title }}">
+                        <img class="mx-auto d-block" style="padding-left: 50px;"src="{{ .Site.Params.logo_umk | absURL }}" alt="{{ .Site.Title }}">
                         </div>
                     </div>
                     <br>
