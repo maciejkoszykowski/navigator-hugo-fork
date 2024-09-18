@@ -20,7 +20,7 @@
                         <h2 style="background-color: #aa2896; color: white; font-weight: bolder; width: fit-content; padding-bottom: 0px; margin-bottom: 0px; padding-left: 12px; padding-right: 12px;"> {{ . }}</h2>
                     </span>
                     <span class="d-md-none d-sm-block"> 
-                        <h2 style="background-color: #aa2896; color: white; font-size: 31px; font-weight: bolder; width: fit-content; padding-bottom: 0px; margin-bottom: 0px; padding-left: 12px; padding-right: 12px;"> {{ . }}</h2>
+                        <h2 style="background-color: #aa2896; color: white; font-size: x-large; font-weight: bolder; width: fit-content; padding-bottom: 0px; margin-bottom: 0px; padding-left: 12px; padding-right: 12px;"> {{ . }}</h2>
                     </span>
 
                     {{ end }}
@@ -29,7 +29,7 @@
                         <h3 style="background-color: #2053A6; color: white; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;"> {{ . }}</h3>
                     </span>
                     <span class="d-md-none d-sm-block"> 
-                        <h3 style="background-color: #2053A6; color: white; font-size: 1.3rem; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;"> {{ . }}</h3>
+                        <h3 style="background-color: #2053A6; color: white; font-size: medium; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;"> {{ . }}</h3>
                     </span>
                         {{ end }}
                 </div>
@@ -82,15 +82,16 @@
                     <h5 style="color: white; padding-left: 12px;"> Organizatorzy </h5> <br>
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
-                            <img class="mx-auto d-block" style="padding-top: 9px; padding-bottom: 55px;" src="{{ .Site.Params.logo_pmi | absURL }}" alt="{{ .Site.Title }}">
+                            <img class="mx-auto d-none d-md-block" style="padding-top: 9px; padding-bottom: 55px;" src="{{ .Site.Params.logo_pmi | absURL }}" alt="{{ .Site.Title }}">
+                            <img class="mx-auto d-md-none d-sm-block" style="padding-left: 6px; padding-top: 9px; padding-bottom: 55px;" src="{{ .Site.Params.logo_pmi | absURL }}" alt="{{ .Site.Title }}">
                         </div> 
-                        
+
                         <div class="col-md-6 col-sm-12">
-                        <img class="mx-auto d-block" style="padding-left: 50px;"src="{{ .Site.Params.logo_umk | absURL }}" alt="{{ .Site.Title }}">
+                            <img class="mx-auto d-none d-md-block" style="padding-left: 50px;"src="{{ .Site.Params.logo_umk | absURL }}" alt="{{ .Site.Title }}">
+                            <img class="mx-auto d-md-none d-sm-block" style="padding-left: 11px;"src="{{ .Site.Params.logo_umk | absURL }}" alt="{{ .Site.Title }}">
                         </div>
                     </div>
-                    <br>
-                    </div>
+
                 </div>
             </div>
         </div>
