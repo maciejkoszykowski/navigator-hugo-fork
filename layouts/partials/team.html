@@ -44,6 +44,7 @@
                                 <button type="button" 
                                 class="btn btn-link" 
                                 data-toggle="popover" 
+                                data-placement="top"
                                 style="font-size: small; color: #514949; padding-top: 0px;"
 
                                 title="Opis" 
@@ -111,10 +112,10 @@
                     </div>
                 </div>
 
-            <div class="row justify-content-center">
+            <div class="row justify-content-center ">
                 {{ range .member }}
                     {{ "<!-- team member -->" | safeHTML }}
-                    <div class="col-12 col-md-3 col-sm-6">
+                    <div class="col-12 col-md-3 col-sm-6 " >
                         <div class="team-member text-center">
                             <div class="member-photo">
                                 <img class="img-fluid" src="{{.image | absURL }}" alt="team people">
@@ -122,16 +123,20 @@
                             {{ "<!-- member name & designation -->" | safeHTML }}
                             <div class="member-content">
                                 <h3>{{ .name }}</h3>
-                                <span>{{ .designation }}</span>
+                                <span >{{ .designation }}</span>
                                 <br> <br>
                                 <button type="button" 
                                 class="btn btn-link" 
                                 data-toggle="popover" 
+                                data-placement="top"
                                 style="font-size: small; color: #514949; padding-top: 0px;"
 
                                 title="Opis" 
                                 data-content="{{ .description }}">Poznaj bliżej ... </button>
                                 <br> <br>
+                                {{ with .noLink }}
+                                <br>
+                                {{ end }}
                                 <ul class="list-inline">
                                     {{ with .linkedInURL  }}
                                     <li class="list-inline-item">
@@ -175,7 +180,9 @@
                                         </a>
                                     </li>
                                     {{ end }}
+
                                 </ul>
+
                             </div>
                         </div>
                     </div>
