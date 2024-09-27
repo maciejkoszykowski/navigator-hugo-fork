@@ -2,7 +2,7 @@
 {{ with $data.partnerzy }}
     {{ if .enable }}
     {{ "<!-- Start Portfolio Section -->" | safeHTML }}
-    <section class="portfolio section" id="portfolio" style="padding-top: 10px;">
+    <section class="portfolio section" id="portfolio" style="padding-top: 40px;">
         <div class="container">
             <div class="row">
                 <div class="col">
@@ -13,9 +13,6 @@
                         {{ with .title }}
                             <h2>{{ . }}</h2>
                             <span class="border"></span>
-                        {{ end }}
-                        {{ with .subtitle }}
-                            <p>{{ . }}</p>
                         {{ end }}
                     </div>
                 </div>
@@ -32,9 +29,40 @@
                 </div>
             </div>
             <div class="row">
-                {{ range .item }}
+                {{ range $index, $item := .item }}
+                        <!-- p>Even index: {{ $index }} - {{ $item.title }}</p -->
+                    {{ if eq (mod $index 2) 0 }}
+                       <div class="col-6 text-right d-none d-md-block">
+                           <img class="x-auto d-block ml-auto " src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px;">
+                       </div>
+
+                    {{ else }}
+                       <!-- p>Odd index: {{ $index }} - {{ $item.title}}</p --->
+                       <div class="col-6 text-left d-none d-md-block">
+                        <img class="x-auto d-block mr-auto " src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px; margin-left: 85px;">
+                       </div>
+                    {{ end }}
+         
+                    <!-- small screen trick  --->
+                    <div class="col-sm-12 d-md-none">
+                        <img class="x-auto d-block mx-auto " src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 55px;">
+                    </div>
+                {{ end }}
+            </div>
+            <div class="row" style="margin-top: 50px;"></div>
+                <div class="col">
+                    <div class="title text-center">
+                        {{ with .titleMedia }}
+                            <h2>{{ . }}</h2>
+                            <span class="border"></span>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {{ range .media }}
                     <div class="col-12 ">
-                            <img class="x-auto d-block mx-auto text-center" src="{{ .image | absURL }}" alt="portfolio-image" style="background-color: black;">
+                            <img class="x-auto d-block mx-auto " src="{{ .image | absURL }}" alt="portfolio-image" >
                     </div>
                 {{ end }}
             </div>
