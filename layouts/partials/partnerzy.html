@@ -4,12 +4,46 @@
     {{ "<!-- Start Portfolio Section -->" | safeHTML }}
     <section class="portfolio section" id="portfolio" style="padding-top: 40px;">
         <div class="container">
-            <div class="row">
+                    <!-- honorowi -->
+        <div class="row" style="margin-top: 30px;">
+            <div class="col">
+                <div class="title text-center">
+                    {{ with .titleHonorowi }}
+                        <h2>{{ . }}</h2>
+                        <span class="border"></span>
+                    {{ end }}
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+        {{ range .honorowi }}
+                    
+                            
+        {{ if .small_support }}
+        <div class="col-12 d-none d-md-block">
+           <img class="x-auto mx-auto d-none d-md-block" src="{{ .image | absURL }}" alt="portfolio-image1" >
+        </div>
+        <div class="col-sm-12 d-md-none">
+           <img class="x-auto mx-auto d-md-none d-block" src="{{ .image_small | absURL }}" alt="portfolio-image2" style="padding-bottom: 45px;">
+        </div>
+         {{ else}}
+         <div class="col-12 ">
+             <img class="x-auto d-block mx-auto " src="{{ .image | absURL }}" alt="portfolio-image3" >
+         </div>
+        {{ end }}
+       
+
+        {{ end }}
+
+       </div>
+     <!-- end row -->
+
+     <!-- partnerzy sponsorzy -->
+            <div class="row" style="margin-top: 50px;">
                 <div class="col">
                     <div class="title text-center">
-                        {{ with .topTitle }}
-                            <h4>{{ . }}</h4>
-                        {{ end }}
+
                         {{ with .title }}
                             <h2>{{ . }}</h2>
                             <span class="border"></span>
@@ -80,6 +114,8 @@
                 {{ end }}
             </div>
         <!-- end row -->
+
+
     </div>
     </section>
     {{ "<!-- End section -->" | safeHTML }}
