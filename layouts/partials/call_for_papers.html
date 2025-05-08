@@ -1,0 +1,52 @@
+
+
+{{ if .Site.Params.call4papers.enable }}
+
+{{ $content := readFile "content/call_for_papers.md" }}
+{{ $body := split $content "---" }}
+{{ $mainContent := index $body 2 }}
+{{ $frontMatter := index $body 1 }}
+{{ $parsed := transform.Unmarshal $frontMatter }}
+{{ $topTitle := index $parsed "confTitle" }}
+{{ $title := index $parsed "title" }}
+
+{{ "<!-- Call4Papers Section -->" | safeHTML }}
+<section class="service-2 section bg-gray" id="call4papers">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <div class="title text-center">
+                    <h4>{{ $topTitle}}</h4>
+                    <h2>{{ $title }}</h2>
+                    <span class="border"></span>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <p style="color: black !important">
+                 {{ $mainContent | markdownify }}
+                 </p>
+            </div>
+        </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="block"> 
+        {{ if .Site.Params.hero.button }}
+         <ul class="list-inline wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".7s">
+             <li class="list-inline-item">
+                <a href="{{ with .Site.Params.hero.btnURL }}{{.}}{{ end }}" target="_blank" class="btn btn-main2">{{ with .Site.Params.hero.btnText }}{{.}}{{ end }}</a>
+             </li>
+           </ul>
+         {{ end }} 
+
+         </div>
+      </div>
+    </div>
+</div>
+</section>
+{{ "<!-- Call4Papers section -->" | safeHTML }}
+{{ end }}

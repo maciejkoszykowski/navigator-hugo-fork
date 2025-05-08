@@ -41,8 +41,9 @@
                     <br><br><br> <br><br> 
                     {{ $data := index .Site.Data }}
                     {{ with $data.agenda }}
+                    <h3 style="font-size: larger; letter-spacing: 0.1em; padding-left: 12px; background-color: #30374A; color: white;">{{.invite_txt}}</h3>
+
                     {{ if .enable }}
-                    <h3 style="font-size: larger; letter-spacing: 0.1em; padding-left: 12px;"> Zapraszamy na: </h3>
                     <br>
                     <h3 style="font-size: larger; margin-bottom: 16px; background-color: #30374A; color: white; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;" >
                           <span style="font-weight: bold; letter-spacing: 2px;"> {{  .day1_title }} </span>
