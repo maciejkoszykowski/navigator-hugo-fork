@@ -26,12 +26,12 @@
                     {{ end }}
                     {{ with .Site.Params.hero.description }}
                     <span class="d-none d-md-block"> 
-                        <h3 style="background-color: #2053A6; color: white; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;"> {{ . }}</h3>
+                        <h3 style="background-color: #2053A6; color: white; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;"> {{ . | plainify }}</h3>
                     </span>
                     <span class="d-md-none d-sm-block"> 
-                        <h3 style="background-color: #2053A6; color: white; font-size: medium; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;"> {{ . }}</h3>
+                        <h3 style="background-color: #2053A6; color: white; font-size: medium; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;"> {{ . | safeHTML  }}</h3>
                     </span>
-                        {{ end }}
+                    {{ end }}
                 </div>
             </div>
         </div>
