@@ -38,10 +38,11 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="block">
-                    <br><br><br> <br><br> 
+                    <br><br><br> 
+     
                     {{ $data := index .Site.Data }}
                     {{ with $data.agenda }}
-                    <h3 style="font-size: larger; letter-spacing: 0.1em; padding-left: 12px; background-color: #30374A; color: white;">{{.invite_txt}}</h3>
+                    <h3 style="font-size: x-large; letter-spacing: 0.1em; padding-left: 12px; color: white;">{{.invite_txt}}</h3>
 
                     {{ if .enable }}
                     <br>
@@ -58,10 +59,67 @@
 
                     {{ end }}
                     {{ end }}
+<br><br> 
+<div id="countdown-target" data-date="{{ .Site.Params.confStartDate }}" style="display: none;"></div>
+
+<div style="display: flex; gap: 1rem; font-family: sans-serif; text-align: center;">
+  <div style="background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem; min-width: 80px;">
+    <div style="font-size: 2rem;" id="days">00</div>
+    <div style="font-size: 1rem;">Dni</div>
+  </div>
+  <div style="background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem; min-width: 80px;">
+    <div style="font-size: 2rem;" id="hours">00</div>
+    <div style="font-size: 1rem;">Godziny</div>
+  </div>
+  <div style="background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem; min-width: 80px;">
+    <div style="font-size: 2rem;" id="minutes">00</div>
+    <div style="font-size: 1rem;">Minuty</div>
+  </div>
+  <div style="background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem; min-width: 80px;">
+    <div style="font-size: 2rem;" id="seconds">00</div>
+    <div style="font-size: 1rem;">Sekundy</div>
+  </div>
+</div>
+
+<script>
+  function updateCountdown() {
+    const targetElement = document.getElementById("countdown-target");
+    const targetDateStr = targetElement.getAttribute("data-date");
+    const targetDate = new Date(targetDateStr);
+    const now = new Date();
+
+    const diff = targetDate - now;
+
+    if (diff <= 0) {
+      document.getElementById("days").textContent = "00";
+      document.getElementById("hours").textContent = "00";
+      document.getElementById("minutes").textContent = "00";
+      document.getElementById("seconds").textContent = "00";
+      return; // zatrzymujemy działanie po zakończeniu odliczania
+    }
+
+    const seconds = Math.floor((diff / 1000) % 60);
+    const minutes = Math.floor((diff / 1000 / 60) % 60);
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+
+    document.getElementById("days").textContent = String(days).padStart(2, '0');
+    document.getElementById("hours").textContent = String(hours).padStart(2, '0');
+    document.getElementById("minutes").textContent = String(minutes).padStart(2, '0');
+    document.getElementById("seconds").textContent = String(seconds).padStart(2, '0');
+  }
+
+  // aktualizuj co sekundę
+  setInterval(updateCountdown, 1000);
+  // wykonaj od razu przy załadowaniu
+  updateCountdown();
+</script>
+
                 <!-- key dates presented -->
                 </div>
             </div>
-            <div class="col-md-12">
+
+            <div class="d-md-none col-sm-1 d-flex justify-content-center">
                 <div class="block"> 
                 {{ if .Site.Params.hero.button }}
                  <ul class="list-inline wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".7s">
@@ -73,6 +131,20 @@
 
                  </div>
             </div>
+
+            <div class="col-md-12">
+                <div class="d-none d-sm-block block"> 
+                {{ if .Site.Params.hero.button }}
+                 <ul class="list-inline wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".7s">
+                     <li class="list-inline-item">
+                        <a href="{{ with .Site.Params.hero.btnURL }}{{.}}{{ end }}" target="_blank" class="btn btn-main2">{{ with .Site.Params.hero.btnText }}{{.}}{{ end }}</a>
+                     </li>
+                   </ul>
+                 {{ end }} 
+
+                 </div>
+            </div>
+            
         </div>
 
         <div class="row">
