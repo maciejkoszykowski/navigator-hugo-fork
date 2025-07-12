@@ -1,6 +1,7 @@
+{{ $data := index .Site.Data }}
+{{ with $data.call4papers }}
 
-
-{{ if .Site.Params.call4papers.enable }}
+{{ if .enable }}
 
 {{ $content := readFile "content/call_for_papers.md" }}
 {{ $body := split $content "---" }}
@@ -49,4 +50,5 @@
 </div>
 </section>
 {{ "<!-- Call4Papers section -->" | safeHTML }}
+{{ end }}
 {{ end }}
