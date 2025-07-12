@@ -1,0 +1,56 @@
+{{ $data := index .Site.Data }}
+{{ with $data.galeria }}
+    {{ if .enable }}
+    {{ "<!-- Start Galeria Section -->" | safeHTML }}
+    <section class="portfolio section bg-gray" id="galeria">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col">
+                    <div class="title text-center">
+                        {{ with .topTitle }}
+                            <h4>{{ . }}</h4>
+                        {{ end }}
+                        {{ with .title }}
+                            <h2>{{ . }}</h2>
+                            <span class="border"></span>
+                        {{ end }}
+                        {{ with .subtitle }}
+                            <p>{{ . }}</p>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="portfolio-filter">
+                        <button class="filtr-control active" type="button" data-filter="all"> . </button>
+                        {{ range .filtermenu }}
+                        <button class="filtr-control" type="button" data-filter="{{ .category }}">{{ .name }}</button>
+                        {{ end }}
+                    </div>
+                </div>
+            </div>
+            <div class="row filtr-container">
+{{ range .item }}
+    {{ $item := . }}
+    {{ range seq $item.image_count }}
+        <div class="col-md-1 col-sm-3 padding-0 filtr-item" data-category="{{ $item.category }}">
+            <div class="portfolio-block">
+                <img class="img-fluid" src="{{ $item.title }}/thumbnails/{{ . }}_thumb.jpg" alt="gallery-image"
+                style="width: 100%; height: 50px; object-fit: cover; object-position: center; display: block;">
+                <div class="caption">
+                    <a class="search-icon" href="{{ $item.title }}/web/{{ . }}.jpg" data-lightbox="image-1">
+                        <i class="tf-ion-ios-search-strong"></i> &nbsp;&nbsp; zoom
+                    </a>
+                </div>
+            </div>
+        </div>
+    {{ end }}
+{{ end }}
+            </div>
+        </div>
+        <!-- end row -->
+    </section>
+    {{ "<!-- End section -->" | safeHTML }}
+    {{ end }}
+{{ end }}

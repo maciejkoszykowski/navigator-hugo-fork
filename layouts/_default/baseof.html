@@ -9,10 +9,19 @@
 
 
 {{ "<!-- Google Tag Manager (noscript) ## baseof.html ##--> " | safeHTML }}
-<!-- noscript TODO: OFF>
-    <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T7C5FGBX" height="0" width="0"
-            style="display:none;visibility:hidden"></iframe>
-</noscript -->
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z75DKN4M2G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z75DKN4M2G');
+</script>
+
+
 {{ "<!-- End Google Tag Manager (noscript) --> " | safeHTML }}
 
     
