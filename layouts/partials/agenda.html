@@ -18,22 +18,57 @@
 
             </div>
         </div>
+
+
+{{ range .days }}
+
         <div class="row justify-content-center ">
             <div class="col">
             <div class="title text-center">
-                {{ with .day1_title }}
+                {{ with .day_title }}
                 <h3>{{ . }}</h3>
                 {{ end }}
-                {{ with .day1_date }}
+                {{ with .day_date }}
                 <h5>{{ . }}</h5>
                 {{ end }}
             </div>
 
-            <div id="accordionDay1">
+            <!-- going to loop per day in program per day detials -->
+            {{ $dayDate := .day_date }}
 
-                {{ range $index, $element:= .itemDay1 }}
-                <div class="card ">
-                    <div class="card-header service-item" id="headingOne">
+      {{ range $.Site.Data.agenda.program_per_day }}
+        {{ if eq .date $dayDate }}
+        
+
+
+        <div id="accordionDay1" class="accordion bg-white rounded" style="background-color: #eee;" >
+         {{ range .rooms }}
+               {{ $bgColor := .color}}
+
+               {{ if .rooms_in_order }}
+                  
+                 <div class="row" style="padding: 0 !important; margin: 0 !important;">
+                    {{ range .rooms_in_order }}
+                    <div class="col-md-6 card ">
+       
+                        <br/> 
+                         Sala:  <span style="font-weight: bold;"> {{ . }} </span>
+
+                    </div>
+                    {{ end }}
+                  </div>
+               {{ end }}
+        
+
+
+            {{ if eq .split true }}
+            <div class="col-md-6 flex-fill" style="padding: 0 !important; margin: 0 !important;">
+            {{end}} <!-- split loop end, next is below to close this div  -->
+
+              {{ range $index, $element:= .sessions }}
+
+                <div class="card flex-fill"> <!-- h-100 does not work right -->
+                    <div class="card-header service-item" id="headingOne" style="border-bottom: none !important; background: {{ $bgColor}} !important;"> 
                         <h5 class="mb-0">
 
                             <h5 style="margin-bottom: 0px;"> <span
@@ -41,18 +76,18 @@
                                     .start }} - {{ .end }} </span>
                                 <br class="d-md-none d-lg-none">
                                 {{ if .who}}
-                                <span style="text-align: center; font-weight: bold; ">
+                                <span style="text-align: center; ">
 
                                     &nbsp;&nbsp;&nbsp;
                                     <br class="d-md-none d-lg-none">
                                     <span class="d-none d-md-block"> &nbsp; </span>
-                                    {{ .who}} </span>
+                                    {{ .who | markdownify}} </span>
                                 {{ end }}
                                 <br class="d-md-none d-lg-none">
 
                                 <span style="font-weight: normal; ">
                                     <span class="d-none d-md-block" > &nbsp; </span>
-                                    {{ .title }} </span>
+                                    {{ .title | markdownify }} </span>
                             </h5>
 
                             <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne{{.number}}"
@@ -69,18 +104,41 @@
                             <p style="color: black;">{{ .description  | markdownify }}</p>
                         </div>
                     </div>
-                    {{end}}
+                    
+               
                 </div>
+            {{ end}} <!-- sessions loop end -->
 
+             {{ if eq .split true }}
+                </div>
+             {{ "<!-- koniec splita -->" | safeHTML }}
+             {{end}} <!-- split loop end, next is below to close this div  -->
+
+            {{ if eq .split_next true }}
+            <div class="row" style="padding: 0 !important; margin: 0 !important;">
+            {{end}} <!-- split loop end, next is below to close this div  -->
+
+            {{ if eq .split_end true }}
             </div>
-            </div>
+            {{end}} <!-- split loop end, next is below to close this div  -->
+
+        {{ end }} <!-- rooms loop -->
+        </div> <!-- div acodeona -->
+
+
+    </div> 
 
 
 
-        </div>
+</div>
 
 
-        <!-- Day 2 -->
+
+      {{ end }} <!-- range program per day DAY LOOP -->
+     {{ end }} <!-- if eq .date $dayDate  -->
+
+<!-- TODO: likely remove below
+        <-- Day 2 --
         <div class="row">
             <div class="col">
                 <div class="title text-center">
@@ -153,7 +211,10 @@
             </div>
 
         </div>
+TODO remove 
+        --> 
 
+    {{ end }} <!--END of hugo loop for days generation -->
     </div>
 </section>
 {{ "<!-- Work Process section end -->" | safeHTML }}
