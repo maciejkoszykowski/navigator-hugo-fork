@@ -21,6 +21,11 @@
                 </div>
             </div>
 
+                <p style="color: black !important">
+                 {{ .message | markdownify }}
+                 </p>
+
+            {{ if .no_message }}
             {{ range .item }}
                     <div class="row mb-50 justify-content-center">
                         <div class="col-md-5 col-sm-12 text-center offset-md-1"                          
@@ -61,6 +66,7 @@
 
                 <br><br>
             {{ end }}
+          {{ end }}
         </div>
     </section>
     {{"<!-- About section End -->" | safeHTML}}
