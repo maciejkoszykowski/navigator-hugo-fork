@@ -1,15 +1,17 @@
-{{ if .Site.Params.aboutSm.enable }}
+{{ $data := index .Site.Data }}
+{{ with $data.opis_konfy }}
+{{ if .enable }}
 {{ "<!-- Start About Section -->" | safeHTML }}
 <section class="about-2 section bg-gray" id="about">
     <div class="container">
         <div class="row">
             <div class="col-12 col-md-5">
-                {{ with .Site.Params.aboutSm.title }}
+                {{ with .title }}
                     <h2>{{ . }}</h2>
                 {{ end }}
             </div>
             <div class="col-12 col-md-7">
-                {{ $content := readFile "content/about_conf.md" }}
+                {{ $content := readFile .md_file_path }}
                 {{ $body := split $content "---" }}
                 {{ $mainContent := index $body 2 }}
 
@@ -21,4 +23,5 @@
     </div>
 </section>
 {{ "<!-- End About section -->" | safeHTML }}
+{{ end }}
 {{ end }}
