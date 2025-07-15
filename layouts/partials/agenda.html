@@ -1,6 +1,21 @@
 {{ $data := index .Site.Data }}
 {{ with $data.agenda }}
 {{ if .enable }}
+
+<!-- to clean up TODO 
+{{ $colors := dict 
+  "main_color" .colors.main 
+  "path1_color" .colors.path_1 
+  "path2_color" .colors.path_2 
+}}
+
+DEBUG: {{ $colors.main_color }} | {{ .colors.main }}
+{{ $key := "main_color" }}
+{{ $value := index $colors $key }}
+
+<p>Color: {{ $value }}</p>
+-->
+
 {{ "<!-- Work Process Section Start -->" | safeHTML }}
 <section class="service-2 section bg-gray">
     <div class="container">
@@ -49,10 +64,9 @@
                   
                  <div class="row" style="padding: 0 !important; margin: 0 !important;">
                     {{ range .rooms_in_order }}
-                    <div class="col-md-6 card ">
-       
+                    <div class="col-md-6 card " style="background-color: {{ .color }} !important;">
                         <br/> 
-                         Sala:  <span style="font-weight: bold;"> {{ . }} </span>
+                         <p style="display: inline !important;"> Sala:  <b style="display: inline  !important;"> {{ .label }} </b></p>
 
                     </div>
                     {{ end }}

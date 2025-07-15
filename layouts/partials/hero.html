@@ -40,11 +40,15 @@
                 <div class="block">
                     <br><br><br> 
      
+                    <!-- TODO: this should never be in agenda file, this should be moved config.toml-->
                     {{ $data := index .Site.Data }}
-                    {{ with $data.agenda }}
+                    {{ with $data.hero }}
+
+                    {{ if .show_here_msg }}
+
                     <h3 style="font-size: x-large; letter-spacing: 0.1em; padding-left: 12px; color: white;">{{.invite_txt}}</h3>
 
-                    {{ if .enable }}
+
                     <br>
                     <h3 style="font-size: larger; margin-bottom: 16px; background-color: #30374A; color: white; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;" >
                           <span style="font-weight: bold; letter-spacing: 2px;"> {{  .day1_title }} </span>
@@ -60,24 +64,99 @@
                     {{ end }}
                     {{ end }}
 <br><br> 
+
+<!-- TODO refactor timer code and create a kind of plugin seperate css and js for sure, html can be a enabler -->
+<style>
+.fs-timer {
+  font-size: 1rem; /* Default mobile size */
+}
+
+@media (min-width: 768px) {
+  .fs-timer {
+    font-size: 1.5rem; /* Medium devices */
+  }
+}
+
+@media (min-width: 992px) {
+  .fs-timer {
+    font-size: 2rem; /* Large devices */
+  }
+}
+
+.fs-timer-label {
+  font-size: 0.75rem; /* Default mobile size */
+}
+
+@media (min-width: 768px) {
+  .fs-timer-label {
+    font-size: 0.75rem; /* Medium devices */
+  }
+}
+
+@media (min-width: 992px) {
+  .fs-timer-label {
+    font-size: 1rem; /* Large devices */
+  }
+}
+
+.timer-box {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;          /* Smaller padding for mobile */
+  border-radius: 0.4rem;   
+  min-width: 70px;          /* Narrower box */
+}
+
+@media (min-width: 768px) {
+  .timer-box {
+    padding: 0.75rem;
+    border-radius: 0.4rem;
+    min-width: 70px;
+  }
+}
+
+@media (min-width: 992px) {
+  .timer-box {
+    padding: 1rem;
+    border-radius: 0.4rem;
+    min-width: 80px;
+  }
+}
+
+.timer-wrapper {
+  display: flex;
+  gap: 1rem;
+  font-family: sans-serif;
+  text-align: center;
+  justify-content: flex-start; /* default for medium and up */
+}
+
+@media (max-width: 767.98px) {
+  .timer-wrapper {
+    justify-content: center;
+    flex-wrap: wrap; /* optional: allows elements to go to next line */
+  }
+}
+
+</style>
+
 <div id="countdown-target" data-date="{{ .Site.Params.confStartDate }}" style="display: none;"></div>
 
-<div style="display: flex; gap: 1rem; font-family: sans-serif; text-align: center;">
-  <div style="background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem; min-width: 80px;">
-    <div style="font-size: 2rem;" id="days">00</div>
-    <div style="font-size: 1rem;">Dni</div>
+<div class="timer-wrapper">
+  <div class="timer-box">
+    <div class="fs-timer" id="days">00</div>    
+    <div class="fs-timer-label">Dni</div>
   </div>
-  <div style="background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem; min-width: 80px;">
-    <div style="font-size: 2rem;" id="hours">00</div>
-    <div style="font-size: 1rem;">Godziny</div>
+  <div class="timer-box">
+    <div class="fs-timer" id="hours">00</div>
+    <div class="fs-timer-label">Godziny</div>
   </div>
-  <div style="background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem; min-width: 80px;">
-    <div style="font-size: 2rem;" id="minutes">00</div>
-    <div style="font-size: 1rem;">Minuty</div>
+  <div class="timer-box">
+    <div class="fs-timer" id="minutes">00</div>
+    <div class="fs-timer-label">Minuty</div>
   </div>
-  <div style="background-color: rgba(0,0,0,0.2); padding: 1rem; border-radius: 0.5rem; min-width: 80px;">
-    <div style="font-size: 2rem;" id="seconds">00</div>
-    <div style="font-size: 1rem;">Sekundy</div>
+  <div class="timer-box">
+    <div class="fs-timer" id="seconds">00</div>
+    <div class="fs-timer-label">Sekundy</div>
   </div>
 </div>
 
