@@ -61,12 +61,12 @@ DEBUG: {{ $colors.main_color }} | {{ .colors.main }}
                {{ $bgColor := .color}}
 
                {{ if .rooms_in_order }}
-                  
+                 <!-- desktop screen ROOM display --> 
                  <div class="row" style="padding: 0 !important; margin: 0 !important;">
                     {{ range .rooms_in_order }}
-                    <div class="col-md-6 card " style="background-color: {{ .color }} !important;">
+                    <div class="col-md-6 card d-none d-md-block " style="background-color: {{ .color }} !important;">
                         <br/> 
-                         <p style="display: inline !important;"> Sala:  <b style="display: inline  !important;"> {{ .label }} </b></p>
+                         <p style="display: inline !important;"> Sala  <b style="display: inline  !important;"> {{ .label }} </b></p>
 
                     </div>
                     {{ end }}
@@ -74,14 +74,26 @@ DEBUG: {{ $colors.main_color }} | {{ .colors.main }}
                {{ end }}
         
 
+            <!-- mobile screen ROOM display -->
+            {{ if .split}}
+                    <div class="col-md-6 card d-block d-md-none " style="background-color: {{ .color }} !important;">
+                        <br/> 
+                         <p style="display: inline !important;"> Sala  <b style="display: inline  !important;"> {{ .display_txt}} </b></p>
 
+                    </div>
+                 
+            {{ end }}
+
+            
             {{ if eq .split true }}
             <div class="col-md-6 flex-fill" style="padding: 0 !important; margin: 0 !important;">
             {{end}} <!-- split loop end, next is below to close this div  -->
 
+
+            
               {{ range $index, $element:= .sessions }}
 
-                <div class="card flex-fill"> <!-- h-100 does not work right -->
+                <div class="card flex-fill"> 
                     <div class="card-header service-item" id="headingOne" style="border-bottom: none !important; background: {{ $bgColor}} !important;"> 
                         <h5 class="mb-0">
 
