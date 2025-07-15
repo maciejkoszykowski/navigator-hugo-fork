@@ -1,4 +1,7 @@
-{{ if .Site.Params.hero.enable }}
+{{ $data := index .Site.Data }}
+{{ with $data.hero }}
+{{ if .enable }}
+
 {{ "<!-- Hero Area -->" | safeHTML }}
 <section class="hero-area hero-div-image">
     <div class="container hero-content-up">
@@ -15,7 +18,7 @@
             </div -->
             <div class="col-md-12">
                 <div class="block">
-                    {{ with .Site.Params.hero.heading }}
+                    {{ with .main_heading }}
                     <span class="d-none d-md-block"> 
                         <h2 style="background-color: #aa2896; color: white; font-weight: bolder; width: fit-content; padding-bottom: 0px; margin-bottom: 0px; padding-left: 12px; padding-right: 12px;"> {{ . }}</h2>
                     </span>
@@ -24,7 +27,7 @@
                     </span>
 
                     {{ end }}
-                    {{ with .Site.Params.hero.description }}
+                    {{ with .subheading }}
                     <span class="d-none d-md-block"> 
                         <h3 style="background-color: #2053A6; color: white; font-weight: normal; width: fit-content; padding-bottom: 0px; padding-left: 12px; padding-right: 12px; padding-bottom: 4px;"> {{ . | plainify }}</h3>
                     </span>
@@ -40,11 +43,8 @@
                 <div class="block">
                     <br><br><br> 
      
-                    <!-- TODO: this should never be in agenda file, this should be moved config.toml-->
-                    {{ $data := index .Site.Data }}
-                    {{ with $data.hero }}
 
-                    {{ if .show_here_msg }}
+                    {{ if .show_more_msg }}
 
                     <h3 style="font-size: x-large; letter-spacing: 0.1em; padding-left: 12px; color: white;">{{.invite_txt}}</h3>
 
@@ -61,7 +61,6 @@
                             <br class="d-md-none d-lg-none">
                              {{ .day2_date }} </h3>
 
-                    {{ end }}
                     {{ end }}
 <br><br> 
 
@@ -139,7 +138,7 @@
 
 </style>
 
-<div id="countdown-target" data-date="{{ .Site.Params.confStartDate }}" style="display: none;"></div>
+<div id="countdown-target" data-date="{{ .timer_conf_start_date }}" style="display: none;"></div>
 
 <div class="timer-wrapper">
   <div class="timer-box">
@@ -200,10 +199,10 @@
 
             <div class="col-sm-1 d-block d-sm-none d-flex justify-content-center">
                 <div class="block"> 
-                {{ if .Site.Params.hero.button }}
+                {{ if .button }}
                  <ul class="list-inline wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".7s">
                      <li class="list-inline-item">
-                        <a href="{{ with .Site.Params.hero.btnURL }}{{.}}{{ end }}" target="_blank" class="btn btn-main2">{{ with .Site.Params.hero.btnText }}{{.}}{{ end }}</a>
+                        <a href="{{ with .btnURL }}{{.}}{{ end }}" target="_blank" class="btn btn-main2">{{ with .btnText }}{{.}}{{ end }}</a>
                      </li>
                    </ul>
                  {{ end }} 
@@ -213,10 +212,10 @@
 
             <div class="col-md-12 d-none d-sm-block">
                 <div class="d-none d-sm-block block"> 
-                {{ if .Site.Params.hero.button }}
+                {{ if .button }}
                  <ul class="list-inline wow fadeInUp" data-wow-duration=".5s" data-wow-delay=".7s">
                      <li class="list-inline-item">
-                        <a href="{{ with .Site.Params.hero.btnURL }}{{.}}{{ end }}" target="_blank" class="btn btn-main2">{{ with .Site.Params.hero.btnText }}{{.}}{{ end }}</a>
+                        <a href="{{ with .btnURL }}{{.}}{{ end }}" target="_blank" class="btn btn-main2">{{ with .btnText }}{{.}}{{ end }}</a>
                      </li>
                    </ul>
                  {{ end }} 
@@ -234,13 +233,13 @@
                     <h5 style="color: white; padding-left: 12px;"> Organizatorzy </h5> <br>
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
-                            <img class="mx-auto d-none d-md-block" style="padding-top: 9px; padding-bottom: 55px;" src="{{ .Site.Params.logo_pmi | absURL }}" alt="{{ .Site.Title }}">
-                            <img class="mx-auto d-md-none d-sm-block" style="padding-left: 6px; padding-top: 9px; padding-bottom: 55px;" src="{{ .Site.Params.logo_pmi | absURL }}" alt="{{ .Site.Title }}">
+                            <img class="mx-auto d-none d-md-block" style="padding-top: 9px; padding-bottom: 55px;" src="{{ site.Params.logo_pmi | absURL }}" alt="logo">
+                            <img class="mx-auto d-md-none d-sm-block" style="padding-left: 6px; padding-top: 9px; padding-bottom: 55px;" src="{{ site.Params.logo_pmi | absURL }}" alt="logo">
                         </div> 
 
                         <div class="col-md-6 col-sm-12">
-                            <img class="mx-auto d-none d-md-block" style="padding-left: 50px;"src="{{ .Site.Params.logo_umk | absURL }}" alt="{{ .Site.Title }}">
-                            <img class="mx-auto d-md-none d-sm-block" style="padding-left: 11px;"src="{{ .Site.Params.logo_umk | absURL }}" alt="{{ .Site.Title }}">
+                            <img class="mx-auto d-none d-md-block" style="padding-left: 50px;"src="{{ site.Params.logo_umk | absURL }}" alt="logo">
+                            <img class="mx-auto d-md-none d-sm-block" style="padding-left: 11px;"src="{{ site.Params.logo_umk | absURL }}" alt="logo">
                         </div>
                     </div>
 
@@ -249,4 +248,5 @@
         </div>
     </div>
 </section>
+{{ end }}
 {{ end }}
