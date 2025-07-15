@@ -1,0 +1,50 @@
+<script>
+    function collapseNavbar() {
+        var navbarToggler = document.querySelector('.navbar-toggler');
+        var collapse = document.querySelector('#navigation');
+        if (navbarToggler && collapse) {
+            var bsCollapse = new bootstrap.Collapse(collapse, {
+                toggle: false
+            });
+            bsCollapse.hide();
+        }
+    }
+</script>
+
+{{ if site.Params.menu.is_fixed }}
+<section class="header navigation top-bar" style="background-color: rgb(255, 255, 255);">
+{{ else }}
+<section class="header navigation" style="background-color: rgb(255, 255, 255);">
+{{ end }}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <nav class="navbar navbar-expand-lg" style="padding-top: 0px; padding-bottom: 0px">
+
+                    <a class="navbar-brand d-none d-md-block" href="{{ .Site.BaseURL | relLangURL }}" style="padding-top: 0px; padding-bottom: 0px">
+                        <img src="{{ .Site.Params.logo | absURL }}" style="height: 48px;" alt="logo">
+                    </a>
+
+                    <a class="navbar-brand d-md-none d-lg-none" href="{{ .Site.BaseURL | relLangURL }}" style="padding-top: 0px; padding-bottom: 0px">
+                        <img src="{{ .Site.Params.logo | absURL }}" style="height: 38px;"  alt="logo">
+                    </a>
+
+                    <div class="d-flex align-items-center">
+                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+                            aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+                            <span class="tf-ion-android-menu"></span>
+                        </button>
+                        
+                    </div>
+                    <div class="collapse navbar-collapse" id="navigation">
+                        <ul class="navbar-nav ml-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ .Site.BaseURL }}" style="padding-top: 6px !important; padding-bottom: 0px !important;">{{ .Site.Params.menu.only_back_home }}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+</section>
