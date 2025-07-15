@@ -12,7 +12,7 @@
                         <h2>{{.}}</h2>
                         <span class="border"></span>
                         {{ end }}
-                        {{ with .subtitle }}<p>{{.}}</p>{{ end }}
+                        {{ with .subtitle | markdownify }}<p>{{.}}</p>{{ end }}
                     </div>
                 </div>
             </div>
