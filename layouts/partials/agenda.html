@@ -1,22 +1,17 @@
 {{ $data := index .Site.Data }}
+
 {{ with $data.agenda }}
 {{ if .enable }}
 
-<!-- to clean up TODO 
-{{ $colors := dict 
-  "main_color" .colors.main 
-  "path1_color" .colors.path_1 
-  "path2_color" .colors.path_2 
-}}
+{{ "<!-- Agenda Section Section Start -->" | safeHTML }}
 
-DEBUG: {{ $colors.main_color }} | {{ .colors.main }}
-{{ $key := "main_color" }}
-{{ $value := index $colors $key }}
+<script>
+function toggleCollapse(id) {
+    const div = document.getElementById(id);
+    div.classList.toggle('show');  // toggles visibility
+}
+</script>
 
-<p>Color: {{ $value }}</p>
--->
-
-{{ "<!-- Work Process Section Start -->" | safeHTML }}
 <section class="service-2 section bg-gray">
     <div class="container">
         <div class="row">
@@ -35,214 +30,271 @@ DEBUG: {{ $colors.main_color }} | {{ .colors.main }}
         </div>
 
 
-{{ range .days }}
+        {{ range .days }}
 
         <div class="row justify-content-center ">
             <div class="col">
-            <div class="title text-center">
-                {{ with .day_title }}
-                <h3>{{ . }}</h3>
-                {{ end }}
-                {{ with .day_date }}
-                <h5>{{ . }}</h5>
-                {{ end }}
-            </div>
-
-            <!-- going to loop per day in program per day detials -->
-            {{ $dayDate := .day_date }}
-
-      {{ range $.Site.Data.agenda.program_per_day }}
-        {{ if eq .date $dayDate }}
-        
-
-
-        <div id="accordionDay1" class="accordion bg-white rounded" style="background-color: #eee;" >
-         {{ range .rooms }}
-               {{ $bgColor := .color}}
-
-               {{ if .rooms_in_order }}
-                 <!-- desktop screen ROOM display --> 
-                 <div class="row" style="padding: 0 !important; margin: 0 !important;">
-                    {{ range .rooms_in_order }}
-                    <div class="col-md-6 card d-none d-md-block " style="background-color: {{ .color }} !important;">
-                        <br/> 
-                         <p style="display: inline !important;"> Sala  <b style="display: inline  !important;"> {{ .label }} </b></p>
-
-                    </div>
-                    {{ end }}
-                  </div>
-               {{ end }}
-        
-
-            <!-- mobile screen ROOM display -->
-            {{ if .split}}
-                    <div class="col-md-6 card d-block d-md-none " style="background-color: {{ .color }} !important;">
-                        <br/> 
-                         <p style="display: inline !important;"> Sala  <b style="display: inline  !important;"> {{ .display_txt}} </b></p>
-
-                    </div>
-                 
-            {{ end }}
-
-            
-            {{ if eq .split true }}
-            <div class="col-md-6 flex-fill" style="padding: 0 !important; margin: 0 !important;">
-            {{end}} <!-- split loop end, next is below to close this div  -->
-
-
-            
-              {{ range $index, $element:= .sessions }}
-
-                <div class="card flex-fill"> 
-                    <div class="card-header service-item" id="headingOne" style="border-bottom: none !important; background: {{ $bgColor}} !important;"> 
-                        <h5 class="mb-0">
-
-                            <h5 style="margin-bottom: 0px;"> <span
-                                    style="font-size: medium; text-align: left; color: #514949; font-weight: 700;"> {{
-                                    .start }} - {{ .end }} </span>
-                                <br class="d-md-none d-lg-none">
-                                {{ if .who}}
-                                <span style="text-align: center; ">
-
-                                    &nbsp;&nbsp;&nbsp;
-                                    <br class="d-md-none d-lg-none">
-                                    <span class="d-none d-md-block"> &nbsp; </span>
-                                    {{ .who | markdownify}} </span>
-                                {{ end }}
-                                <br class="d-md-none d-lg-none">
-
-                                <span style="font-weight: normal; ">
-                                    <span class="d-none d-md-block" > &nbsp; </span>
-                                    {{ .title | markdownify }} </span>
-                            </h5>
-
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne{{.number}}"
-                                style="font-size: small; color: #514949; padding-top: 0px;" aria-expanded="true"
-                                aria-controls="collapseOne{{.number}}"> rozwiń >>
-
-                            </button>
-                        </h5>
-                    </div>
-
-                    <div id="collapseOne{{.number}}" class="collapse" aria-labelledby="headingOne"
-                        data-parent="#accordion">
-                        <div class="card-body">
-                            <p style="color: black;">{{ .description  | markdownify }}</p>
-                        </div>
-                    </div>
-                    
-               
-                </div>
-            {{ end}} <!-- sessions loop end -->
-
-             {{ if eq .split true }}
-                </div>
-             {{ "<!-- koniec splita -->" | safeHTML }}
-             {{end}} <!-- split loop end, next is below to close this div  -->
-
-            {{ if eq .split_next true }}
-            <div class="row" style="padding: 0 !important; margin: 0 !important;">
-            {{end}} <!-- split loop end, next is below to close this div  -->
-
-            {{ if eq .split_end true }}
-            </div>
-            {{end}} <!-- split loop end, next is below to close this div  -->
-
-        {{ end }} <!-- rooms loop -->
-        </div> <!-- div acodeona -->
-
-
-    </div> 
-
-
-
-</div>
-
-
-
-      {{ end }} <!-- range program per day DAY LOOP -->
-     {{ end }} <!-- if eq .date $dayDate  -->
-
-<!-- TODO: likely remove below
-        <-- Day 2 --
-        <div class="row">
-            <div class="col">
                 <div class="title text-center">
-
-                    <br> <br>
-                    {{ with .topTitle }}
-                    <h4>{{ . }}</h4>
+                    {{ with .day_title }}
+                    <h3>{{ . }}</h3>
                     {{ end }}
-                    <span class="border"></span>
-                    {{ with .day2_title }}
-                    <h3>{{ . }}
-                    {{ end }}
-                    <br class="d-md-none d-lg-none">
-                    {{ with .day2_title_part2 }}
-                    {{ . }}</h3>
-                    {{ end }}
-                    {{ with .day2_date }}
+                    {{ with .day_date }}
                     <h5>{{ . }}</h5>
                     {{ end }}
                 </div>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col">
-            <div id="accordionDay2">
+
+                <!-- going to loop per day in program per day detials -->
+                {{ $dayDate := .day_date }}
+
+                {{ range $.Site.Data.agenda.program_per_day }}
+                {{ if eq .date $dayDate }}
+
+                <!-- extracting relevant data for content generation -->
+
+                {{ $sessionsData := .sessions }}
+                {{ $slotsData := .time_slots }}
+
+                <!-- #######################################################################################################-->
+                <!-- ###### DESKTOP/TABLET - Agenda view ###################################################################-->
+                <span class="d-none d-md-block">
+                    {{ "<!-- Medium View Agenda -->" | safeHTML }}
 
 
-                {{ range $index, $element:= .itemDay2 }}
-                <div class="card ">
-                    <div class="card-header service-item" id="headingTwo">
-                        <h5 class="mb-0">
+                    <div style="border-radius: 5px; background: #346DBC; padding-left: 36px; padding-right: 36px; padding-top: 24px; padding-bottom: 24px;">
+                        {{ range $slotsData }}
+                          <!--slot: {{.slot}} <br> -->
+                        
+                          {{$sessionsToPrint := .slot }}
+                          {{$sessionsInTheSlot := .no_of_sessions }}
+                          {{$hideTiming := .hide_timing}}
+                          {{$showOnDesktop := .show_on_desktop }}
 
-                            <h5 style="margin-bottom: 0px;"> <span
-                                style="font-size: medium; text-align: left; color: #514949; font-weight: 700;"> {{
-                                .start }} - {{ .end }} </span>
-                            <br class="d-md-none d-lg-none">
-                            {{ if .who}}
-                            <span style="text-align: center; font-weight: bold; ">
+                          {{$end := .end }} <!-- to do not draw last hr -->
+                        
+                          {{$rightBorder := " none " }} <!-- no border if not splited -->
 
-                                &nbsp;&nbsp;&nbsp;
-                                <br class="d-md-none d-lg-none">
-                                <span class="d-none d-md-block"> &nbsp; </span>
-                                {{ .who}} </span>
+                          {{$tableClass := "col-md-12" }}
+                          {{ if eq 2 $sessionsInTheSlot }}
+                                {{ $tableClass = "col-md-6" }}
+                                {{$rightBorder = " solid " }}
+                                <!-- $leftBorder =                         -->
+                          {{ end }}
+
+                        <div class="row">
+
+
+                            {{ range $sessionsData }} <!-- Sessions printing border-left: none !important; border-top: none !important; border-bottom: none !important; border-right: 1px solid white !important;-->
+
+                            {{ $sessionSlot := .slot}}
+
+                            {{ if eq .slot $sessionsToPrint }}
+                            <div class="{{$tableClass}}" style="border-right: 1px {{$rightBorder}} white !important; border-left: none !important; border-top: none !important; border-bottom: none !important;">
+                                <div class="service-item" id="headingOne" style=" background: #346DBC !important; color: white !important; border: none !important">
+                                    <h5 class="mb-0">
+
+                                        <h5 style="margin-bottom: 0px;"> 
+                                            
+                                            {{ if ne true $hideTiming}}
+                                            <span style="font-size: large; text-align: left; font-weight: lighter;">
+                                                {{ $sessionsToPrint }} </span>
+                                            {{ end }}
+
+                                            <br class="d-md-none d-lg-none">
+                                            {{ if .who}}
+                                            <span style="text-align: left; letter-spacing: 0.05em; ">
+
+                                                &nbsp;&nbsp;&nbsp;
+                                                <br class="d-md-none d-lg-none">
+                                                <span class="d-none d-md-block"> &nbsp; </span>
+                                                {{ .who | markdownify}} </span>
+                                            {{ end }}
+                                            <br class="d-md-none d-lg-none">
+
+                                            {{ if .title}}
+                                            <span style="font-weight: normal; ">
+                                                <span class="d-none d-md-block"> &nbsp; </span>
+
+                                                {{ if eq true $showOnDesktop }}
+                                                   <img src="/images/{{ .icon }}" alt="{{ .icon }}" width="28" height="28" />
+                                                    &nbsp;&nbsp;
+                                                {{end}}
+
+                                                {{ .title | markdownify }}
+                                            </span>
+                                            {{end}}
+                                        </h5>
+                                        <br>
+
+                                       {{ if ne true $hideTiming}} 
+                                       <button class="btn btn-link" style="font-size: small; padding-top: 0px; color:white !important"
+                                               onclick="toggleCollapse('collapseOne{{.number}}')">
+                                             rozwiń >>
+                                        </button>
+
+                                        <div id="collapseOne{{.number}}" class="collapse" >
+                                                <div class="card-body">
+                                                <p style="color:white !important">{{ .description | markdownify }}</p>
+                                                </div>
+                                        </div>
+
+                                        {{end}}
+
+                                    </h5>
+
+
+                                </div>
+
+                                {{$rightBorder = " none " }}
+
+                            </div>
                             {{ end }}
-                            <br class="d-md-none d-lg-none">
 
-                            <span style="font-weight: normal; ">
-                                <span class="d-none d-md-block" > &nbsp; </span>
-                                {{ .title }} </span>
-                        </h5>
+                            {{ end }}
 
-                            <button class="btn btn-link" data-toggle="collapse" data-target="#collapseTwo{{.number}}"
-                                style="font-size: small; color: #514949; padding-top: 0px;" aria-expanded="true"
-                                aria-controls="collapseTwo{{.number}}"> rozwiń >>
+                            {{ if ne true $end}}
+                            <div class="col-sm-12" 
+                                  style=" background: #346DBC !important; color: white !important; border-bottom:  1px solid white; border-left: none !important; border-top: none !important; border-right: none !important;  ">
+                            </div>
 
-                            </button>
-                        </h5>
-                    </div>
-
-                    <div id="collapseTwo{{.number}}" class="collapse" aria-labelledby="headingOne"
-                        data-parent="#accordion">
-                        <div class="card-body">
-                            <p style="color: black;">{{ .description  | markdownify }}</p>
+                            {{end}}
                         </div>
+
+                        {{ end}}
                     </div>
-                    {{end}}
-                </div>
 
+                </span> <!-- END OF DESKTOP VIEW -->
+
+                <!-- #######################################################################################################-->
+                <!-- ######## Phone/Small mobile device - Agenda view ######################################################-->
+                <span class="d-md-none d-sm-block">
+                      {{ "<!-- Mobile Phone View Agenda -->" | safeHTML }} 
+
+                    <div style="border-radius: 5px; background: #346DBC; padding-left: 36px; padding-right: 36px; padding-top: 24px; padding-bottom: 24px;">
+                        {{ range $slotsData }}
+                          <!--slot: {{.slot}} <br> -->
+                        
+                          {{$sessionsToPrint := .slot }}
+                          {{$sessionsInTheSlot := .no_of_sessions }}
+                          {{$hideTiming := .hide_timing}}
+                          {{$hideExpand := .hide_expand}}
+                          {{$showOnMobile := .show_on_mobile }}
+                          {{$end := .end }} <!-- to do not draw last hr -->
+                        
+                          {{$rightBorder := " none " }} <!-- no border if not splited -->
+
+                          {{$tableClass := "col-md-12" }}
+                          {{ if eq 2 $sessionsInTheSlot }}
+                                {{ $tableClass = "col-md-6" }}
+                                {{$rightBorder = " solid " }}
+                                <!-- $leftBorder =                         -->
+                          {{ end }}
+
+                        <div class="row">
+
+
+                            {{ range $sessionsData }}
+
+                            {{ $sessionSlot := .slot}}
+
+                            {{ if eq false $showOnMobile }}
+                               {{ $sessionsToPrint = "skip this slot"}}
+                            {{ end}}
+
+                            {{ if eq .slot $sessionsToPrint }}
+                            <div class="col-md-12" style="border: none !important;">
+                                <div class="service-item" id="headingOne" style=" background: #346DBC !important; color: white !important; border: none !important">
+                                    <h5 class="mb-0">
+
+                                            {{ if ne true $hideTiming}}
+                                            <span style="font-size: large; text-align: left; font-weight: lighter;">
+                                                {{ $sessionsToPrint }} 
+                                            </span>
+                                            <br><br>
+                                            {{ end }}
+
+                                            {{ if eq 2 $sessionsInTheSlot }}
+                                                 {{ $hideTiming = true }}
+                                            {{end}}
+
+
+
+                                            <div class="row">
+                                                <div class="col-auto text-white p-2">
+                                                   {{ if .icon}}
+                                                       <img src="/images/{{ .icon }}" alt="{{ .icon }}" width="28" height="28" />
+                                                   {{end}}
+                                                </div>
+                                                <div class="col text-white p-2">
+                                                   {{ if .who}}
+                                                        <span style="text-align: left; letter-spacing: 0.05em; " >
+                                                        {{ .who | markdownify}} 
+                                                        </span>
+                                                        <br> 
+                                                    {{ end }} 
+
+                                                        <span style="font-weight: normal; display: block; padding-top: 8px;  ">                                  
+                                                        {{ .title | markdownify }} 
+                                                       </span>
+
+                                                {{ if ne true $hideExpand}} 
+                                                <button class="btn btn-link" style="font-size: small; padding-top: 0px; color:white !important; padding: 0px;"
+                                                        onclick="toggleCollapse('collapseMobile{{.number}}')">
+                                                        rozwiń >>
+                                                    </button>
+                                                       
+                                                </div>
+                                                {{end}}
+                                            </div>                                         
+
+
+
+                                        <div id="collapseMobile{{.number}}" class="collapse" >
+                                                <div class="card-body">
+                                                <p style="color:white !important; font-weight: lighter;">{{ .description | markdownify }}</p>
+                                                </div>
+                                        </div>
+
+
+
+                                    </h5>
+
+
+                                </div>
+
+                                {{$rightBorder = " none " }}
+
+                            </div>
+                            {{ end }}
+
+                            {{ end }}
+
+                            {{ if ne true $end}}
+                            <div class="col-sm-12" 
+                                  style=" background: #346DBC !important; color: white !important; border-bottom:  1px solid white; border-left: none !important; border-top: none !important; border-right: none !important;  ">
+                            </div>
+
+                            {{end}}
+                        </div>
+
+                        {{ end}}
+                    </div>
+
+                </span> <!-- END OF MOBILE VIEW -->
+                {{ end }} <!-- if eq .date $dayDate  -->
+                {{ end }} <!-- range program per day DAY LOOP -->
             </div>
-            </div>
 
-        </div>
-TODO remove 
-        --> 
+        </div> <!-- end of class row justify-content-center -->
 
-    {{ end }} <!--END of hugo loop for days generation -->
-    </div>
+        {{ end }} <!--END of hugo loop for days generation range $.Site.Data.agenda.program_per_da -->
+
+    </div> <!-- end of container classs-->
+
+
 </section>
-{{ "<!-- Work Process section end -->" | safeHTML }}
-{{ end }}
-{{ end }}
+
+{{ "<!-- Agenda Section End -->" | safeHTML }}
+
+{{ end }} <!--END of with $data.agenda -->
+
+{{ end }} <!--END of if .enable -->
