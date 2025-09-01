@@ -1903,9 +1903,10 @@ Prelegenci
 
 /* my read more */
 
+
 .readMoretext {
   display: -webkit-box;
-  -webkit-line-clamp: 9; /* Liczba wierszy, które mają być widoczne */
+  -webkit-line-clamp: 8; /* Liczba wierszy, które mają być widoczne */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;

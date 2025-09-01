@@ -49,14 +49,31 @@
                                      {{ .description | markdownify }}
                                 </p>
 
-                                {{ $maxLength := 700 }}
-                                {{ $content := .description }}
-                                {{ if gt (len $content) $maxLength }}
                                 <a href="javascript:void(0);" id="readMoreBtn{{.id}}" class="readMoreBtn" >... czytaj więcej</a>
-                                {{ end}}
+
                                 <script>
 
+                                    function checkReadMoreBtn(id) {
+                                        const text = document.getElementById(`readMoretext${id}`);
+                                        const btn = document.getElementById(`readMoreBtn${id}`);
 
+                                        if (text && btn) {
+                                            if (text.scrollHeight <= text.clientHeight) {
+                                                btn.style.display = "none"; // ukryj przycisk
+                                            } else {
+                                                btn.style.display = "inline"; // pokaż przycisk
+                                            }
+                                        }
+                                    }
+
+                                    document.addEventListener("DOMContentLoaded", function() {
+                                        checkReadMoreBtn("{{.id}}");
+                                    });
+
+                                    window.addEventListener("resize", function() {
+                                        checkReadMoreBtn("{{.id}}");
+                                    });
+                                    
                                     document.getElementById("readMoreBtn{{.id}}").addEventListener("click", function() {
                                         var text = document.getElementById("readMoretext{{.id}}");
                                         var btn = document.getElementById("readMoreBtn{{.id}}");
