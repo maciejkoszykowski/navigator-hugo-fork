@@ -90,7 +90,7 @@
                 </div>
                 {{ else}}
                 <div class="col-6 ">
-                    <img class="x-auto d-block mx-auto " src="{{ .image | absURL }}" alt="{{ .image | absURL }}" width="128" > 
+                    <img class="x-auto d-block mx-auto " src="{{ .image | absURL }}" alt="{{ .image | absURL }}" width="128" style="margin-top: 10px;">
                     {{.title | safeHTML }}
                 </div>
                 {{ end }}
@@ -103,7 +103,7 @@
 
 
      <!-- partnerzy sponsorzy -->
-            <div class="row" style="margin-top: 50px;">
+            <div class="row" style="margin-top: 60px;">
                 <div class="col">
                     <div class="title text-center" style="padding-bottom: 15px !important;">
 
@@ -130,19 +130,19 @@
                         <!-- p>Even index: {{ $index }} - {{ $item.title }}</p -->
                     {{ if eq (mod $index 2) 0 }}
                        <div class="col-6 text-right d-none d-md-block">
-                           <img class="x-auto d-block ml-auto " src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px;">
+                           <img class="x-auto d-block ml-auto " height="180" src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px;">
                        </div>
 
                     {{ else }}
                        <!-- p>Odd index: {{ $index }} - {{ $item.title}}</p --->
                        <div class="col-6 text-left d-none d-md-block">
-                        <img class="x-auto d-block mr-auto " src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px; margin-left: 85px;">
+                        <img class="x-auto d-block mr-auto " height="180" src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px; margin-left: 85px;">
                        </div>
                     {{ end }}
          
                     <!-- small screen trick  --->
                     <div class="col-sm-12 d-md-none">
-                        <img class="x-auto d-block mx-auto " src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 55px;">
+                        <img class="x-auto d-block mx-auto " height="160" src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 10px;">
                     </div>
                 {{ end }}
             </div>
