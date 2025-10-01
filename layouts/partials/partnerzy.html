@@ -166,8 +166,8 @@
                 {{ range .media }}
                     
                             
-                            {{ if .small_support }}
-                            <div class="col-12 d-none d-md-block">
+                            {{ if .small_support }}  <!-- TODO: support single and multiple probably others above too! -->
+                            <div class="col-6 d-none d-md-block">
                                 <a href="{{ .link | absURL }}" target="_blank">  
                                   <img class="x-auto mx-auto d-none d-md-block" src="{{ .image | absURL }}" alt="portfolio-image1" >
                                 </a>
