@@ -59,7 +59,7 @@
                     <a href="{{.Site.Params.contact.linkedin }}" target="_blank" style="font-size: 50px; color: black;">
                        <i class="tf-ion-ios-contact"></i>
                     </a>
-                    <h4>Nasze social media</h4>
+                    <h4>Nasze social media</h4> <!-- TODO: remove hard coded labels etc. evfluence -->
                     <ul class="list-inline social-icon">
                         {{ with .Site.Params.contact.facebook }}
                         <li class="list-inline-item">
@@ -97,6 +97,11 @@
                         </li>
                         {{ end }}
                     </ul>
+                    <br>
+                    <h4>Social Media powered by</h4>
+                        <a href="https://evfluence.app/" target="_blank">
+                            <img src="/images/evfluence.png" alt="Evfluence">
+                        </a>
                 </div>
             </div>
         </div>
