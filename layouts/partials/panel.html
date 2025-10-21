@@ -15,7 +15,7 @@
                             <span class="border"></span>
                         {{ end }}
                         {{ with .subtitle }}
-                            <h2>{{ . }}</h2>
+                            <h2>{{ . | safeHTML }}</h2>
                         {{ end }}
                              <h5> Moderator: {{ .moderator}} <a href="#Zespol" style="color: black; text-decoration: underline; font-size: small;"> czytaj więcej </a></h5> 
                         {{ with .message }}
