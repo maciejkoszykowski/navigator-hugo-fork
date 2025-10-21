@@ -44,7 +44,7 @@
                     <br><br><br> 
      
 
-                    {{ if .show_more_msg }}
+                    {{ if .show_more_msg }} <!-- TODO: remove or integrate-->
 
                     <h3 style="font-size: x-large; letter-spacing: 0.1em; padding-left: 12px; color: white;">{{.invite_txt}}</h3>
 
@@ -129,16 +129,36 @@
   justify-content: flex-start; /* default for medium and up */
 }
 
+.date-wrapper {
+  display: flex;
+  gap: 1rem;
+  font-family: sans-serif;
+  text-align: center;
+  justify-content: flex-start; /* default for medium and up */
+}
+
 @media (max-width: 767.98px) {
   .timer-wrapper {
     justify-content: center;
     flex-wrap: wrap; /* optional: allows elements to go to next line */
+  }
+
+  .date-wrapper {
+    justify-content: center;
+    flex-wrap: wrap; /* optional: allows elements to go to next line */
+
   }
 }
 
 </style>
 
 <div id="countdown-target" data-date="{{ .timer_conf_start_date }}" style="display: none;"></div>
+
+<div class="date-wrapper">
+<div class="timer-box" style="margin-bottom: 16px; padding-left: 18px; padding-right: 18px;">
+    <div class="fs-timer-label" id="when">{{ .timer_conf_start_date_human }}</div>    
+</div>
+</div>
 
 <div class="timer-wrapper">
   <div class="timer-box">
