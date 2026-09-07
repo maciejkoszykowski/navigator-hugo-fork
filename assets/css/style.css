@@ -526,7 +526,7 @@ a:focus, a:hover {
 
 .navigation .navbar-nav > li > .nav-link {
   /* color: #b6b8bb; */
-  color: rgb(31, 37, 50);
+  color: #fff;
   font-size: 15px;
   line-height: 26px;
   padding: 20px 15px !important;
