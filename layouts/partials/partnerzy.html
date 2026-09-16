@@ -128,10 +128,26 @@
             <div class="row">
                 {{ range $index, $item := .item }}
                         <!-- p>Even index: {{ $index }} - {{ $item.title }}</p -->
+                    {{ $dimDesktop := "height=\"180\"" }}
+                    {{ if and $item.width $item.height }}
+                        {{ $dimDesktop = printf "width=\"%v\" height=\"%v\"" $item.width $item.height }}
+                    {{ else if $item.width }}
+                        {{ $dimDesktop = printf "width=\"%v\"" $item.width }}
+                    {{ else if $item.height }}
+                        {{ $dimDesktop = printf "height=\"%v\"" $item.height }}
+                    {{ end }}
+                    {{ $dimMobile := "height=\"160\"" }}
+                    {{ if and $item.width_mobile $item.height_mobile }}
+                        {{ $dimMobile = printf "width=\"%v\" height=\"%v\"" $item.width_mobile $item.height_mobile }}
+                    {{ else if $item.width_mobile }}
+                        {{ $dimMobile = printf "width=\"%v\"" $item.width_mobile }}
+                    {{ else if $item.height_mobile }}
+                        {{ $dimMobile = printf "height=\"%v\"" $item.height_mobile }}
+                    {{ end }}
                     {{ if eq (mod $index 2) 0 }}
                        <div class="col-6 text-right d-none d-md-block">
                         <a href="{{ .link | absURL }}" target="_blank">
-                           <img class="x-auto d-block ml-auto " {{ with .width }}width="{{ . }}" {{ end }}height="{{ .height | default 180 }}" src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px;">
+                           <img class="x-auto d-block ml-auto " {{ $dimDesktop | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px;">
                         </a>
                        </div>
 
@@ -139,7 +155,7 @@
                        <!-- p>Odd index: {{ $index }} - {{ $item.title}}</p --->
                        <div class="col-6 text-left d-none d-md-block">
                         <a href="{{ .link | absURL }}" target="_blank">
-                           <img class="x-auto d-block mr-auto " {{ with .width }}width="{{ . }}" {{ end }}height="{{ .height | default 180 }}" src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px; margin-left: 85px;">
+                           <img class="x-auto d-block mr-auto " {{ $dimDesktop | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px; margin-left: 85px;">
                         </a>
                        </div>
                     {{ end }}
@@ -147,7 +163,7 @@
                     <!-- small screen trick  --->
                     <div class="col-sm-12 d-md-none">
                         <a href="{{ .link | absURL }}" target="_blank">
-                        <img class="x-auto d-block mx-auto " {{ with .width_mobile }}width="{{ . }}" {{ end }}height="{{ .height_mobile | default 160 }}" src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 10px;">
+                        <img class="x-auto d-block mx-auto " {{ $dimMobile | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 10px;">
                         </a>
                     </div>
                 {{ end }}
