@@ -141,7 +141,7 @@
                     {{/* Default (no width_mobile/height_mobile given): scale proportionally to
                          the viewport instead of a fixed height, so wide logos don't overflow. */}}
                     {{ $dimMobile := "" }}
-                    {{ $styleMobile := "width: 60%; height: auto;" }}
+                    {{ $styleMobile := "width: 70%; height: auto;" }}
                     {{ if and $item.width_mobile $item.height_mobile }}
                         {{ $dimMobile = printf "width=\"%v\" height=\"%v\"" $item.width_mobile $item.height_mobile }}
                         {{ $styleMobile = "" }}
@@ -179,7 +179,7 @@
                     <!-- small screen trick  --->
                     <div class="col-sm-12 d-md-none">
                         <a href="{{ .link | absURL }}" target="_blank">
-                        <img class="x-auto d-block mx-auto " {{ $dimMobile | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 10px; {{ $styleMobile | safeCSS }}">
+                        <img class="x-auto d-block mx-auto " {{ $dimMobile | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 15vw; {{ $styleMobile | safeCSS }}">
                         </a>
                     </div>
                 {{ end }}
