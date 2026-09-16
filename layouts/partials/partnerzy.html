@@ -147,7 +147,7 @@
                     {{ if eq (mod $index 2) 0 }}
                        <div class="col-6 text-right d-none d-md-block">
                         <a href="{{ .link | absURL }}" target="_blank">
-                           <img class="x-auto d-block ml-auto " {{ $dimDesktop | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px;">
+                           <img class="x-auto d-block ml-auto " {{ $dimDesktop | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px;{{ with $item.padding }} padding-right: {{ . }}px;{{ end }}">
                         </a>
                        </div>
 
@@ -155,7 +155,7 @@
                        <!-- p>Odd index: {{ $index }} - {{ $item.title}}</p --->
                        <div class="col-6 text-left d-none d-md-block">
                         <a href="{{ .link | absURL }}" target="_blank">
-                           <img class="x-auto d-block mr-auto " {{ $dimDesktop | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px; margin-left: 85px;">
+                           <img class="x-auto d-block mr-auto " {{ $dimDesktop | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px; margin-left: 85px;{{ with $item.padding }} padding-left: {{ . }}px;{{ end }}">
                         </a>
                        </div>
                     {{ end }}
