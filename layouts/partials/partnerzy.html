@@ -179,7 +179,7 @@
                     <!-- small screen trick  --->
                     <div class="col-sm-12 d-md-none">
                         <a href="{{ .link | absURL }}" target="_blank">
-                        <img class="x-auto d-block mx-auto " {{ $dimMobile | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 15vw; {{ $styleMobile | safeCSS }}">
+                        <img class="x-auto d-block mx-auto " {{ $dimMobile | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 15vw;{{ with $item.margin_top_mobile }} margin-top: {{ . }}px;{{ end }} {{ $styleMobile | safeCSS }}">
                         </a>
                     </div>
                 {{ end }}
