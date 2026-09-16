@@ -126,8 +126,10 @@
                 </div>
             </div>
             <div class="row">
+                {{ $itemTotal := len .item }}
                 {{ range $index, $item := .item }}
                         <!-- p>Even index: {{ $index }} - {{ $item.title }}</p -->
+                    {{ $isLastUnpaired := and (eq $index (sub $itemTotal 1)) (eq (mod $itemTotal 2) 1) }}
                     {{ $dimDesktop := "height=\"180\"" }}
                     {{ if and $item.width $item.height }}
                         {{ $dimDesktop = printf "width=\"%v\" height=\"%v\"" $item.width $item.height }}
@@ -144,7 +146,15 @@
                     {{ else if $item.height_mobile }}
                         {{ $dimMobile = printf "height=\"%v\"" $item.height_mobile }}
                     {{ end }}
-                    {{ if eq (mod $index 2) 0 }}
+                    {{ if $isLastUnpaired }}
+                       <!-- last item with no partner to pair with: center it on the full row -->
+                       <div class="col-12 text-center d-none d-md-block">
+                        <a href="{{ .link | absURL }}" target="_blank">
+                           <img class="x-auto d-block mx-auto " {{ $dimDesktop | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px;">
+                        </a>
+                       </div>
+
+                    {{ else if eq (mod $index 2) 0 }}
                        <div class="col-6 text-right d-none d-md-block">
                         <a href="{{ .link | absURL }}" target="_blank">
                            <img class="x-auto d-block ml-auto " {{ $dimDesktop | safeHTMLAttr }} src="{{ .image | absURL }}" alt="portfolio-image" style="margin-bottom: 24px;{{ with $item.padding }} padding-right: {{ . }}px;{{ end }}">
