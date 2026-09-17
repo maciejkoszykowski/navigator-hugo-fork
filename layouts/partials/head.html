@@ -57,6 +57,49 @@
 <meta name="twitter:description" content="{{ $ogDescription }}">
 <meta name="twitter:image" content="{{ `images/og-image.png` | absURL }}">
 
+{{ if .IsHome }}
+{{ "<!-- Structured data (schema.org Event): lets Google show date/venue/price directly in search results -->" | safeHTML }}
+{{ $data := index .Site.Data }}
+{{ $eventData := dict
+  "@context" "https://schema.org"
+  "@type" "Event"
+  "name" "PM Connect Conf 2026"
+  "startDate" "2026-10-24T10:00:00+02:00"
+  "eventAttendanceMode" "https://schema.org/OfflineEventAttendanceMode"
+  "eventStatus" "https://schema.org/EventScheduled"
+  "description" $ogDescription
+  "image" (slice (`images/og-image.png` | absURL))
+  "location" (dict
+    "@type" "Place"
+    "name" "Wydział Nauk Ekonomicznych i Zarządzania UMK w Toruniu"
+    "address" (dict
+      "@type" "PostalAddress"
+      "streetAddress" "ul. Gagarina 13a"
+      "postalCode" "87-100"
+      "addressLocality" "Toruń"
+      "addressCountry" "PL"
+    )
+  )
+  "organizer" (dict
+    "@type" "Organization"
+    "name" "PMI Poland Chapter — Kujawsko-Pomorskie Branch"
+    "url" .Site.BaseURL
+  )
+}}
+{{ with $data.bilety }}{{ with index .item 0 }}
+  {{ $eventData = merge $eventData (dict "offers" (dict
+    "@type" "Offer"
+    "url" .btnURL
+    "priceCurrency" "PLN"
+    "price" (replaceRE "[^0-9]" "" .price)
+    "availability" "https://schema.org/InStock"
+  )) }}
+{{ end }}{{ end }}
+<script type="application/ld+json">
+{{ $eventData | jsonify (dict "indent" "  ") | safeJS }}
+</script>
+{{ end }}
+
 {{ "<!-- Mobile Specific Meta -->" | safeHTML }}
 <meta name="viewport" content="width=device-width, initial-scale=1">
   
