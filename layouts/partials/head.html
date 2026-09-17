@@ -27,8 +27,22 @@
 <!-- End Google Tag Manager -->
     
 
+{{/* Short, search/social-optimized title + description (~150-160 char sweet spot, since
+     Google/Facebook/LinkedIn truncate well before the full site description ends) - used for
+     <title>, og:*, twitter:*. The long site description (config.toml) is kept as-is for the
+     schema.org Event description below, where length isn't flagged as an issue. */}}
+{{ $pageTitle := .Title }}
+{{ $shortDescription := "" }}
+{{ with .Description }}{{ $shortDescription = . }}{{ end }}
+{{ if and .IsHome (not .Description) }}
+  {{ $pageTitle = "PM Connect Conf 2026 — Konferencja PM w erze AI, 24.10 Toruń" }}
+  {{ $shortDescription = "PM Connect Conf 2026 — konferencja PMI Poland Chapter i UMK w Toruniu o zarządzaniu projektami w erze AI. 24 października 2026, Toruń." }}
+{{ else if not $shortDescription }}
+  {{ with .Site.Params.description }}{{ $shortDescription = . }}{{ end }}
+{{ end }}
+
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}">
+<meta name="description" content="{{ $shortDescription }}">
 {{ with .Site.Params.author }} <meta name="author" content="{{ . }}">{{ end }}
 
 {{ "<!-- Canonical URL: tells search engines which URL is the authoritative one for this page, -->" | safeHTML }}
@@ -36,15 +50,16 @@
 <link rel="canonical" href="{{ .Permalink }}">
 {{ hugo.Generator }}
 
-<title>{{ .Title }}</title>
+<title>{{ $pageTitle }}</title>
 
 {{ "<!-- Open Graph / social share preview (Facebook, LinkedIn, Messenger, Slack, ...) -->" | safeHTML }}
+{{/* Full-length description, only for the schema.org Event JSON-LD below - not truncated there. */}}
 {{ $ogDescription := "" }}
 {{ with .Description }}{{ $ogDescription = . }}{{ else }}{{ with .Site.Params.description }}{{ $ogDescription = . }}{{ end }}{{ end }}
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="{{ .Site.Title }}">
-<meta property="og:title" content="{{ .Title }}">
-<meta property="og:description" content="{{ $ogDescription }}">
+<meta property="og:title" content="{{ $pageTitle }}">
+<meta property="og:description" content="{{ $shortDescription }}">
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:image" content="{{ `images/og-image.png` | absURL }}">
 <meta property="og:image:width" content="1200">
@@ -53,8 +68,8 @@
 
 {{ "<!-- Twitter/X Card -->" | safeHTML }}
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ .Title }}">
-<meta name="twitter:description" content="{{ $ogDescription }}">
+<meta name="twitter:title" content="{{ $pageTitle }}">
+<meta name="twitter:description" content="{{ $shortDescription }}">
 <meta name="twitter:image" content="{{ `images/og-image.png` | absURL }}">
 
 {{ if .IsHome }}
