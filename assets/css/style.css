@@ -1486,6 +1486,7 @@ a:focus, a:hover {
 .team-member {
   background: #fff;
   margin-bottom: 15px;
+  height: 100%;
 }
 
 .team-member:hover img {

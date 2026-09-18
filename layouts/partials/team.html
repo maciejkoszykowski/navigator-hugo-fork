@@ -41,7 +41,7 @@
                             </div>
                             {{ "<!-- member name & designation -->" | safeHTML }}
                             <div class="member-content">
-                                <h3>{{ .name }}</h3>
+                                <h3>{{ .name | safeHTML }}</h3>
                                 <span>{{ .designation }}</span>
                                 <br> <br>
                                 <button type="button" 
@@ -53,6 +53,9 @@
                                 title="Opis" 
                                 data-content="{{ .description }}">Poznaj bliżej ... </button>
                                 <br> <br>
+                                {{ with index . "noLink-2line" }}
+                                <br> <br>
+                                {{ end }}
                                 <ul class="list-inline">
                                     {{ with .linkedInURL  }}
                                     <li class="list-inline-item">
@@ -75,7 +78,7 @@
                                         </a>
                                     </li>
                                     {{ end }}
-                                    
+
                                     {{ with .twitterURL }}
                                     <li class="list-inline-item">
                                         <a href="{{.}}">
@@ -128,7 +131,7 @@
                             </div>
                             {{ "<!-- member name & designation -->" | safeHTML }}
                             <div class="member-content">
-                                <h3>{{ .name }}</h3>
+                                <h3>{{ .name | safeHTML }}</h3>
                                 <span>{{ .designation }}</span>
                                 <br> <br>
                                 <button type="button" 
@@ -140,6 +143,9 @@
                                 title="Opis" 
                                 data-content="{{ .description }}">Poznaj bliżej ... </button>
                                 <br> <br>
+                                {{ with index . "noLink-2line" }}
+                                <br> <br>
+                                {{ end }}
                                 <ul class="list-inline">
                                     {{ with .linkedInURL  }}
                                     <li class="list-inline-item">
@@ -162,7 +168,7 @@
                                         </a>
                                     </li>
                                     {{ end }}
-                                    
+
                                     {{ with .twitterURL }}
                                     <li class="list-inline-item">
                                         <a href="{{.}}">
@@ -219,7 +225,7 @@
                             </div>
                             {{ "<!-- member name & designation -->" | safeHTML }}
                             <div class="member-content">
-                                <h3>{{ .name }}</h3>
+                                <h3>{{ .name | safeHTML }}</h3>
                                 <span >{{ .designation }}</span>
                                 <br> <br>
                                 <button type="button" 
@@ -233,6 +239,9 @@
                                 <br> <br>
                                 {{ with .noLink }}
                                 <br>
+                                {{ end }}
+                                {{ with index . "noLink-2line" }}
+                                <br> <br>
                                 {{ end }}
                                 <ul class="list-inline">
                                     {{ with .linkedInURL  }}
@@ -313,7 +322,7 @@
                             </div>
                             {{ "<!-- member name & designation -->" | safeHTML }}
                             <div class="member-content">
-                                <h3>{{ .name }}</h3>
+                                <h3>{{ .name | safeHTML }}</h3>
                                 <span>{{ .designation }}</span>
                                 <br> <br>
                                 <button type="button" 
@@ -325,6 +334,9 @@
                                 title="Opis" 
                                 data-content="{{ .description }}">Poznaj bliżej ... </button>
                                 <br> <br>
+                                {{ with index . "noLink-2line" }}
+                                <br> <br>
+                                {{ end }}
                                 <ul class="list-inline">
                                     {{ with .linkedInURL  }}
                                     <li class="list-inline-item">
@@ -347,7 +359,7 @@
                                         </a>
                                     </li>
                                     {{ end }}
-                                    
+
                                     {{ with .twitterURL }}
                                     <li class="list-inline-item">
                                         <a href="{{.}}">
