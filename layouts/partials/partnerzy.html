@@ -195,12 +195,15 @@
                 </div>
             </div>
             <div class="row">
-                {{ range .media }}
-                    
-                            
-                            {{ if .small_support }}  <!-- TODO: support single and multiple probably others above too! -->
-                            <div class="col-6 d-none d-md-block">
-                                <a href="{{ .link | absURL }}" target="_blank">  
+                {{ $mediaTotal := len .media }}
+                {{ range $index, $m := .media }}
+                    {{/* odd count: the last logo has no partner to pair with, so it takes the
+                         whole row and stays centered instead of hugging the left half */}}
+                    {{ $isLastUnpaired := and (eq $index (sub $mediaTotal 1)) (eq (mod $mediaTotal 2) 1) }}
+
+                            {{ if .small_support }}
+                            <div class="{{ if $isLastUnpaired }}col-12 text-center{{ else }}col-6{{ end }} d-none d-md-block">
+                                <a href="{{ .link | absURL }}" target="_blank">
                                   <img class="x-auto mx-auto d-none d-md-block" src="{{ .image | absURL }}" alt="portfolio-image1" >
                                 </a>
                             </div>
