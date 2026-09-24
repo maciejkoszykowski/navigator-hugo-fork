@@ -149,7 +149,9 @@
 <link rel="stylesheet" href="{{ `plugins/slick-carousel/slick/slick-theme.css` | absURL }}">
 {{ "<!-- Main Stylesheet -->" | safeHTML }}
 
-{{ $styles := resources.Get "css/style.css" | minify}}
-<link rel="stylesheet" href="{{ $styles.Permalink }}" media="screen">
+{{ "<!-- Fingerprinted: filename changes whenever style.css changes, so after you upload an -->" | safeHTML }}
+{{ "<!-- update, visitors' browsers fetch the new file instead of serving an old cached copy -->" | safeHTML }}
+{{ $styles := resources.Get "css/style.css" | minify | fingerprint }}
+<link rel="stylesheet" href="{{ $styles.RelPermalink }}" integrity="{{ $styles.Data.Integrity }}" media="screen">
 
 </head>
