@@ -32,6 +32,27 @@
 		// }, 500);*/
 
 		/* ========================================================================= */
+		/*	Galeria: filtr zdjęć wg roku
+		/* =========================================================================  */
+		$('#galeria .filtr-control').on('click', function () {
+			var filter = String($(this).data('filter'));
+			$('#galeria .filtr-control').removeClass('active');
+			$(this).addClass('active');
+			$('#galeria .filtr-item').each(function () {
+				var show = filter === 'all' || String($(this).data('category')) === filter;
+				$(this).toggle(show);
+				// lightbox przewija tylko zdjęcia widoczne po filtrze
+				$(this).find('a[data-lightbox]').attr('data-lightbox', show ? 'galeria' : 'galeria-ukryte');
+			});
+		});
+		// start z filtrem oznaczonym w szablonie jako aktywny (najnowszy rok)
+		$('#galeria .filtr-control.active').trigger('click');
+
+		if (typeof lightbox !== 'undefined') {
+			lightbox.option({ albumLabel: 'Zdjęcie %1 z %2' });
+		}
+
+		/* ========================================================================= */
 		/*	Testimonial Carousel
 		/* =========================================================================  */
 
