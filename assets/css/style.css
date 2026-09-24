@@ -1975,3 +1975,123 @@ Prelegenci
   
 }
 
+
+/*=================================================================
+  Galeria: pasek zdjęć na stronie głównej (pod hero)
+==================================================================*/
+.galeria-pasek {
+  padding: 60px 0 40px;
+}
+
+/* nagłówek jak w sekcji Prelegenci (.about h2) */
+.galeria-pasek h2 {
+  font-size: 40px;
+  margin-top: 0;
+}
+
+@media (max-width: 992px) {
+  .galeria-pasek h2 {
+    font-size: 25px;
+  }
+}
+
+.galeria-pasek-wrap {
+  position: relative;
+}
+
+.galeria-pasek-track {
+  display: flex;
+  height: 300px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.galeria-pasek-track::-webkit-scrollbar {
+  display: none;
+}
+
+.galeria-pasek-item {
+  position: relative;
+  flex: 0 0 auto;
+  height: 100%;
+}
+
+.galeria-pasek-item img {
+  display: block;
+  height: 100%;
+  width: auto;
+}
+
+.galeria-pasek-year {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.galeria-pasek-arrow {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  margin-top: -22px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.85);
+  color: #232323;
+  font-size: 30px;
+  line-height: 40px;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.galeria-pasek-arrow:hover {
+  background: #fff;
+  color: #AA2896;
+}
+
+.galeria-pasek-prev {
+  left: 16px;
+}
+
+.galeria-pasek-next {
+  right: 16px;
+}
+
+.galeria-pasek-link {
+  padding-top: 20px;
+}
+
+.galeria-pasek-link a {
+  color: #AA2896;
+  font-weight: 600;
+}
+
+@media (max-width: 767px) {
+  .galeria-pasek {
+    padding: 40px 0 30px;
+  }
+
+  .galeria-pasek-track {
+    height: 220px;
+  }
+
+  /* krótszy wiersz na telefonie — mniejsze ryzyko łamania tytułu */
+  .galeria-pasek h2 {
+    font-size: 20px;
+  }
+
+  .galeria-pasek-arrow {
+    display: none;
+  }
+}

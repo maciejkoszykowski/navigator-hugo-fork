@@ -53,6 +53,92 @@
 		}
 
 		/* ========================================================================= */
+		/*	Galeria: pasek zdjęć na stronie głównej
+		/* =========================================================================  */
+		$('.galeria-pasek-track').each(function () {
+			var track = this;
+			var base = $(track).data('base');
+			var count = parseInt($(track).data('count'), 10) || 20;
+			var photos = $(track).data('photos') || []; // {y: rok, n: numer, w: szerokość, h: wysokość}
+
+			// losowy wybór przy każdym wejściu na stronę (Fisher–Yates)
+			for (var i = photos.length - 1; i > 0; i--) {
+				var j = Math.floor(Math.random() * (i + 1));
+				var tmp = photos[i]; photos[i] = photos[j]; photos[j] = tmp;
+			}
+			photos = photos.slice(0, count);
+			if (!photos.length) {
+				$(track).closest('.galeria-pasek').hide();
+				return;
+			}
+
+			// dwa takie same zestawy obok siebie = pętla bez końca przy automatycznym przesuwaniu;
+			// każdy zestaw ma własną grupę lightboxa, więc w powiększeniu jest zawsze "z 20"
+			function addSet(group, eager) {
+				photos.forEach(function (p, idx) {
+					var a = $('<a class="galeria-pasek-item"></a>')
+						.attr('href', base + p.y + '/web/' + p.n + '.jpg')
+						.attr('data-lightbox', group);
+					$('<img>')
+						.attr({
+							src: base + p.y + '/thumbnails/' + p.n + '_thumb.jpg',
+							alt: 'PMCC ' + p.y + ' – zdjęcie ' + p.n,
+							width: p.w,
+							height: p.h,
+							loading: eager && idx < 6 ? 'eager' : 'lazy'
+						})
+						.appendTo(a);
+					$('<span class="galeria-pasek-year"></span>').text(p.y).appendTo(a);
+					$(track).append(a);
+				});
+			}
+			addSet('pasek', true);
+			addSet('pasek-kopia', false);
+
+			// automatyczne przesuwanie; pauza przy dotyku, najechaniu myszą i strzałkach
+			var speed = 0.5; // px na klatkę (~30 px/s)
+			var pos = 0;
+			var pausedUntil = 0;
+			var hover = false;
+			var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+			function pause(ms) {
+				pausedUntil = Date.now() + ms;
+			}
+
+			function step() {
+				if (!hover && Date.now() > pausedUntil) {
+					var half = track.scrollWidth / 2;
+					if (Math.abs(track.scrollLeft - pos) > 2) {
+						pos = track.scrollLeft; // ktoś przesunął ręcznie — jedziemy dalej od tego miejsca
+					}
+					pos += speed;
+					if (half > 0 && pos >= half) {
+						pos -= half;
+					}
+					track.scrollLeft = pos;
+				}
+				window.requestAnimationFrame(step);
+			}
+
+			// tylko prawdziwa mysz — na telefonie stuknięcie nie kończy się "zjechaniem" z paska
+			$(track).on('pointerenter', function (e) { if (e.originalEvent.pointerType === 'mouse') hover = true; });
+			$(track).on('pointerleave', function () { hover = false; });
+			$(track).on('touchstart pointerdown wheel', function () { pause(4000); });
+
+			var wrap = $(track).closest('.galeria-pasek-wrap');
+			wrap.find('.galeria-pasek-prev, .galeria-pasek-next').on('click', function () {
+				var dir = $(this).hasClass('galeria-pasek-prev') ? -1 : 1;
+				pause(4000);
+				track.scrollBy({ left: dir * track.clientWidth * 0.8, behavior: 'smooth' });
+			});
+
+			if (!reduceMotion) {
+				window.requestAnimationFrame(step);
+			}
+		});
+
+		/* ========================================================================= */
 		/*	Testimonial Carousel
 		/* =========================================================================  */
 

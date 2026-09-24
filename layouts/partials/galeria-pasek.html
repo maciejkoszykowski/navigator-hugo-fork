@@ -1,0 +1,48 @@
+{{/* Pasek zdjęć na stronie głównej. Losowanie zdjęć robi JS (script.js) przy każdym wejściu.
+     Wymiary miniatur czytamy przy budowaniu z static/galeria/ — dzięki nim pasek się nie przesuwa
+     podczas ładowania zdjęć. Brak pliku lokalnie = zakładamy proporcję 3:2. */}}
+{{ with .Site.Data.galeria }}
+{{ with .pasek }}{{ if .enable }}
+    {{ $photos := slice }}
+    {{ range $.Site.Data.galeria.item }}
+        {{ $year := string .title }}
+        {{ range seq .image_count }}
+            {{ $w := 600 }}{{ $h := 400 }}
+            {{ $path := printf "static/galeria/%s/thumbnails/%d_thumb.jpg" $year . }}
+            {{ if fileExists $path }}
+                {{ with images.Config $path }}{{ $w = .Width }}{{ $h = .Height }}{{ end }}
+            {{ end }}
+            {{ $photos = $photos | append (dict "y" $year "n" . "w" $w "h" $h) }}
+        {{ end }}
+    {{ end }}
+    {{ "<!-- Start Galeria Pasek -->" | safeHTML }}
+    <section class="galeria-pasek bg-gray" id="galeria-pasek">
+        {{/* nagłówek w tym samym stylu co sekcja Prelegenci */}}
+        <div class="container">
+            <div class="title text-center">
+                {{ with .topTitle }}
+                    <h4>{{ . }}</h4>
+                {{ end }}
+                {{ with .title }}
+                    <h2>{{ . }}</h2>
+                    <span class="border"></span>
+                {{ end }}
+            </div>
+        </div>
+        <div class="galeria-pasek-wrap">
+            <button class="galeria-pasek-arrow galeria-pasek-prev" type="button" aria-label="Poprzednie zdjęcia">&#8249;</button>
+            <div class="galeria-pasek-track"
+                 data-base="{{ "galeria/" | relURL }}"
+                 data-count="{{ .count | default 20 }}"
+                 data-photos="{{ $photos | jsonify }}"></div>
+            <button class="galeria-pasek-arrow galeria-pasek-next" type="button" aria-label="Następne zdjęcia">&#8250;</button>
+        </div>
+        {{ with .link_text }}
+        <div class="text-center galeria-pasek-link">
+            <a href="{{ "galeria/" | relURL }}">{{ . }}</a>
+        </div>
+        {{ end }}
+    </section>
+    {{ "<!-- End Galeria Pasek -->" | safeHTML }}
+{{ end }}{{ end }}
+{{ end }}
