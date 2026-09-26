@@ -142,15 +142,23 @@
 <link rel="apple-touch-icon" sizes="180x180" href="{{ `images/apple-touch-icon.png` | absURL }}">
 
 {{"<!-- Stylesheets -->" | safeHTML}}
+{{/* Szybkość na telefonie: czcionka Google i CSS potrzebne dopiero później (lightbox, slick) ładują się
+     bez blokowania wyświetlania strony (media="print" -> "all" po pobraniu). Czcionka z display=swap:
+     tekst od razu w czcionce zastępczej, Titillium Web podmienia się po pobraniu. */}}
+{{ "<!-- Google Fonts: Titillium Web -->" | safeHTML }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Titillium+Web:wght@300;400;600;700&display=swap"></noscript>
 {{ "<!-- Themefisher Icon font -->" | safeHTML }}
 <link rel="stylesheet" href="{{ `plugins/themefisher-font/style.css` | absURL }}">
 {{ "<!-- bootstrap.min css -->" | safeHTML}}
 <link rel="stylesheet" href="{{ `plugins/bootstrap/dist/css/bootstrap.min.css` | absURL }}">
 {{ "<!-- Lightbox.min css -->" | safeHTML }}
-<link rel="stylesheet" href="{{ `plugins/lightbox2/dist/css/lightbox.min.css` | absURL }}">
+<link rel="stylesheet" href="{{ `plugins/lightbox2/dist/css/lightbox.min.css` | absURL }}" media="print" onload="this.media='all'">
 {{ "<!-- Slick Carousel -->" | safeHTML }}
-<link rel="stylesheet" href="{{ `plugins/slick-carousel/slick/slick.css` | absURL }}">
-<link rel="stylesheet" href="{{ `plugins/slick-carousel/slick/slick-theme.css` | absURL }}">
+<link rel="stylesheet" href="{{ `plugins/slick-carousel/slick/slick.css` | absURL }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ `plugins/slick-carousel/slick/slick-theme.css` | absURL }}" media="print" onload="this.media='all'">
 {{ "<!-- Main Stylesheet -->" | safeHTML }}
 
 {{ "<!-- Fingerprinted: filename changes whenever style.css changes, so after you upload an -->" | safeHTML }}

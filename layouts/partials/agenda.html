@@ -115,7 +115,7 @@ function toggleCollapse(id) {
                                                 <span class="d-none d-md-block"> &nbsp; </span>
 
                                                 {{ if eq true $showOnDesktop }}
-                                                   <img src="/images/{{ .icon }}" alt="{{ index $.Site.Data.agenda.icon_alt .icon | default "" }}" width="28" height="28" />
+                                                   <img loading="lazy" src="/images/{{ .icon }}" alt="{{ index $.Site.Data.agenda.icon_alt .icon | default "" }}" width="28" height="28" />
                                                     &nbsp;&nbsp;
                                                 {{end}}
 
@@ -221,7 +221,7 @@ function toggleCollapse(id) {
                                             <div class="row">
                                                 <div class="col-auto text-white p-2">
                                                    {{ if .icon}}
-                                                       <img src="/images/{{ .icon }}" alt="{{ index $.Site.Data.agenda.icon_alt .icon | default "" }}" width="28" height="28" />
+                                                       <img loading="lazy" src="/images/{{ .icon }}" alt="{{ index $.Site.Data.agenda.icon_alt .icon | default "" }}" width="28" height="28" />
                                                    {{end}}
                                                 </div>
                                                 <div class="col text-white p-2">

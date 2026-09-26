@@ -28,7 +28,7 @@
                     <div class="row mb-50 justify-content-center align-items-start">
                         <div class="col-md-2 col-sm-12 text-center offset-md-1"
                              style="padding-top: 9px; padding-bottom: 50px;" >
-                            <img src="{{ .image | absURL }}" 
+                            <img loading="lazy" src="{{ .image | absURL }}" 
                             class="img-fluid rounded shadow" 
                             alt="{{ .name | replaceRE `\s*<br\s*/?>\s*` " " | plainify }}">
                         </div>
