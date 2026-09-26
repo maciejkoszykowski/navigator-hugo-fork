@@ -3,13 +3,15 @@
      Przegląd stron: skrypt na dole pobiera każdą stronę serwisu i sprawdza jej kod HTML.
      Szybkość: Google PageSpeed Insights, uruchamiany przyciskiem (test trwa ok. 30 s). */}}
 {{ with .Site.Data.statystyki }}{{ if .enable }}
-    {{/* lista stron do sprawdzenia: strona główna, podstrony i sekcje (bez tagów/kategorii i bez tej strony) */}}
+    {{/* lista stron do sprawdzenia: strona główna, podstrony i sekcje (bez tagów/kategorii),
+         plus strony spoza Hugo z data/statystyki.yml (extra_pages), np. 404 i changelog */}}
     {{ $pages := slice }}
     {{ range where $.Site.Pages "Kind" "in" (slice "home" "page" "section") }}
-        {{ if ne .RelPermalink $.RelPermalink }}
-            {{ $hidden := or .Params.noindex (and .Params.sitemap .Params.sitemap.disable) }}
-            {{ $pages = $pages | append (dict "url" .RelPermalink "name" (cond .IsHome "Strona główna" (.Title | default .RelPermalink)) "hidden" (not (not $hidden))) }}
-        {{ end }}
+        {{ $hidden := or .Params.noindex (and .Params.sitemap .Params.sitemap.disable) }}
+        {{ $pages = $pages | append (dict "url" .RelPermalink "name" (cond .IsHome "Strona główna" (.Title | default .RelPermalink)) "hidden" (not (not $hidden))) }}
+    {{ end }}
+    {{ range .extra_pages }}
+        {{ $pages = $pages | append (dict "url" .url "name" .name "hidden" (not (not .hidden)) "error" (not (not .error))) }}
     {{ end }}
 
     {{ "<!-- Start Statystyki SEO -->" | safeHTML }}
@@ -206,7 +208,11 @@
 
     // ---------- przegląd stron ----------
     function audit(page) {
-        return fetch(page.url, { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (html) {
+        return fetch(page.url, { cache: 'no-store' }).then(function (r) {
+            // strona 404 zwraca kod błędu z założenia; inne strony z kodem błędu = brak pliku na serwerze
+            if (!r.ok && !page.error) throw r.status;
+            return r.text();
+        }).then(function (html) {
             var doc = new DOMParser().parseFromString(html, 'text/html');
             var meta = function (sel) { var m = doc.querySelector(sel); return m ? (m.getAttribute('content') || '').trim() : ''; };
             var imgs = Array.prototype.slice.call(doc.querySelectorAll('img'));
@@ -233,7 +239,7 @@
                 badImgs: badImgs,
                 kb: Math.round(new Blob([html]).size / 1024)
             };
-        }).catch(function () { return { page: page, error: true }; });
+        }).catch(function (status) { return { page: page, fetchError: true, status: status }; });
     }
 
     Promise.all(pages.map(audit)).then(function (results) {
@@ -242,9 +248,18 @@
 
         results.forEach(function (r) {
             var name = '<a href="' + esc(r.page.url) + '" target="_blank">' + esc(r.page.name) + '</a><br><small>' + esc(r.page.url) + '</small>';
-            if (r.error) { rows += '<tr><td>' + name + '</td>' + cell('bad', 'nie udało się pobrać') + '<td colspan="6"></td></tr>'; return; }
+            if (r.fetchError) {
+                var why = r.status === 404 ? 'brak pliku na serwerze' : 'nie udało się pobrać';
+                rows += '<tr><td>' + name + '</td>' + cell(r.page.hidden ? 'info' : 'bad', why) + '<td colspan="6"></td></tr>';
+                return;
+            }
 
-            var isPublic = !r.noindex && !r.page.hidden;
+            var isPublic = !r.noindex && !r.page.hidden && !r.page.error;
+            // widoczność w Google: strona błędu, ukryta (noindex), albo miała być ukryta, a nie ma noindex
+            var vis = r.page.error ? cell('info', 'nie (strona błędu)')
+                : r.noindex ? cell('info', 'nie (ukryta)')
+                : r.page.hidden ? cell('bad', 'tak — a miała być ukryta!', 'Brak <meta name="robots" content="noindex"> w kodzie strony')
+                : cell('ok', 'tak');
             var tS = lenStatus(r.title.length, 30, 60, 10, 70);
             var dS = lenStatus(r.desc.length, 70, 160, 50, 200);
             var hS = r.h1 === 1 ? 'ok' : 'warn';
@@ -263,7 +278,7 @@
             }
 
             rows += '<tr><td>' + name + '</td>' +
-                cell(isPublic ? 'ok' : 'info', isPublic ? 'tak' : 'nie (ukryta)') +
+                vis +
                 cell(tS, r.title.length + ' zn.', r.title) +
                 cell(dS, r.desc.length ? r.desc.length + ' zn.' : 'brak', r.desc) +
                 cell(hS, r.h1 === 1 ? '1' : r.h1 + (r.h1 === 0 ? ' (brak)' : ' (za dużo)'), 'Najlepiej dokładnie jeden nagłówek H1 na stronie') +
