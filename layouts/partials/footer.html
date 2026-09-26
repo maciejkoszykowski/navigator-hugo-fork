@@ -36,6 +36,48 @@
 </footer>
 {{ "<!-- end footer -->" | safeHTML }}
 
+<!-- cookie -->
+{{/* Baner cookies bez jQuery i js.cookie, przed skryptami: pokazuje się od razu, nie czeka na resztę strony
+     (na telefonie to największy element ekranu - liczy się do wyniku LCP w PageSpeed). */}}
+{{ if site.Params.cookies.enable }}
+<!-- cookie style -->
+<style>
+.cookie-box {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  text-align: center;
+  z-index: 9999;
+  padding: 1rem 2rem;
+  background: rgb(71, 71, 71);
+  transition: all .75s cubic-bezier(.19, 1, .22, 1);
+  color: #fdfdfd;
+}
+
+.cookie-box-hide {
+  display: none;
+}
+</style>
+<div id="js-cookie-box" class="cookie-box cookie-box-hide">
+	Ta strona używa plików cookie. Kontynuując korzystanie z tej strony internetowej, zgadzasz się na ich użycie. Szczegóły w pliku dostępnym w stópce strony.<span id="js-cookie-button" class="btn btn-sm btn-outline-primary ml-2">Akceptuje</span>
+</div>
+<script>
+	(function () {
+		var cookieBox = document.getElementById('js-cookie-box');
+		var cookieButton = document.getElementById('js-cookie-button');
+		if (!/(^|;\s*)cookie-box=/.test(document.cookie)) {
+			cookieBox.classList.remove('cookie-box-hide');
+			cookieButton.onclick = function () {
+				var expires = new Date(Date.now() + {{ site.Params.cookies.expire_days }} * 864e5).toUTCString();
+				document.cookie = 'cookie-box=true; expires=' + expires + '; path=/';
+				cookieBox.classList.add('cookie-box-hide');
+			};
+		}
+	})();
+</script>
+{{ end }}
+
 
 {{ "<!-- Essential Scripts -->" | safeHTML }}
 
@@ -70,45 +112,4 @@
 </script>
 
 
-<!-- cookie -->
-{{ if site.Params.cookies.enable }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.1/js.cookie.min.js"></script>
-<div id="js-cookie-box" class="cookie-box cookie-box-hide">
-	Ta strona używa plików cookie. Kontynuując korzystanie z tej strony internetowej, zgadzasz się na ich użycie. Szczegóły w pliku dostępnym w stópce strony.<span id="js-cookie-button" class="btn btn-sm btn-outline-primary ml-2">Akceptuje</span>
-</div>
-<script>
-	(function ($) {
-		const cookieBox = document.getElementById('js-cookie-box');
-		const cookieButton = document.getElementById('js-cookie-button');
-		if (!Cookies.get('cookie-box')) {
-			cookieBox.classList.remove('cookie-box-hide');
-			cookieButton.onclick = function () {
-				Cookies.set('cookie-box', true, {
-					expires: {{ site.Params.cookies.expire_days }}
-				});
-				cookieBox.classList.add('cookie-box-hide');
-			};
-		}
-	})(jQuery);
-</script>
 
-<!-- cookie style -->
-<style>
-.cookie-box {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  text-align: center;
-  z-index: 9999;
-  padding: 1rem 2rem;
-  background: rgb(71, 71, 71);
-  transition: all .75s cubic-bezier(.19, 1, .22, 1);
-  color: #fdfdfd;
-}
-
-.cookie-box-hide {
-  display: none;
-}
-</style>
-{{ end }}
