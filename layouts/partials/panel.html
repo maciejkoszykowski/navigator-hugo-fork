@@ -30,7 +30,7 @@
                              style="padding-top: 9px; padding-bottom: 50px;" >
                             <img src="{{ .image | absURL }}" 
                             class="img-fluid rounded shadow" 
-                            alt="about-image">
+                            alt="{{ .name | replaceRE `\s*<br\s*/?>\s*` " " | plainify }}">
                         </div>
                         <div class="col-md-8 col-sm-12">
                             <div class="content" style="padding-top: 0px; margin-top: 0px;">

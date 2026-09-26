@@ -23,7 +23,7 @@
                     <div class="col-12 col-md-3 col-sm-6">
                         <div class="team-member text-center">
                             <div class="member-photo">
-                                <img class="img-fluid" src="{{.image | absURL }}" alt="team people">
+                                <img class="img-fluid" src="{{.image | absURL }}" alt="{{ .name | replaceRE `\s*<br\s*/?>\s*` " " | plainify }}">
                             </div>
                             {{ "<!-- member name & designation -->" | safeHTML }}
                             <div class="member-content">
