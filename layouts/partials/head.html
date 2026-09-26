@@ -32,6 +32,8 @@
      <title>, og:*, twitter:*. The long site description (config.toml) is kept as-is for the
      schema.org Event description below, where length isn't flagged as an issue. */}}
 {{ $pageTitle := .Title }}
+{{/* seo_title w front matter: tytuł tylko dla Google i social media, widoczny nagłówek strony zostaje .Title */}}
+{{ with .Params.seo_title }}{{ $pageTitle = . }}{{ end }}
 {{ $shortDescription := "" }}
 {{ with .Description }}{{ $shortDescription = . }}{{ end }}
 {{ if and .IsHome (not .Description) }}
