@@ -15,8 +15,7 @@
     {{ "<!-- Start Statystyki SEO -->" | safeHTML }}
     <section class="statystyki-seo" id="statystyki-seo"
              data-pages="{{ $pages | jsonify }}"
-             data-site="{{ $.Site.BaseURL }}"
-             data-psi-key="{{ .psi_key }}">
+             data-site="{{ .psi_url | default $.Site.BaseURL }}">
         <div class="container">
             <div class="title text-center">
                 {{ with .topTitle }}
@@ -133,7 +132,7 @@
                        Wyniki 90–100 są dobre, 50–89 do poprawy, poniżej 50 słabe.</p>
                     <div id="seo-speed-details"><p class="seo-muted">Test jeszcze nie był uruchomiony.</p></div>
                     <p class="seo-links">
-                        <a href="https://pagespeed.web.dev/analysis?url={{ $.Site.BaseURL | urlquery }}" target="_blank" rel="noopener">Pełny raport PageSpeed →</a>
+                        <a href="https://pagespeed.web.dev/analysis?url={{ $.Site.Data.statystyki.psi_url | default $.Site.BaseURL | urlquery }}" target="_blank" rel="noopener">Pełny raport PageSpeed →</a>
                     </p>
                 </div>
             </details>
@@ -154,7 +153,6 @@
     if (!root) return;
     var pages = JSON.parse(root.getAttribute('data-pages') || '[]');
     var site = root.getAttribute('data-site');
-    var psiKey = root.getAttribute('data-psi-key');
 
     // ogólnikowe opisy alt z motywu — liczą się jak brak opisu
     var GENERIC_ALT = ['logo', 'image', 'img', 'obrazek', 'zdjęcie', 'team people', 'portfolio-image', 'photo'];
@@ -294,9 +292,15 @@
                     'total-blocking-time': 'Czas blokady strony (TBT)', 'cumulative-layout-shift': 'Przesunięcia układu (CLS)' };
     function scoreStatus(s) { return s >= 90 ? 'ok' : (s >= 50 ? 'warn' : 'bad'); }
 
-    function runPsi(strategy) {
+    // klucz API w pliku /psi-key.txt — wgrywany na serwer ręcznie, poza gitem (patrz data/statystyki.yml)
+    var psiKey = fetch('/psi-key.txt', { cache: 'no-store' })
+        .then(function (r) { return r.ok ? r.text() : ''; })
+        .then(function (t) { return /^[A-Za-z0-9_-]+$/.test(t.trim()) ? t.trim() : ''; })
+        .catch(function () { return ''; });
+
+    function runPsi(strategy, key) {
         var api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=' + encodeURIComponent(site) +
-            (psiKey ? '&key=' + encodeURIComponent(psiKey) : '') +
+            (key ? '&key=' + encodeURIComponent(key) : '') +
             '&strategy=' + strategy + Object.keys(CATS).map(function (c) { return '&category=' + c; }).join('');
         return fetch(api).then(function (r) { if (!r.ok) throw r.status; return r.json(); });
     }
@@ -323,7 +327,7 @@
         $('speed-mobile').textContent = '…';
         $('speed-desktop').textContent = '…';
         $('tile-speed').classList.remove('ok', 'warn', 'bad');
-        Promise.all([runPsi('mobile'), runPsi('desktop')]).then(function (res) {
+        psiKey.then(function (key) { return Promise.all([runPsi('mobile', key), runPsi('desktop', key)]); }).then(function (res) {
             var m = Math.round(res[0].lighthouseResult.categories.performance.score * 100);
             var d = Math.round(res[1].lighthouseResult.categories.performance.score * 100);
             $('speed-mobile').textContent = m;
