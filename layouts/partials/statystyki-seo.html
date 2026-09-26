@@ -71,26 +71,27 @@
             </p>
 
             {{/* ===== Rozwijane sekcje ===== */}}
+            {{/* raporty Looker Studio z data/statystyki.yml (reports) */}}
+            {{ range $r := .reports }}
             <details class="seo-section">
-                <summary>Ruch na stronie i wyniki w Google</summary>
+                <summary>{{ .title }}</summary>
                 <div class="seo-section-body">
-                    {{ with .looker_url }}
-                        <div class="seo-looker" style="{{ printf "height: %dpx;" ($.Site.Data.statystyki.looker_height | default 900) | safeCSS }}">
-                            <iframe src="{{ . }}" title="Raport Looker Studio" loading="lazy" allowfullscreen
+                    {{ with .intro }}<p>{{ . }}</p>{{ end }}
+                    {{ with .url }}
+                        <p class="seo-muted">Raport ładuje się z Google — może to potrwać kilka sekund.</p>
+                        <div class="seo-looker" style="{{ printf "height: %dpx;" ($r.height | default 900) | safeCSS }}">
+                            <iframe src="{{ . }}" title="{{ $r.title }}" loading="lazy" allowfullscreen
                                     sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
                         </div>
                     {{ else }}
-                        <p>Tu pojawi się raport z Google Analytics i Google Search Console: liczba wejść,
-                           skąd przychodzą odwiedzający, frazy wpisywane w Google, pozycje i kliknięcia.</p>
-                        <p>Raport jeszcze nie jest podpięty. Do tego czasu dane są dostępne bezpośrednio w Google
-                           (potrzebny dostęp do konta):</p>
+                        <p>Raport jeszcze nie jest podpięty. Dane są dostępne bezpośrednio w Google (potrzebny dostęp do konta).</p>
                     {{ end }}
-                    <p class="seo-links">
-                        {{ with .ga_url }}<a href="{{ . }}" target="_blank" rel="noopener">Google Analytics →</a>{{ end }}
-                        {{ with .gsc_url }}<a href="{{ . }}" target="_blank" rel="noopener">Google Search Console →</a>{{ end }}
-                    </p>
+                    {{ with .link }}
+                        <p class="seo-links"><a href="{{ . }}" target="_blank" rel="noopener">{{ $r.link_label | default "Pełne dane w Google" }} →</a></p>
+                    {{ end }}
                 </div>
             </details>
+            {{ end }}
 
             <details class="seo-section">
                 <summary>Przegląd stron</summary>
