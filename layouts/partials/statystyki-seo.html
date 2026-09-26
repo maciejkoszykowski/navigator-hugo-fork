@@ -17,7 +17,8 @@
     {{ "<!-- Start Statystyki SEO -->" | safeHTML }}
     <section class="statystyki-seo" id="statystyki-seo"
              data-pages="{{ $pages | jsonify }}"
-             data-site="{{ .psi_url | default $.Site.BaseURL }}">
+             data-site="{{ .psi_url | default $.Site.BaseURL }}"
+             data-psi="{{ $.Site.Data.pagespeed | jsonify }}">
         <div class="container">
             <div class="title text-center">
                 {{ with .topTitle }}
@@ -27,15 +28,15 @@
                     <h1 class="h2">{{ . }}</h1>
                     <span class="border"></span>
                 {{ end }}
-                <p class="seo-updated">Dane z chwili otwarcia strony: <span id="seo-now">…</span></p>
+                <p class="seo-updated" id="psi-source">Wyniki Google: brak zapisanego testu — kliknij „Testuj”. Pozostałe dane: na żywo.</p>
             </div>
 
             {{/* ===== Kafelki: najważniejsze informacje ===== */}}
             <div class="seo-tiles">
                 <div class="seo-tile" id="tile-score">
-                    <div class="seo-tile-label">Ocena SEO strony głównej</div>
-                    <div class="seo-tile-value">…</div>
-                    <div class="seo-tile-note" id="tile-score-note">zaliczone testy na stronie głównej</div>
+                    <div class="seo-tile-label">Ocena SEO (Google)</div>
+                    <div class="seo-tile-value">–</div>
+                    <div class="seo-tile-note">Google Lighthouse, strona główna (telefon)<br><span class="psi-when"></span></div>
                 </div>
                 <div class="seo-tile" id="tile-pages">
                     <div class="seo-tile-label">Strony w Google</div>
@@ -63,6 +64,7 @@
                         <span class="seo-speed-row">telefon: <b id="speed-mobile">–</b></span>
                         <span class="seo-speed-row">komputer: <b id="speed-desktop">–</b></span>
                     </div>
+                    <div class="seo-tile-note psi-when"></div>
                     <button type="button" class="btn btn-main-sm seo-speed-btn" id="speed-run">Testuj</button>
                     <div class="seo-tile-note">test trwa ok. 30 s</div>
                 </div>
@@ -132,7 +134,8 @@
             <details class="seo-section">
                 <summary>Szybkość strony — szczegóły</summary>
                 <div class="seo-section-body">
-                    <p>Test Google PageSpeed Insights dla strony głównej. Uruchamia go przycisk w kafelku „Szybkość”.
+                    <p>Test Google PageSpeed Insights dla strony głównej. Wyniki zapisuje się przy wgrywaniu strony,
+                       a przycisk „Testuj” w kafelku „Szybkość” sprawdza stronę teraz.
                        Wyniki 90–100 są dobre, 50–89 do poprawy, poniżej 50 słabe.</p>
                     <div id="seo-speed-details"><p class="seo-muted">Test jeszcze nie był uruchomiony.</p></div>
                     <p class="seo-links">
@@ -204,7 +207,6 @@
         return 'bad';
     }
 
-    $('seo-now').textContent = new Date().toLocaleString('pl-PL');
 
     // ---------- przegląd stron ----------
     function audit(page) {
@@ -244,7 +246,7 @@
 
     Promise.all(pages.map(audit)).then(function (results) {
         results.sort(function (a, b) { return a.page.url.localeCompare(b.page.url); });
-        var rows = '', altHtml = '', passed = 0, checks = 0, titlesOk = 0, publicCount = 0, badImgTotal = 0;
+        var rows = '', altHtml = '', titlesOk = 0, publicCount = 0, badImgTotal = 0;
 
         results.forEach(function (r) {
             var name = '<a href="' + esc(r.page.url) + '" target="_blank">' + esc(r.page.name) + '</a><br><small>' + esc(r.page.url) + '</small>';
@@ -269,10 +271,6 @@
 
             if (isPublic) {
                 publicCount++;
-                // ocena SEO w kafelku liczona tylko dla strony głównej
-                if (r.page.url === '/') {
-                    [tS, dS, hS, aS, oS, r.canonical ? 'ok' : 'bad'].forEach(function (s) { checks++; if (s === 'ok') passed++; });
-                }
                 if (tS === 'ok' && dS === 'ok') titlesOk++;
                 badImgTotal += r.badImgs.length;
             }
@@ -301,9 +299,6 @@
         root.querySelector('#seo-pages-table tbody').innerHTML = rows;
         $('seo-alt-list').innerHTML = altHtml || '<p class="seo-ok-text">Wszystkie obrazki mają opis.</p>';
 
-        var score = checks ? Math.round(passed / checks * 100) : 0;
-        setTile('tile-score', score >= 90 ? 'ok' : (score >= 70 ? 'warn' : 'bad'), score + '%');
-        $('tile-score-note').textContent = 'zaliczone testy na stronie głównej: ' + passed + ' z ' + checks;
         setTile('tile-pages', 'ok', publicCount + ' / ' + results.length);
         setTile('tile-titles', titlesOk === publicCount ? 'ok' : (titlesOk >= publicCount / 2 ? 'warn' : 'bad'), titlesOk + ' / ' + publicCount);
         setTile('tile-alt', badImgTotal === 0 ? 'ok' : (badImgTotal <= 10 ? 'warn' : 'bad'), badImgTotal);
@@ -352,19 +347,54 @@
         return fetch(api).then(function (r) { if (!r.ok) throw r.status; return r.json(); });
     }
 
-    function renderPsi(label, data) {
-        var cats = data.lighthouseResult.categories, audits = data.lighthouseResult.audits;
+    // odpowiedź API → ten sam format co data/pagespeed.yml: { scores: {...}, metrics: { id: { value, score } } }
+    function fromApi(data) {
+        var lh = data.lighthouseResult, out = { scores: {}, metrics: {} };
+        Object.keys(CATS).forEach(function (c) { out.scores[c] = Math.round(lh.categories[c].score * 100); });
+        Object.keys(METRICS).forEach(function (m) {
+            var a = lh.audits[m];
+            if (a) out.metrics[m] = { value: a.displayValue, score: Math.round((a.score || 0) * 100) };
+        });
+        return out;
+    }
+
+    function renderPsi(label, r) {
         var html = '<h5>' + label + '</h5><div class="seo-psi-scores">';
         Object.keys(CATS).forEach(function (c) {
-            var s = Math.round(cats[c].score * 100);
+            var s = r.scores[c];
             html += '<div class="seo-psi-score seo-' + scoreStatus(s) + '"><b>' + s + '</b><span>' + CATS[c] + '</span></div>';
         });
         html += '</div><ul class="seo-checklist">';
         Object.keys(METRICS).forEach(function (m) {
-            var a = audits[m];
-            if (a) html += '<li class="seo-' + scoreStatus(Math.round(a.score * 100)) + '"><b>' + METRICS[m] + ':</b> ' + esc(a.displayValue) + '</li>';
+            var a = r.metrics[m];
+            if (a) html += '<li class="seo-' + scoreStatus(a.score) + '"><b>' + METRICS[m] + ':</b> ' + esc(a.value) + '</li>';
         });
         return html + '</ul>';
+    }
+
+    // wyniki na ekranie: kafelek SEO, kafelek szybkości, szczegóły i opis, skąd są wyniki
+    // src: { line: opis do górnej linii i szczegółów, short: krótko do kafelków, hint: co dalej }
+    function showPsi(mobile, desktop, src) {
+        var seo = mobile.scores.seo;
+        setTile('tile-score', scoreStatus(seo), seo);
+        var m = mobile.scores.performance, d = desktop.scores.performance;
+        $('speed-mobile').textContent = m;
+        $('speed-desktop').textContent = d;
+        $('tile-speed').classList.remove('ok', 'warn', 'bad');
+        $('tile-speed').classList.add(scoreStatus(Math.min(m, d)));
+        $('seo-speed-details').innerHTML = '<p class="seo-muted">Wyniki: ' + esc(src.line) + '. ' + esc(src.hint) + '</p>' +
+            renderPsi('Telefon', mobile) + renderPsi('Komputer', desktop);
+        $('psi-source').textContent = 'Wyniki Google: ' + src.line + '. Pozostałe dane: na żywo.';
+        Array.prototype.forEach.call(root.querySelectorAll('.psi-when'), function (el) { el.textContent = 'test: ' + src.short; });
+    }
+
+    // wyniki zapisane przy wgrywaniu strony (scripts/pagespeed-test.py → data/pagespeed.yml)
+    var saved = JSON.parse(root.getAttribute('data-psi') || 'null'), savedSource = null;
+    if (saved && saved.mobile && saved.desktop) {
+        var dp = saved.date.split('-'), when = dp[2] + '.' + dp[1] + '.' + dp[0] + ', ' + saved.time;
+        savedSource = { line: 'test z dnia ' + when + ' (zapisany przy wgrywaniu strony)', short: when + ' (zapisany)',
+                        hint: 'Przycisk „Testuj” sprawdza stronę teraz.' };
+        showPsi(saved.mobile, saved.desktop, savedSource);
     }
 
     $('speed-run').addEventListener('click', function () {
@@ -375,18 +405,22 @@
         $('speed-desktop').textContent = '…';
         $('tile-speed').classList.remove('ok', 'warn', 'bad');
         psiKey.then(function (key) { return Promise.all([runPsi('mobile', key), runPsi('desktop', key)]); }).then(function (res) {
-            var m = Math.round(res[0].lighthouseResult.categories.performance.score * 100);
-            var d = Math.round(res[1].lighthouseResult.categories.performance.score * 100);
-            $('speed-mobile').textContent = m;
-            $('speed-desktop').textContent = d;
-            $('tile-speed').classList.add(scoreStatus(Math.min(m, d)));
-            $('seo-speed-details').innerHTML = renderPsi('Telefon', res[0]) + renderPsi('Komputer', res[1]);
+            var now = new Date().toLocaleString('pl-PL', { dateStyle: 'short', timeStyle: 'short' });
+            showPsi(fromApi(res[0]), fromApi(res[1]), { line: 'test z teraz, ' + now, short: 'teraz, ' + now,
+                hint: 'Po odświeżeniu strony wrócą wyniki zapisane przy wgrywaniu.' });
             btn.textContent = 'Testuj';
         }).catch(function (err) {
-            $('speed-mobile').textContent = '–';
-            $('speed-desktop').textContent = '–';
-            $('seo-speed-details').innerHTML = '<p class="seo-bad-text">Google nie odpowiedział' + (err === 429 ? ' (za dużo testów naraz — spróbuj za kilka minut)' : '') +
+            var msg = '<p class="seo-bad-text">Google nie odpowiedział' + (err === 429 ? ' (za dużo testów naraz — spróbuj za kilka minut)' : '') +
                 '. Otwórz pełny raport linkiem poniżej.</p>';
+            // wracają wyniki zapisane przy wgrywaniu (jeśli są), z komunikatem o błędzie nad nimi
+            if (savedSource) {
+                showPsi(saved.mobile, saved.desktop, savedSource);
+                $('seo-speed-details').insertAdjacentHTML('afterbegin', msg);
+            } else {
+                $('speed-mobile').textContent = '–';
+                $('speed-desktop').textContent = '–';
+                $('seo-speed-details').innerHTML = msg;
+            }
             btn.textContent = 'Testuj';
         }).then(function () { btn.disabled = false; });
     });
