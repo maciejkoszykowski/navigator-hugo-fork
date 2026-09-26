@@ -61,7 +61,8 @@
                         <span class="seo-speed-row">telefon: <b id="speed-mobile">–</b></span>
                         <span class="seo-speed-row">komputer: <b id="speed-desktop">–</b></span>
                     </div>
-                    <button type="button" class="btn btn-main-sm seo-speed-btn" id="speed-run">Uruchom test (ok. 30 s)</button>
+                    <button type="button" class="btn btn-main-sm seo-speed-btn" id="speed-run">Testuj</button>
+                    <div class="seo-tile-note">test trwa ok. 30 s</div>
                 </div>
             </div>
             <p class="seo-legend">
@@ -335,13 +336,13 @@
             $('speed-desktop').textContent = d;
             $('tile-speed').classList.add(scoreStatus(Math.min(m, d)));
             $('seo-speed-details').innerHTML = renderPsi('Telefon', res[0]) + renderPsi('Komputer', res[1]);
-            btn.textContent = 'Uruchom ponownie';
+            btn.textContent = 'Testuj';
         }).catch(function (err) {
             $('speed-mobile').textContent = '–';
             $('speed-desktop').textContent = '–';
             $('seo-speed-details').innerHTML = '<p class="seo-bad-text">Google nie odpowiedział' + (err === 429 ? ' (za dużo testów naraz — spróbuj za kilka minut)' : '') +
                 '. Otwórz pełny raport linkiem poniżej.</p>';
-            btn.textContent = 'Spróbuj ponownie';
+            btn.textContent = 'Testuj';
         }).then(function () { btn.disabled = false; });
     });
 })();
