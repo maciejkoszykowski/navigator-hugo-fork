@@ -145,6 +145,32 @@
                     <ul class="seo-checklist" id="seo-tech-list"><li>Sprawdzam…</li></ul>
                 </div>
             </details>
+
+            {{/* lista narzędzi z data/statystyki.yml (tools); {url}, {url_enc}, {host} podmieniane na adres strony */}}
+            {{ with .tools }}
+            {{ $u := $.Site.Data.statystyki.psi_url | default $.Site.BaseURL }}
+            {{ $enc := $u | urlquery }}
+            {{ $host := (urls.Parse $u).Host }}
+            <details class="seo-section">
+                <summary>Przydatne narzędzia</summary>
+                <div class="seo-section-body">
+                    <p>Darmowe narzędzia do samodzielnego sprawdzenia strony. Większość od razu otwiera wynik dla naszej strony.</p>
+                    {{ range . }}
+                        <h5 class="seo-tools-cat">{{ .category }}</h5>
+                        <ul class="seo-tools">
+                            {{ range .items }}
+                                {{ $link := replace (replace (replace .link "{url_enc}" $enc) "{url}" $u) "{host}" $host }}
+                                <li>
+                                    <a href="{{ $link | safeURL }}" target="_blank" rel="noopener">{{ .name }} →</a>
+                                    {{ if .login }}<span class="seo-tools-login">wymaga logowania</span>{{ end }}
+                                    <br><span class="seo-muted">{{ .desc }}</span>
+                                </li>
+                            {{ end }}
+                        </ul>
+                    {{ end }}
+                </div>
+            </details>
+            {{ end }}
         </div>
     </section>
     {{ "<!-- End Statystyki SEO -->" | safeHTML }}

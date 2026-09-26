@@ -2427,3 +2427,44 @@ Prelegenci
 .blog-single h1 {
   font-size: 2rem;
 }
+
+
+/*=================================================================
+  Statystyki SEO — lista przydatnych narzędzi
+==================================================================*/
+.seo-tools-cat {
+  margin: 18px 0 8px;
+  color: #0050AA;
+}
+
+.seo-tools-cat:first-of-type {
+  margin-top: 8px;
+}
+
+.seo-tools {
+  list-style: none;
+  padding: 0;
+}
+
+.seo-tools li {
+  padding: 6px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.seo-tools a {
+  font-weight: 600;
+}
+
+.seo-tools .seo-muted {
+  font-size: 14px;
+}
+
+.seo-tools-login {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: #f1f1f1;
+  color: #666;
+  font-size: 12px;
+}
