@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
+
+{{/* Ukryta strona /statystyki — dla marketingu i PM-a, bez linku w menu (patrz content/statystyki/_index.md).
+     Google Analytics ładuje się tylko z head.html (jeden raz). */}}
+{{- partial "head.html" . -}}
+
+<body id="body">
+
+    {{ partial "preloader.html" . }}
+    {{- partial "menu-only-start.html" . -}}
+
+    {{ partial "statystyki-seo.html" . }}
+
+    {{- partial "footer.html" . -}}
+</body>
+
+</html>

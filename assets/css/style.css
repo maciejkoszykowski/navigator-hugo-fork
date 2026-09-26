@@ -2152,3 +2152,257 @@ Prelegenci
     height: var(--mapa-h-m, 300px);
   }
 }
+
+
+/*=================================================================
+  Statystyki SEO (ukryta strona /statystyki)
+==================================================================*/
+.statystyki-seo {
+  padding: 60px 0;
+  --seo-ok: #1e8e3e;
+  --seo-warn: #c77700;
+  --seo-bad: #c62828;
+}
+
+.statystyki-seo h2 {
+  font-size: 40px;
+  margin-top: 0;
+}
+
+.seo-updated {
+  color: #777;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+/* kafelki z najważniejszymi liczbami */
+.seo-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
+  margin-top: 10px;
+}
+
+.seo-tile {
+  border: 1px solid #e5e5e5;
+  border-top: 4px solid #0050AA;
+  border-radius: 6px;
+  padding: 16px;
+  background: #fff;
+}
+
+.seo-tile.ok   { border-top-color: var(--seo-ok); }
+.seo-tile.warn { border-top-color: var(--seo-warn); }
+.seo-tile.bad  { border-top-color: var(--seo-bad); }
+
+.seo-tile-label {
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+  color: #555;
+}
+
+.seo-tile-value {
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 6px 0;
+  color: #222;
+}
+
+.seo-tile.ok .seo-tile-value   { color: var(--seo-ok); }
+.seo-tile.warn .seo-tile-value { color: var(--seo-warn); }
+.seo-tile.bad .seo-tile-value  { color: var(--seo-bad); }
+
+.seo-tile-note {
+  font-size: 12px;
+  color: #777;
+  line-height: 1.4;
+}
+
+.seo-tile-speed .seo-tile-value {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.seo-speed-row {
+  display: block;
+}
+
+.seo-speed-row b {
+  font-size: 22px;
+}
+
+.seo-speed-btn {
+  margin-top: 6px;
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+.seo-legend {
+  margin: 14px 0 30px;
+  font-size: 13px;
+  color: #555;
+}
+
+.seo-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin: 0 4px 0 12px;
+}
+
+.seo-dot.ok   { background: var(--seo-ok); }
+.seo-dot.warn { background: var(--seo-warn); }
+.seo-dot.bad  { background: var(--seo-bad); }
+
+/* rozwijane sekcje */
+.seo-section {
+  border: 1px solid #e5e5e5;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  background: #fff;
+}
+
+.seo-section summary {
+  cursor: pointer;
+  padding: 14px 18px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #0050AA;
+}
+
+.seo-section[open] summary {
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.seo-section-body {
+  padding: 16px 18px;
+}
+
+.seo-links a {
+  margin-right: 20px;
+  font-weight: 600;
+}
+
+.seo-muted { color: #777; }
+.seo-ok-text { color: var(--seo-ok); }
+.seo-bad-text { color: var(--seo-bad); }
+
+/* tabela przeglądu stron */
+.seo-table-wrap {
+  overflow-x: auto;
+}
+
+.seo-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.seo-table th,
+.seo-table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  vertical-align: top;
+}
+
+.seo-table th {
+  background: #f6f7f9;
+  white-space: nowrap;
+}
+
+.seo-table td.seo-ok   { color: var(--seo-ok); }
+.seo-table td.seo-warn { color: var(--seo-warn); font-weight: 600; }
+.seo-table td.seo-bad  { color: var(--seo-bad); font-weight: 600; }
+.seo-table td.seo-info { color: #777; }
+
+/* listy z kropką statusu */
+.seo-checklist {
+  list-style: none;
+  padding: 0;
+}
+
+.seo-checklist li {
+  padding: 4px 0 4px 20px;
+  position: relative;
+}
+
+.seo-checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 11px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #999;
+}
+
+.seo-checklist li.seo-ok::before   { background: var(--seo-ok); }
+.seo-checklist li.seo-warn::before { background: var(--seo-warn); }
+.seo-checklist li.seo-bad::before  { background: var(--seo-bad); }
+
+.seo-alt-ul {
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+/* wyniki PageSpeed */
+.seo-psi-scores {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 8px 0 12px;
+}
+
+.seo-psi-score {
+  text-align: center;
+  min-width: 100px;
+}
+
+.seo-psi-score b {
+  display: block;
+  font-size: 28px;
+}
+
+.seo-psi-score span {
+  font-size: 12px;
+  color: #555;
+}
+
+.seo-psi-score.seo-ok b   { color: var(--seo-ok); }
+.seo-psi-score.seo-warn b { color: var(--seo-warn); }
+.seo-psi-score.seo-bad b  { color: var(--seo-bad); }
+
+/* raport Looker Studio */
+.seo-looker iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (max-width: 767px) {
+  .statystyki-seo {
+    padding: 40px 0;
+  }
+
+  .statystyki-seo h2 {
+    font-size: 24px;
+  }
+
+  .seo-tiles {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+
+  .seo-tile-value {
+    font-size: 26px;
+  }
+
+  .seo-section summary {
+    font-size: 16px;
+  }
+}

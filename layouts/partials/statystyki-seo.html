@@ -1,0 +1,340 @@
+{{/* Statystyki SEO na ukrytej stronie /statystyki (ustawienia w data/statystyki.yml).
+     Na górze kafelki z najważniejszymi liczbami, niżej rozwijane sekcje.
+     Przegląd stron: skrypt na dole pobiera każdą stronę serwisu i sprawdza jej kod HTML.
+     Szybkość: Google PageSpeed Insights, uruchamiany przyciskiem (test trwa ok. 30 s). */}}
+{{ with .Site.Data.statystyki }}{{ if .enable }}
+    {{/* lista stron do sprawdzenia: strona główna, podstrony i sekcje (bez tagów/kategorii i bez tej strony) */}}
+    {{ $pages := slice }}
+    {{ range where $.Site.Pages "Kind" "in" (slice "home" "page" "section") }}
+        {{ if ne .RelPermalink $.RelPermalink }}
+            {{ $hidden := or .Params.noindex (and .Params.sitemap .Params.sitemap.disable) }}
+            {{ $pages = $pages | append (dict "url" .RelPermalink "name" (cond .IsHome "Strona główna" (.Title | default .RelPermalink)) "hidden" (not (not $hidden))) }}
+        {{ end }}
+    {{ end }}
+
+    {{ "<!-- Start Statystyki SEO -->" | safeHTML }}
+    <section class="statystyki-seo" id="statystyki-seo"
+             data-pages="{{ $pages | jsonify }}"
+             data-site="{{ $.Site.BaseURL }}"
+             data-psi-key="{{ .psi_key }}">
+        <div class="container">
+            <div class="title text-center">
+                {{ with .topTitle }}
+                    <h4>{{ . }}</h4>
+                {{ end }}
+                {{ with .title }}
+                    <h2>{{ . }}</h2>
+                    <span class="border"></span>
+                {{ end }}
+                <p class="seo-updated">Dane z chwili otwarcia strony: <span id="seo-now">…</span></p>
+            </div>
+
+            {{/* ===== Kafelki: najważniejsze informacje ===== */}}
+            <div class="seo-tiles">
+                <div class="seo-tile" id="tile-score">
+                    <div class="seo-tile-label">Ogólna ocena SEO</div>
+                    <div class="seo-tile-value">…</div>
+                    <div class="seo-tile-note">odsetek zaliczonych testów na stronach publicznych</div>
+                </div>
+                <div class="seo-tile" id="tile-pages">
+                    <div class="seo-tile-label">Strony w Google</div>
+                    <div class="seo-tile-value">…</div>
+                    <div class="seo-tile-note">publiczne / wszystkie sprawdzone</div>
+                </div>
+                <div class="seo-tile" id="tile-titles">
+                    <div class="seo-tile-label">Tytuły i opisy w normie</div>
+                    <div class="seo-tile-value">…</div>
+                    <div class="seo-tile-note">tytuł 30–60 znaków, opis 70–160 znaków</div>
+                </div>
+                <div class="seo-tile" id="tile-alt">
+                    <div class="seo-tile-label">Obrazki bez dobrego opisu</div>
+                    <div class="seo-tile-value">…</div>
+                    <div class="seo-tile-note">brak opisu alt albo opis ogólnikowy</div>
+                </div>
+                <div class="seo-tile" id="tile-files">
+                    <div class="seo-tile-label">Pliki dla wyszukiwarek</div>
+                    <div class="seo-tile-value">…</div>
+                    <div class="seo-tile-note">robots.txt i sitemap.xml</div>
+                </div>
+                <div class="seo-tile seo-tile-speed" id="tile-speed">
+                    <div class="seo-tile-label">Szybkość (PageSpeed)</div>
+                    <div class="seo-tile-value">
+                        <span class="seo-speed-row">telefon: <b id="speed-mobile">–</b></span>
+                        <span class="seo-speed-row">komputer: <b id="speed-desktop">–</b></span>
+                    </div>
+                    <button type="button" class="btn btn-main-sm seo-speed-btn" id="speed-run">Uruchom test (ok. 30 s)</button>
+                </div>
+            </div>
+            <p class="seo-legend">
+                <span class="seo-dot ok"></span> dobrze
+                <span class="seo-dot warn"></span> do poprawy
+                <span class="seo-dot bad"></span> problem
+            </p>
+
+            {{/* ===== Rozwijane sekcje ===== */}}
+            <details class="seo-section">
+                <summary>Ruch na stronie i wyniki w Google</summary>
+                <div class="seo-section-body">
+                    {{ with .looker_url }}
+                        <div class="seo-looker" style="{{ printf "height: %dpx;" ($.Site.Data.statystyki.looker_height | default 900) | safeCSS }}">
+                            <iframe src="{{ . }}" title="Raport Looker Studio" loading="lazy" allowfullscreen
+                                    sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox"></iframe>
+                        </div>
+                    {{ else }}
+                        <p>Tu pojawi się raport z Google Analytics i Google Search Console: liczba wejść,
+                           skąd przychodzą odwiedzający, frazy wpisywane w Google, pozycje i kliknięcia.</p>
+                        <p>Raport jeszcze nie jest podpięty. Do tego czasu dane są dostępne bezpośrednio w Google
+                           (potrzebny dostęp do konta):</p>
+                    {{ end }}
+                    <p class="seo-links">
+                        {{ with .ga_url }}<a href="{{ . }}" target="_blank" rel="noopener">Google Analytics →</a>{{ end }}
+                        {{ with .gsc_url }}<a href="{{ . }}" target="_blank" rel="noopener">Google Search Console →</a>{{ end }}
+                    </p>
+                </div>
+            </details>
+
+            <details class="seo-section">
+                <summary>Przegląd stron</summary>
+                <div class="seo-section-body">
+                    <p>Każda strona serwisu sprawdzona na żywo. Najedź na komórkę, żeby zobaczyć szczegóły.</p>
+                    <div class="seo-table-wrap">
+                        <table class="seo-table" id="seo-pages-table">
+                            <thead>
+                                <tr>
+                                    <th>Strona</th>
+                                    <th>Widoczna w Google</th>
+                                    <th>Tytuł</th>
+                                    <th>Opis</th>
+                                    <th>Nagłówek H1</th>
+                                    <th>Obrazki bez opisu</th>
+                                    <th>Podgląd w social media</th>
+                                    <th>Waga HTML</th>
+                                </tr>
+                            </thead>
+                            <tbody><tr><td colspan="8">Sprawdzam strony…</td></tr></tbody>
+                        </table>
+                    </div>
+                </div>
+            </details>
+
+            <details class="seo-section">
+                <summary>Obrazki bez dobrego opisu (alt)</summary>
+                <div class="seo-section-body">
+                    <p>Opis alt czyta Google i czytniki ekranu. Dobry opis mówi, co jest na obrazku,
+                       np. „Prelegentka Anna Kowalska na scenie”.</p>
+                    <div id="seo-alt-list">Sprawdzam…</div>
+                </div>
+            </details>
+
+            <details class="seo-section">
+                <summary>Szybkość strony — szczegóły</summary>
+                <div class="seo-section-body">
+                    <p>Test Google PageSpeed Insights dla strony głównej. Uruchamia go przycisk w kafelku „Szybkość”.
+                       Wyniki 90–100 są dobre, 50–89 do poprawy, poniżej 50 słabe.</p>
+                    <div id="seo-speed-details"><p class="seo-muted">Test jeszcze nie był uruchomiony.</p></div>
+                    <p class="seo-links">
+                        <a href="https://pagespeed.web.dev/analysis?url={{ $.Site.BaseURL | urlquery }}" target="_blank" rel="noopener">Pełny raport PageSpeed →</a>
+                    </p>
+                </div>
+            </details>
+
+            <details class="seo-section">
+                <summary>Pliki i ustawienia dla wyszukiwarek</summary>
+                <div class="seo-section-body">
+                    <ul class="seo-checklist" id="seo-tech-list"><li>Sprawdzam…</li></ul>
+                </div>
+            </details>
+        </div>
+    </section>
+    {{ "<!-- End Statystyki SEO -->" | safeHTML }}
+
+<script>
+(function () {
+    var root = document.getElementById('statystyki-seo');
+    if (!root) return;
+    var pages = JSON.parse(root.getAttribute('data-pages') || '[]');
+    var site = root.getAttribute('data-site');
+    var psiKey = root.getAttribute('data-psi-key');
+
+    // ogólnikowe opisy alt z motywu — liczą się jak brak opisu
+    var GENERIC_ALT = ['logo', 'image', 'img', 'obrazek', 'zdjęcie', 'team people', 'portfolio-image', 'photo'];
+
+    function $(id) { return document.getElementById(id); }
+    function safeDecode(s) { try { return decodeURIComponent(s); } catch (e) { return s; } }
+    function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+    function cell(status, text, tip) { return '<td class="seo-' + status + '"' + (tip ? ' title="' + esc(tip) + '"' : '') + '>' + text + '</td>'; }
+    function setTile(id, status, value) {
+        var t = $(id);
+        t.classList.remove('ok', 'warn', 'bad');
+        if (status) t.classList.add(status);
+        t.querySelector('.seo-tile-value').innerHTML = value;
+    }
+    function lenStatus(n, okMin, okMax, warnMin, warnMax) {
+        if (!n) return 'bad';
+        if (n >= okMin && n <= okMax) return 'ok';
+        if (n >= warnMin && n <= warnMax) return 'warn';
+        return 'bad';
+    }
+
+    $('seo-now').textContent = new Date().toLocaleString('pl-PL');
+
+    // ---------- przegląd stron ----------
+    function audit(page) {
+        return fetch(page.url, { cache: 'no-store' }).then(function (r) { return r.text(); }).then(function (html) {
+            var doc = new DOMParser().parseFromString(html, 'text/html');
+            var meta = function (sel) { var m = doc.querySelector(sel); return m ? (m.getAttribute('content') || '').trim() : ''; };
+            var imgs = Array.prototype.slice.call(doc.querySelectorAll('img'));
+            var badImgs = imgs.filter(function (i) {
+                var a = (i.getAttribute('alt') || '').trim().toLowerCase();
+                return !a || GENERIC_ALT.indexOf(a) !== -1;
+            }).map(function (i) {
+                return { src: (i.getAttribute('src') || '').split('/').pop(), alt: i.getAttribute('alt') };
+            });
+            var robots = meta('meta[name="robots"]');
+            return {
+                page: page,
+                title: (doc.querySelector('title') || {}).textContent || '',
+                desc: meta('meta[name="description"]'),
+                h1: doc.querySelectorAll('h1').length,
+                canonical: !!doc.querySelector('link[rel="canonical"]'),
+                og: !!meta('meta[property="og:image"]') && !!meta('meta[property="og:title"]'),
+                noindex: robots.indexOf('noindex') !== -1,
+                imgs: imgs.length,
+                badImgs: badImgs,
+                kb: Math.round(new Blob([html]).size / 1024)
+            };
+        }).catch(function () { return { page: page, error: true }; });
+    }
+
+    Promise.all(pages.map(audit)).then(function (results) {
+        results.sort(function (a, b) { return a.page.url.localeCompare(b.page.url); });
+        var rows = '', altHtml = '', passed = 0, checks = 0, titlesOk = 0, publicCount = 0, badImgTotal = 0;
+
+        results.forEach(function (r) {
+            var name = '<a href="' + esc(r.page.url) + '" target="_blank">' + esc(r.page.name) + '</a><br><small>' + esc(r.page.url) + '</small>';
+            if (r.error) { rows += '<tr><td>' + name + '</td>' + cell('bad', 'nie udało się pobrać') + '<td colspan="6"></td></tr>'; return; }
+
+            var isPublic = !r.noindex && !r.page.hidden;
+            var tS = lenStatus(r.title.length, 30, 60, 10, 70);
+            var dS = lenStatus(r.desc.length, 70, 160, 50, 200);
+            var hS = r.h1 === 1 ? 'ok' : 'warn';
+            var aS = r.badImgs.length === 0 ? 'ok' : (r.badImgs.length <= 3 ? 'warn' : 'bad');
+            var oS = r.og ? 'ok' : 'warn';
+            var kS = r.kb <= 100 ? 'ok' : (r.kb <= 250 ? 'warn' : 'bad');
+
+            if (isPublic) {
+                publicCount++;
+                [tS, dS, hS, aS, oS, r.canonical ? 'ok' : 'bad'].forEach(function (s) { checks++; if (s === 'ok') passed++; });
+                if (tS === 'ok' && dS === 'ok') titlesOk++;
+                badImgTotal += r.badImgs.length;
+            }
+
+            rows += '<tr><td>' + name + '</td>' +
+                cell(isPublic ? 'ok' : 'info', isPublic ? 'tak' : 'nie (ukryta)') +
+                cell(tS, r.title.length + ' zn.', r.title) +
+                cell(dS, r.desc.length ? r.desc.length + ' zn.' : 'brak', r.desc) +
+                cell(hS, r.h1 === 1 ? '1' : r.h1 + (r.h1 === 0 ? ' (brak)' : ' (za dużo)'), 'Najlepiej dokładnie jeden nagłówek H1 na stronie') +
+                cell(aS, r.badImgs.length + ' z ' + r.imgs) +
+                cell(oS, r.og ? 'tak' : 'brak') +
+                cell(kS, r.kb + ' KB') + '</tr>';
+
+            if (r.badImgs.length) {
+                // ten sam obrazek z tym samym opisem (np. wersja na telefon i komputer) pokazany raz, z licznikiem
+                var groups = {};
+                r.badImgs.forEach(function (i) { var k = i.src + '|' + (i.alt || ''); groups[k] = groups[k] || { img: i, n: 0 }; groups[k].n++; });
+                altHtml += '<h5>' + esc(r.page.name) + ' <small>(' + r.badImgs.length + ')</small></h5><ul class="seo-alt-ul">' +
+                    Object.keys(groups).map(function (k) {
+                        var i = groups[k].img, n = groups[k].n;
+                        return '<li><code>' + esc(safeDecode(i.src) || '(brak pliku)') + '</code> — ' + (i.alt ? 'opis: „' + esc(i.alt) + '”' : 'brak opisu') + (n > 1 ? ' <small>×' + n + '</small>' : '') + '</li>';
+                    }).join('') + '</ul>';
+            }
+        });
+
+        root.querySelector('#seo-pages-table tbody').innerHTML = rows;
+        $('seo-alt-list').innerHTML = altHtml || '<p class="seo-ok-text">Wszystkie obrazki mają opis.</p>';
+
+        var score = checks ? Math.round(passed / checks * 100) : 0;
+        setTile('tile-score', score >= 90 ? 'ok' : (score >= 70 ? 'warn' : 'bad'), score + '%');
+        setTile('tile-pages', 'ok', publicCount + ' / ' + results.length);
+        setTile('tile-titles', titlesOk === publicCount ? 'ok' : (titlesOk >= publicCount / 2 ? 'warn' : 'bad'), titlesOk + ' / ' + publicCount);
+        setTile('tile-alt', badImgTotal === 0 ? 'ok' : (badImgTotal <= 10 ? 'warn' : 'bad'), badImgTotal);
+    });
+
+    // ---------- robots.txt, sitemap.xml, dane strukturalne ----------
+    Promise.all([
+        fetch('/robots.txt', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : null; }).catch(function () { return null; }),
+        fetch('/sitemap.xml', { cache: 'no-store' }).then(function (r) { return r.ok ? r.text() : null; }).catch(function () { return null; }),
+        fetch('/', { cache: 'no-store' }).then(function (r) { return r.text(); }).catch(function () { return ''; })
+    ]).then(function (res) {
+        var robots = res[0], sitemap = res[1], home = res[2];
+        var urls = sitemap ? (sitemap.match(/<loc>/g) || []).length : 0;
+        var hasEvent = /"@type"\s*:\s*"Event"/.test(home);
+        var gaCount = (home.match(/googletagmanager\.com\/gtag\/js/g) || []).length;
+        var items = [
+            [robots !== null, 'robots.txt', robots !== null ? 'jest — mówi wyszukiwarkom, co mogą czytać' : 'brak pliku'],
+            [!!sitemap, 'sitemap.xml', sitemap ? 'jest — ' + urls + ' adresów dla Google' : 'brak pliku'],
+            [hasEvent, 'Dane o wydarzeniu (schema.org Event)', hasEvent ? 'są — Google może pokazać datę i miejsce w wynikach' : 'brak na stronie głównej'],
+            [location.protocol === 'https:' || location.hostname === 'localhost', 'HTTPS', location.protocol === 'https:' ? 'strona działa na bezpiecznym połączeniu' : 'podgląd lokalny'],
+            [gaCount === 1, 'Kod Google Analytics', gaCount === 1 ? 'wstawiony raz' : 'wstawiony ' + gaCount + ' razy na stronie głównej — wejścia mogą liczyć się podwójnie']
+        ];
+        $('seo-tech-list').innerHTML = items.map(function (i) {
+            return '<li class="seo-' + (i[0] ? 'ok' : 'bad') + '"><b>' + esc(i[1]) + ':</b> ' + esc(i[2]) + '</li>';
+        }).join('');
+        var both = robots !== null && !!sitemap;
+        setTile('tile-files', both ? 'ok' : 'bad', both ? 'OK' : 'brak');
+    });
+
+    // ---------- szybkość: Google PageSpeed Insights ----------
+    var CATS = { performance: 'Szybkość', seo: 'SEO', accessibility: 'Dostępność', 'best-practices': 'Dobre praktyki' };
+    var METRICS = { 'largest-contentful-paint': 'Główna treść widoczna po (LCP)', 'first-contentful-paint': 'Pierwsza treść widoczna po (FCP)',
+                    'total-blocking-time': 'Czas blokady strony (TBT)', 'cumulative-layout-shift': 'Przesunięcia układu (CLS)' };
+    function scoreStatus(s) { return s >= 90 ? 'ok' : (s >= 50 ? 'warn' : 'bad'); }
+
+    function runPsi(strategy) {
+        var api = 'https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=' + encodeURIComponent(site) +
+            (psiKey ? '&key=' + encodeURIComponent(psiKey) : '') +
+            '&strategy=' + strategy + Object.keys(CATS).map(function (c) { return '&category=' + c; }).join('');
+        return fetch(api).then(function (r) { if (!r.ok) throw r.status; return r.json(); });
+    }
+
+    function renderPsi(label, data) {
+        var cats = data.lighthouseResult.categories, audits = data.lighthouseResult.audits;
+        var html = '<h5>' + label + '</h5><div class="seo-psi-scores">';
+        Object.keys(CATS).forEach(function (c) {
+            var s = Math.round(cats[c].score * 100);
+            html += '<div class="seo-psi-score seo-' + scoreStatus(s) + '"><b>' + s + '</b><span>' + CATS[c] + '</span></div>';
+        });
+        html += '</div><ul class="seo-checklist">';
+        Object.keys(METRICS).forEach(function (m) {
+            var a = audits[m];
+            if (a) html += '<li class="seo-' + scoreStatus(Math.round(a.score * 100)) + '"><b>' + METRICS[m] + ':</b> ' + esc(a.displayValue) + '</li>';
+        });
+        return html + '</ul>';
+    }
+
+    $('speed-run').addEventListener('click', function () {
+        var btn = this;
+        btn.disabled = true;
+        btn.textContent = 'Testuję…';
+        $('speed-mobile').textContent = '…';
+        $('speed-desktop').textContent = '…';
+        $('tile-speed').classList.remove('ok', 'warn', 'bad');
+        Promise.all([runPsi('mobile'), runPsi('desktop')]).then(function (res) {
+            var m = Math.round(res[0].lighthouseResult.categories.performance.score * 100);
+            var d = Math.round(res[1].lighthouseResult.categories.performance.score * 100);
+            $('speed-mobile').textContent = m;
+            $('speed-desktop').textContent = d;
+            $('tile-speed').classList.add(scoreStatus(Math.min(m, d)));
+            $('seo-speed-details').innerHTML = renderPsi('Telefon', res[0]) + renderPsi('Komputer', res[1]);
+            btn.textContent = 'Uruchom ponownie';
+        }).catch(function (err) {
+            $('speed-mobile').textContent = '–';
+            $('speed-desktop').textContent = '–';
+            $('seo-speed-details').innerHTML = '<p class="seo-bad-text">Google nie odpowiedział' + (err === 429 ? ' (za dużo testów naraz — spróbuj za kilka minut)' : '') +
+                '. Otwórz pełny raport linkiem poniżej.</p>';
+            btn.textContent = 'Spróbuj ponownie';
+        }).then(function () { btn.disabled = false; });
+    });
+})();
+</script>
+{{ end }}{{ end }}
