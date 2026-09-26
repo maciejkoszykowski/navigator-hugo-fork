@@ -139,6 +139,14 @@
 		});
 
 		/* ========================================================================= */
+		/*	Mapa uczestników: inny widok (środek, przybliżenie) na telefonie
+		/* =========================================================================  */
+		$('.mapa-uczestnikow-wrap iframe').each(function () {
+			var mobile = window.matchMedia('(max-width: 767px)').matches;
+			$(this).attr('src', $(this).data(mobile ? 'src-mobile' : 'src-desktop'));
+		});
+
+		/* ========================================================================= */
 		/*	Testimonial Carousel
 		/* =========================================================================  */
 

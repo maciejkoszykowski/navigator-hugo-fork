@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
+
+{{/* Ukryta strona /mapka — tylko dla organizatorów, bez linku w menu (patrz content/mapka/_index.md) */}}
+{{- partial "head.html" . -}}
+
+<body id="body">
+
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-Z75DKN4M2G"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-Z75DKN4M2G');
+</script>
+
+    {{ partial "preloader.html" . }}
+    {{- partial "menu-only-start.html" . -}}
+
+    {{ partial "mapa-uczestnikow.html" . }}
+
+    {{- partial "footer.html" . -}}
+</body>
+
+</html>

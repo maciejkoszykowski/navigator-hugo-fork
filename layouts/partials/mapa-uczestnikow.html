@@ -1,0 +1,30 @@
+{{/* Mapa uczestników na ukrytej stronie /mapka. Mapa z Google My Maps w iframe.
+     Przezroczysta warstwa nad mapą blokuje kliknięcia, przesuwanie i przybliżanie.
+     Górny pasek Google (tytuł mapy, autor) jest przycięty w CSS.
+     Adres mapy wstawia script.js — osobny widok dla komputera i telefonu. */}}
+{{ with .Site.Data.mapa }}{{ if .enable }}
+    {{ $h := printf "--mapa-h: %dpx; --mapa-h-m: %dpx;" (.desktop.height | default 450) (.mobile.height | default 300) }}
+    {{ "<!-- Start Mapa Uczestnikow -->" | safeHTML }}
+    <section class="mapa-uczestnikow" id="mapa-uczestnikow">
+        <div class="container">
+            <div class="title text-center">
+                {{ with .topTitle }}
+                    <h4>{{ . }}</h4>
+                {{ end }}
+                {{ with .title }}
+                    <h2>{{ . }}</h2>
+                    <span class="border"></span>
+                {{ end }}
+            </div>
+            <div class="mapa-uczestnikow-wrap" style="{{ $h | safeCSS }}">
+                <iframe data-src-desktop="{{ printf "%s&ll=%s&z=%d" .map_url .desktop.ll .desktop.z }}"
+                        data-src-mobile="{{ printf "%s&ll=%s&z=%d" .map_url .mobile.ll .mobile.z }}"
+                        title="{{ .title | default "Mapa uczestników" }}"
+                        loading="lazy"
+                        tabindex="-1"></iframe>
+                <div class="mapa-uczestnikow-cover" aria-hidden="true"></div>
+            </div>
+        </div>
+    </section>
+    {{ "<!-- End Mapa Uczestnikow -->" | safeHTML }}
+{{ end }}{{ end }}

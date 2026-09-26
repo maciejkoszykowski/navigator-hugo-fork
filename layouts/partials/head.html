@@ -44,6 +44,8 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta name="description" content="{{ $shortDescription }}">
 {{ with .Site.Params.author }} <meta name="author" content="{{ . }}">{{ end }}
+{{ "<!-- Ukryta strona (noindex: true w front matter): wyszukiwarki jej nie pokazują -->" | safeHTML }}
+{{ if .Params.noindex }}<meta name="robots" content="noindex, nofollow">{{ end }}
 
 {{ "<!-- Canonical URL: tells search engines which URL is the authoritative one for this page, -->" | safeHTML }}
 {{ "<!-- so archived editions (/2024, /2025, ...) don't compete with the live site in rankings -->" | safeHTML }}

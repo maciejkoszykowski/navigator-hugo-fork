@@ -2095,3 +2095,60 @@ Prelegenci
     display: none;
   }
 }
+
+
+/*=================================================================
+  Mapa uczestników (ukryta strona /mapka)
+==================================================================*/
+.mapa-uczestnikow {
+  padding: 60px 0;
+}
+
+/* nagłówek jak w pasku zdjęć */
+.mapa-uczestnikow h2 {
+  font-size: 40px;
+  margin-top: 0;
+}
+
+@media (max-width: 992px) {
+  .mapa-uczestnikow h2 {
+    font-size: 25px;
+  }
+}
+
+/* wysokość z data/mapa.yml przez --mapa-h / --mapa-h-m */
+.mapa-uczestnikow-wrap {
+  position: relative;
+  height: var(--mapa-h, 450px);
+  overflow: hidden;
+}
+
+/* iframe wyższy o górny pasek Google i przesunięty w górę — pasek chowa się pod krawędzią */
+.mapa-uczestnikow-wrap iframe {
+  display: block;
+  width: 100%;
+  height: calc(100% + 70px);
+  margin-top: -70px;
+  border: 0;
+  pointer-events: none;
+}
+
+/* przezroczysta warstwa nad mapą — blokuje kliknięcia */
+.mapa-uczestnikow-cover {
+  position: absolute;
+  inset: 0;
+}
+
+@media (max-width: 767px) {
+  .mapa-uczestnikow {
+    padding: 40px 0;
+  }
+
+  .mapa-uczestnikow h2 {
+    font-size: 20px;
+  }
+
+  .mapa-uczestnikow-wrap {
+    height: var(--mapa-h-m, 300px);
+  }
+}
