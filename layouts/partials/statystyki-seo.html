@@ -22,7 +22,7 @@
                     <h4>{{ . }}</h4>
                 {{ end }}
                 {{ with .title }}
-                    <h2>{{ . }}</h2>
+                    <h1 class="h2">{{ . }}</h1>
                     <span class="border"></span>
                 {{ end }}
                 <p class="seo-updated">Dane z chwili otwarcia strony: <span id="seo-now">…</span></p>
@@ -31,9 +31,9 @@
             {{/* ===== Kafelki: najważniejsze informacje ===== */}}
             <div class="seo-tiles">
                 <div class="seo-tile" id="tile-score">
-                    <div class="seo-tile-label">Ogólna ocena SEO</div>
+                    <div class="seo-tile-label">Ocena SEO strony głównej</div>
                     <div class="seo-tile-value">…</div>
-                    <div class="seo-tile-note">odsetek zaliczonych testów na stronach publicznych</div>
+                    <div class="seo-tile-note" id="tile-score-note">zaliczone testy na stronie głównej</div>
                 </div>
                 <div class="seo-tile" id="tile-pages">
                     <div class="seo-tile-label">Strony w Google</div>
@@ -228,7 +228,10 @@
 
             if (isPublic) {
                 publicCount++;
-                [tS, dS, hS, aS, oS, r.canonical ? 'ok' : 'bad'].forEach(function (s) { checks++; if (s === 'ok') passed++; });
+                // ocena SEO w kafelku liczona tylko dla strony głównej
+                if (r.page.url === '/') {
+                    [tS, dS, hS, aS, oS, r.canonical ? 'ok' : 'bad'].forEach(function (s) { checks++; if (s === 'ok') passed++; });
+                }
                 if (tS === 'ok' && dS === 'ok') titlesOk++;
                 badImgTotal += r.badImgs.length;
             }
@@ -259,6 +262,7 @@
 
         var score = checks ? Math.round(passed / checks * 100) : 0;
         setTile('tile-score', score >= 90 ? 'ok' : (score >= 70 ? 'warn' : 'bad'), score + '%');
+        $('tile-score-note').textContent = 'zaliczone testy na stronie głównej: ' + passed + ' z ' + checks;
         setTile('tile-pages', 'ok', publicCount + ' / ' + results.length);
         setTile('tile-titles', titlesOk === publicCount ? 'ok' : (titlesOk >= publicCount / 2 ? 'warn' : 'bad'), titlesOk + ' / ' + publicCount);
         setTile('tile-alt', badImgTotal === 0 ? 'ok' : (badImgTotal <= 10 ? 'warn' : 'bad'), badImgTotal);

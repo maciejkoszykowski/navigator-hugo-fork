@@ -348,7 +348,8 @@ a:focus, a:hover {
   text-align: center;
 }
 
-.title h2 {
+.title h2,
+.title h1 {
   font-size: 35px;
   color: #232323;
   text-transform: capitalize;
@@ -715,9 +716,17 @@ a:focus, a:hover {
   }
 }
 
-.hero-area .block h2 {
+.hero-area .block h2,
+.hero-area .block h1 {
   font-size: 48px;
   margin-bottom: 20px;
+}
+
+/* główny nagłówek (H1) na telefonie — ten sam rozmiar co wcześniej osobna wersja mobilna */
+@media (max-width: 767px) {
+  .hero-area .block .hero-main-heading {
+    font-size: x-large;
+  }
 }
 
 .hero-area .block p {
@@ -2104,13 +2113,15 @@ Prelegenci
 }
 
 /* nagłówek jak w pasku zdjęć */
-.mapa-uczestnikow h2 {
+.mapa-uczestnikow h2,
+.mapa-uczestnikow h1 {
   font-size: 40px;
   margin-top: 0;
 }
 
 @media (max-width: 992px) {
-  .mapa-uczestnikow h2 {
+  .mapa-uczestnikow h2,
+  .mapa-uczestnikow h1 {
     font-size: 25px;
   }
 }
@@ -2143,7 +2154,8 @@ Prelegenci
     padding: 40px 0;
   }
 
-  .mapa-uczestnikow h2 {
+  .mapa-uczestnikow h2,
+  .mapa-uczestnikow h1 {
     font-size: 20px;
   }
 
@@ -2163,7 +2175,8 @@ Prelegenci
   --seo-bad: #c62828;
 }
 
-.statystyki-seo h2 {
+.statystyki-seo h2,
+.statystyki-seo h1 {
   font-size: 40px;
   margin-top: 0;
 }
@@ -2388,7 +2401,8 @@ Prelegenci
     padding: 40px 0;
   }
 
-  .statystyki-seo h2 {
+  .statystyki-seo h2,
+  .statystyki-seo h1 {
     font-size: 24px;
   }
 
@@ -2404,4 +2418,12 @@ Prelegenci
   .seo-section summary {
     font-size: 16px;
   }
+}
+
+
+/*=================================================================
+  Tytuł podstrony (_default/single.html) — H1 w rozmiarze dawnego H2
+==================================================================*/
+.blog-single h1 {
+  font-size: 2rem;
 }
