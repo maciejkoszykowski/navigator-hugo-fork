@@ -185,6 +185,10 @@
             var meta = function (sel) { var m = doc.querySelector(sel); return m ? (m.getAttribute('content') || '').trim() : ''; };
             var imgs = Array.prototype.slice.call(doc.querySelectorAll('img'));
             var badImgs = imgs.filter(function (i) {
+                // ozdoba (pusty alt + aria-hidden albo role="presentation"/"none") — celowo bez opisu, pomijamy
+                var decorative = i.getAttribute('alt') === '' &&
+                    (i.getAttribute('aria-hidden') === 'true' || ['presentation', 'none'].indexOf(i.getAttribute('role')) !== -1);
+                if (decorative) return false;
                 var a = (i.getAttribute('alt') || '').trim().toLowerCase();
                 return !a || GENERIC_ALT.indexOf(a) !== -1;
             }).map(function (i) {
