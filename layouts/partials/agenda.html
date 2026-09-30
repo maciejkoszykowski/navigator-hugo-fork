@@ -43,6 +43,51 @@ function toggleCollapse(id) {
                     {{ end }}
                 </div>
 
+                <!-- PDU table (PMI Talent Triangle) -->
+                {{ with $.Site.Data.agenda.pdu }}
+                <div class="text-center" style="margin-bottom: 24px;">
+                    <p style="font-size: large; margin-bottom: 12px;">{{ .intro | safeHTML }}</p>
+                    <div class="table-responsive">
+                        <table style="margin: 0 auto; border-collapse: separate; border-spacing: 2px; font-size: small;">
+                            <!-- desktop: icon and name in one cell -->
+                            <tr class="d-none d-md-table-row">
+                                <td></td>
+                                {{ range .columns }}
+                                <td style="background: {{ .color | safeCSS }}; padding: 6px 6px; font-weight: bold; vertical-align: bottom;">
+                                    <img loading="lazy" src="/images/pdu/{{ .icon }}" alt="" width="40" height="40" style="display: block; margin: 0 auto 4px;" />
+                                    {{ .name }}
+                                </td>
+                                {{ end }}
+                            </tr>
+                            <!-- mobile: icons row + names row, so icons stay level when names wrap -->
+                            <tr class="d-md-none">
+                                <td></td>
+                                {{ range .columns }}
+                                <td style="background: {{ .color | safeCSS }}; padding: 6px 6px 0;">
+                                    <img loading="lazy" src="/images/pdu/{{ .icon }}" alt="" width="40" height="40" style="display: block; margin: 0 auto;" />
+                                </td>
+                                {{ end }}
+                            </tr>
+                            <tr class="d-md-none">
+                                <td></td>
+                                {{ range .columns }}
+                                <td style="background: {{ .color | safeCSS }}; padding: 4px 6px 6px; font-weight: bold; vertical-align: middle;">{{ .name }}</td>
+                                {{ end }}
+                            </tr>
+                            {{ $columns := .columns }}
+                            {{ range .rows }}
+                            <tr>
+                                <td style="text-align: left; padding: 6px 6px; font-weight: bold;">{{ .label }}</td>
+                                {{ range $i, $v := .values }}
+                                <td style="background: {{ (index $columns $i).color | safeCSS }}; padding: 6px 6px;">{{ $v }}</td>
+                                {{ end }}
+                            </tr>
+                            {{ end }}
+                        </table>
+                    </div>
+                </div>
+                {{ end }}
+
                 <!-- going to loop per day in program per day detials -->
                 {{ $dayDate := .day_date }}
 
