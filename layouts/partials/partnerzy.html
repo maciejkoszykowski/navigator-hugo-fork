@@ -194,7 +194,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row align-items-center">
                 {{ $mediaTotal := len .media }}
                 {{ range $index, $m := .media }}
                     {{/* odd count: the last logo has no partner to pair with, so it takes the
@@ -204,12 +204,25 @@
                             {{ if .small_support }}
                             <div class="{{ if $isLastUnpaired }}col-12 text-center{{ else }}col-6{{ end }} d-none d-md-block">
                                 <a href="{{ .link | absURL }}" target="_blank">
-                                  <img loading="lazy" class="x-auto mx-auto d-none d-md-block" src="{{ .image | absURL }}" alt="{{ .title | replaceRE `\s*<br\s*/?>\s*` " " | plainify }}" >
+                                  {{/* a pair sits close to the middle of the page: the left logo hugs the right edge
+                                       of its column, the right logo hugs the left edge */}}
+                                  {{ $align := "mx-auto" }}
+                                  {{ $gap := "" }}
+                                  {{ if not $isLastUnpaired }}
+                                      {{ if eq (mod $index 2) 0 }}
+                                          {{ $align = "ml-auto" }}
+                                          {{ $gap = "margin-right: 50px;" }}
+                                      {{ else }}
+                                          {{ $align = "mr-auto" }}
+                                          {{ $gap = "margin-left: 50px;" }}
+                                      {{ end }}
+                                  {{ end }}
+                                  <img loading="lazy" class="x-auto {{ $align }} d-none d-md-block" src="{{ .image | absURL }}" alt="{{ .title | replaceRE `\s*<br\s*/?>\s*` " " | plainify }}" style="margin-bottom: 50px; {{ $gap | safeCSS }}">
                                 </a>
                             </div>
                             <div class="col-sm-12 d-md-none">
                                 <a href="{{ .link | absURL }}" target="_blank">  
-                                  <img loading="lazy" class="x-auto mx-auto d-md-none d-block" src="{{ .image_small | absURL }}" alt="{{ .title | replaceRE `\s*<br\s*/?>\s*` " " | plainify }}" style="padding-bottom: 45px;">
+                                  <img loading="lazy" class="x-auto mx-auto d-md-none d-block" src="{{ .image_small | absURL }}" alt="{{ .title | replaceRE `\s*<br\s*/?>\s*` " " | plainify }}" style="padding-bottom: 60px;">
                                 </a>
                             </div>
                              {{ else}}
