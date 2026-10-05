@@ -171,7 +171,7 @@
                        <!-- p>Odd index: {{ $index }} - {{ $item.title}}</p --->
                        <div class="col-6 text-left d-none d-md-block">
                         <a href="{{ .link | absURL }}" target="_blank">
-                           <img loading="lazy" class="x-auto d-block mr-auto " {{ $dimDesktop | safeHTMLAttr }} src="{{ .image | absURL }}" alt="{{ .title | replaceRE `\s*<br\s*/?>\s*` " " | plainify }}" style="margin-bottom: 24px; margin-left: 85px;{{ with $item.padding }} padding-left: {{ . }}px;{{ end }}{{ with $item.margin_top_desktop }} margin-top: {{ . }}px;{{ end }}">
+                           <img loading="lazy" class="x-auto d-block mr-auto " {{ $dimDesktop | safeHTMLAttr }} src="{{ .image | absURL }}" alt="{{ .title | replaceRE `\s*<br\s*/?>\s*` " " | plainify }}" style="margin-bottom: 24px; margin-left: 50px;{{ with $item.padding }} padding-left: {{ . }}px;{{ end }}{{ with $item.margin_top_desktop }} margin-top: {{ . }}px;{{ end }}">
                         </a>
                        </div>
                     {{ end }}
