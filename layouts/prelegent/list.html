@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ with .Site.LanguageCode }}{{ . }}{{ else }}en-US{{ end }}">
+
+{{/* Ukryta strona /prelegent — dla prelegentów, bez linku w menu (patrz content/prelegent/_index.md).
+     Plik planszy: static/prelegent/przykazania-prelegenta.jpg i .pdf */}}
+{{- partial "head.html" . -}}
+
+<body id="body">
+
+    {{- partial "menu-only-start.html" . -}}
+    {{- partial "page-title.html" . -}}
+
+    {{ $img := "prelegent/przykazania-prelegenta.jpg" | absURL }}
+    {{ $pdf := "prelegent/przykazania-prelegenta.pdf" | absURL }}
+
+    <style>
+        .pl-section { padding: 50px 0; }
+        .pl-section h3 { margin: 40px 0 15px; color: #0050AA; }
+        .pl-section h3:first-child { margin-top: 0; }
+        .pl-list { color: #000; }
+        .pl-list li { margin-bottom: 8px; }
+
+        /* ścieżka eskalacji */
+        .pl-steps { list-style: none; padding: 0; margin: 0; counter-reset: krok; }
+        .pl-steps li { position: relative; padding: 12px 15px 12px 62px; margin-bottom: 12px; background: #f4f4fa; border-radius: 8px; counter-increment: krok; color: #000; }
+        .pl-steps li::before { content: counter(krok); position: absolute; left: 14px; top: 12px; width: 34px; height: 34px; line-height: 34px; text-align: center; color: #fff; font-weight: 700; border-radius: 50%; background-image: linear-gradient(100deg, #0050AA, #AA2896); }
+        .pl-steps strong { display: block; }
+        .pl-steps span { font-size: 0.9em; color: #555; }
+
+        /* plansza: duży obraz na komputerze, karty na telefonie */
+        .pl-poster img { width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 12px rgba(0,0,0,.15); }
+        .pl-buttons { margin: 18px 0 0; }
+        .pl-buttons .btn { margin: 0 8px 8px 0; }
+        .pl-cards { display: none; }
+        .pl-card { background: #fff; border: 1px solid #e3e3ee; border-left: 5px solid #AA2896; border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; color: #000; }
+        .pl-card b { display: block; color: #0050AA; margin-bottom: 4px; }
+        .pl-card small { display: block; color: #444; font-size: 0.9em; }
+        .pl-card-last { border-left-color: #0050AA; background: #f4f4fa; }
+        @media (max-width: 767px) {
+            .pl-poster { display: none; }
+            .pl-cards { display: block; }
+        }
+    </style>
+
+    <section class="pl-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 mx-auto">
+
+                    <h3>Dziękujemy, że wystąpisz na PM Connect Conf 2026!</h3>
+                    <p style="color:#000">Ta strona zbiera wszystko, co prelegent musi wiedzieć przed konferencją i w jej trakcie. Konferencja odbywa się 24 października 2026 (sobota) na WNEiZ UMK w Toruniu.</p>
+
+                    <h3>Co warto wiedzieć</h3>
+                    <ul class="pl-list">
+                        <li>Zakwalifikowanie wystąpienia potwierdził Ci e-mailem <strong>opiekun prelegenta</strong>. To Twoja pierwsza osoba do kontaktu w każdej sprawie.</li>
+                        <li>Merytorycznie Twoje wystąpienie wspiera <strong>członek Rady Programowej</strong>.</li>
+                        <li>Zasady zgłoszeń, ścieżki tematyczne i terminy opisuje strona <a href="{{ "call_for_papers/" | absURL }}">Call for Papers</a>.</li>
+                        <li>Plan dnia znajdziesz w <a href="{{ "#agenda" | absURL }}">agendzie konferencji</a>.</li>
+                        <li>Wystąpienie trwa 30 minut, a po nim jest 10 minut pytań.</li>
+                    </ul>
+
+                    <h3>Do kogo się zwrócić</h3>
+                    <p style="color:#000">Zacznij od pierwszego punktu. Kolejny krok jest na wypadek, gdy sprawa nie została rozwiązana.</p>
+                    <ol class="pl-steps">
+                        <li><strong>Opiekun prelegenta</strong><span>Osoba, od której dostałeś e-mail. Pisz bezpośrednio do niej.</span></li>
+                        <li><strong>Członek Rady Programowej</strong><span>Merytoryczny opiekun Twojego wystąpienia.</span></li>
+                        <li><strong>Project Manager konferencji: Wiola Borczyńska</strong><span>Kontakt w trakcie konferencji: {{ with .Site.Params.contact.phone }}{{ . }}{{ end }}.</span></li>
+                        <li><strong>Lider ds. Technicznych: Grzegorz Wyrzykowski</strong><span>Sprawy techniczne w trakcie konferencji: projektor, laptop, dźwięk, Internet.</span></li>
+                        <li><strong>Komitet Sterujący: Piotr Sobolewski, Przewodniczący Komitetu</strong><span>Ostatni krok, gdy poprzednie nie pomogły.</span></li>
+                    </ol>
+
+                    <h3>15 przykazań prelegenta</h3>
+                    <p style="color:#000">Jak zrobić prezentację, która przetrwa spotkanie z projektorem i ostatnim rzędem.</p>
+
+                    <div class="pl-poster">
+                        <a href="{{ $img }}" target="_blank" rel="noopener"><img src="{{ $img }}" alt="Plansza: 15 przykazań prelegenta PM Connect Conf" loading="lazy"></a>
+                    </div>
+
+                    <div class="pl-cards">
+                        <div class="pl-card"><b>1. Nie będziesz miał innych proporcji niż 16:9</b>Projektor to nie archeolog. Nie każ mu odkrywać formatu 4:3.</div>
+                        <div class="pl-card"><b>2. Nie będziesz używał czcionki 12 pt</b>Minimum 32 pt dla tekstu, 40 pt i więcej dla nagłówków. Jeśli tekst nie mieści się na slajdzie, problemem jest ilość tekstu, nie rozmiar czcionki.</div>
+                        <div class="pl-card"><b>3. Pamiętaj, aby jeden slajd jedną myśl święcił</b>Jeden slajd. Jedna główna myśl. Jeden komunikat, który zostanie w głowie.</div>
+                        <div class="pl-card"><b>4. Nie uczynisz z PowerPointa Worda</b>Slajd nie jest dokumentem. Ty opowiadasz. Slajd pomaga. Nie odwrotnie.</div>
+                        <div class="pl-card"><b>5. Nie będziesz czytał swoich slajdów</b>Na slajdzie zostaw sedno. Resztę opowiedz. Uczestnicy przyszli słuchać Ciebie!</div>
+                        <div class="pl-card"><b>6. Czcij kontrast swój</b>Jasne na ciemnym. Ciemne na jasnym. Unikaj niskiego kontrastu. Projektor nie lubi subtelności.</div>
+                        <div class="pl-card"><b>7. Nie będziesz polegał wyłącznie na kolorze</b>Dodaj liczbę, symbol, etykietę albo ikonę. Kolor to nie jedyny nośnik informacji.</div>
+                        <div class="pl-card"><b>8. Nie skopiujesz całego Excela</b>Pokaż liczbę. Pokaż trend. Pokaż wniosek. Excel zostaw na później.</div>
+                        <div class="pl-card"><b>9. Nie pożądasz dashboardu bliźniego swego</b>Wytnij fragment. Powiększ. Pokaż to, o czym właśnie mówisz.</div>
+                        <div class="pl-card"><b>10. Screenshot przytniesz i powiększysz</b>Crop jest Twoim przyjacielem. Pokaż dokładnie to, na co patrzymy.</div>
+                        <div class="pl-card"><b>11. Nie będziesz używał animacji nadaremno</b>Animacja ma pomagać prowadzić narrację. Jeśli nie pomaga, usuń ją.</div>
+                        <div class="pl-card"><b>12. Nie będziesz ufał Wi-Fi bezgranicznie</b>Demo online? Miej plan B! Screenshot, nagranie lub wersja offline uratują Twoje wystąpienie.</div>
+                        <div class="pl-card"><b>13. Nie będziesz mnożył slajdów ponad potrzebę</b>30 minut prezentacji to nie 73 slajdy. 15–20 slajdów merytorycznych to dobry punkt wyjścia. Ćwicz z zegarkiem!</div>
+                        <div class="pl-card"><b>14. Będziesz pamiętał o ostatnim rzędzie</b>Odejdź od monitora. Jeśli nie widzisz, oni też nie zobaczą. Projektuj dla ostatniego rzędu!</div>
+                        <div class="pl-card"><b>15. Nie będziesz wysyłał prezentacji bez próby generalnej</b>Sprawdź wszystko. Powiedz prezentację na głos. Zmieścisz się w czasie?</div>
+
+                        <div class="pl-card pl-card-last"><b>Test ostatniego rzędu</b>Spójrz na każdy slajd i odpowiedz: 1. Czy widzę? 2. Czy rozumiem? 3. Czy wiem, na co patrzeć? Jeśli na którekolwiek odpowiadasz „NIE", popraw slajd.</div>
+                        <div class="pl-card pl-card-last"><b>Pamiętaj o czasie!</b>30 minut prezentacji + 10 minut Q&amp;A. Twoja historia ma zostać zapamiętana. Nie prezentacja.</div>
+                        <div class="pl-card pl-card-last"><b>I przykazanie ponad wszystkie przykazania</b>Większa czcionka. Mocniejszy kontrast. Jedna myśl na slajd. Ty jesteś prelegentem. PowerPoint jest Twoją pomocą.</div>
+                    </div>
+
+                    <div class="pl-buttons">
+                        <a href="{{ $pdf }}" class="btn btn-main" download>Pobierz plansz&#281; (PDF)</a>
+                        <a href="{{ $img }}" class="btn btn-main" download>Pobierz plansz&#281; (JPG)</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{- partial "footer.html" . -}}
+</body>
+
+</html>
