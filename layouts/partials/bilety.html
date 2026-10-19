@@ -20,7 +20,7 @@
                 {{ range .item }}
                 {{ "<!-- single pricing table -->" | safeHTML }}
                 <div class="col-md-4 col-sm-6 col-xs-12">
-                    <div class="pricing-item">
+                    <div class="pricing-item{{ if .disabled }} pricing-item-disabled{{ end }}">
                         {{ "<!-- plan name & value -->" | safeHTML }}
                         <div class="price-title bg-pricing">
                             {{ with .name }}<h3>{{.}}</h3>{{ end }}
@@ -34,7 +34,11 @@
                             {{ end }}
                         </ul>
                         {{ "<!-- signup button -->" | safeHTML }}
+                        {{ if .disabled }}
+                        <span class="btn btn-main disabled" aria-disabled="true">{{ .disabledText | default "Sprzedaż zakończona" }}</span>
+                        {{ else }}
                         <a class="btn btn-main" href="{{.btnURL}}">{{.btnText}}</a>
+                        {{ end }}
                     </div>
                 </div>
                 {{ end }}

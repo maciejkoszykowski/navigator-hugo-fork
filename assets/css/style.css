@@ -1112,7 +1112,15 @@ a:focus, a:hover {
 /*=================================================================
   Pricing section
 ==================================================================*/
+/* Boxy w jednym rzędzie mają równą wysokość */
+.pricing-table .row > [class*="col-"] {
+  display: flex;
+}
+
 .pricing-table .pricing-item {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   margin-bottom: 15px;
   border-radius: 3px;
   padding-bottom: 40px;
@@ -1123,6 +1131,39 @@ a:focus, a:hover {
 .pricing-table .pricing-item a.btn-main, .pricing-table .pricing-item a.btn-main-sm {
   text-transform: uppercase;
   margin-top: 20px;
+}
+
+/* Przycisk przyklejony do dołu boxa, w jednym rzędzie na tej samej wysokości */
+.pricing-table .pricing-item .btn.btn-main {
+  align-self: center;
+  margin-top: auto;
+}
+
+/* Bilet po terminie: szara, półprzezroczysta nakładka, tekst nadal czytelny */
+.pricing-table .pricing-item-disabled {
+  position: relative;
+}
+
+.pricing-table .pricing-item-disabled::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(120, 120, 120, 0.35);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.pricing-table .pricing-item-disabled .btn.disabled {
+  background-color: #999;
+  background-image: linear-gradient(100deg, #b0b0b0, #dcdcdc);
+  color: #000;
+  font-weight: 600;
+  opacity: 1;
+  cursor: not-allowed;
+  pointer-events: none;
 }
 
 .pricing-table .pricing-item ul {
