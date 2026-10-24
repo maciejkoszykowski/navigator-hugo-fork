@@ -141,7 +141,7 @@ function toggleCollapse(id) {
                                             
                                             {{ if ne true $hideTiming}}
                                             <span style="font-size: large; text-align: left; font-weight: lighter;">
-                                                {{ $sessionsToPrint }} </span>
+                                                {{ $sessionsToPrint }}{{ with .room }} &nbsp;·&nbsp; {{ . }}{{ end }} </span>
                                             {{ end }}
 
                                             <br class="d-md-none d-lg-none">
@@ -270,6 +270,9 @@ function toggleCollapse(id) {
                                                    {{end}}
                                                 </div>
                                                 <div class="col text-white p-2">
+                                                   {{ with .room }}
+                                                        <span style="font-weight: lighter; display: block; padding-bottom: 4px;">{{ . }}</span>
+                                                   {{ end }}
                                                    {{ if .who}}
                                                         <span style="text-align: left; letter-spacing: 0.05em; " >
                                                         {{ .who | markdownify}} 
