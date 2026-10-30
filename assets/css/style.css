@@ -2145,6 +2145,29 @@ Prelegenci
   }
 }
 
+/* wariant nad hero (galeria.yml pasek.top: true): niski pasek tuż pod menu, bez nagłówka */
+.galeria-pasek--top {
+  padding: 0;
+  border-top: 6px solid #140727; /* pasek między menu a zdjęciami, kolor tła hero */
+}
+
+/* na komputerze odstęp między zdjęciami a nazwą konferencji (48px) */
+@media (min-width: 768px) {
+  .galeria-pasek--top + .hero-area {
+    padding-top: 48px;
+  }
+}
+
+.galeria-pasek--top .galeria-pasek-track {
+  height: 150px;
+}
+
+@media (max-width: 767px) {
+  .galeria-pasek--top .galeria-pasek-track {
+    height: 100px;
+  }
+}
+
 
 /*=================================================================
   Mapa uczestników (ukryta strona /mapka)

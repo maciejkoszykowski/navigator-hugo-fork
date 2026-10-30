@@ -16,7 +16,8 @@
         {{ end }}
     {{ end }}
     {{ "<!-- Start Galeria Pasek -->" | safeHTML }}
-    <section class="galeria-pasek bg-gray" id="galeria-pasek">
+    <section class="galeria-pasek bg-gray{{ if .top }} galeria-pasek--top{{ end }}" id="galeria-pasek">
+        {{ if not .top }}
         {{/* nagłówek w tym samym stylu co sekcja Prelegenci */}}
         <div class="container">
             <div class="title text-center">
@@ -29,6 +30,7 @@
                 {{ end }}
             </div>
         </div>
+        {{ end }}
         <div class="galeria-pasek-wrap">
             <button class="galeria-pasek-arrow galeria-pasek-prev" type="button" aria-label="Poprzednie zdjęcia">&#8249;</button>
             <div class="galeria-pasek-track"
@@ -37,7 +39,7 @@
                  data-photos="{{ $photos | jsonify }}"></div>
             <button class="galeria-pasek-arrow galeria-pasek-next" type="button" aria-label="Następne zdjęcia">&#8250;</button>
         </div>
-        {{ with .link_text }}
+        {{ with and (not .top) .link_text }}
         <div class="text-center galeria-pasek-link">
             <a href="{{ "galeria/" | relURL }}">{{ . }}</a>
         </div>

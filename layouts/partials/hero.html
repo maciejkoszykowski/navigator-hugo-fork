@@ -219,6 +219,15 @@
   </div>
 </div>
 
+{{/* linki do archiwów poprzednich edycji (hero.yml: archive_txt, archive_links) */}}
+{{ $archiveTxt := .archive_txt }}
+{{ with .archive_links }}
+<p class="hero-archive-links" style="color: white; margin-top: 16px; padding-left: 12px; padding-right: 12px;">
+  {{ $archiveTxt }}
+  {{ range $i, $l := . }}{{ if $i }} · {{ end }}<a href="{{ $l.url }}" style="color: white; font-weight: bold; text-decoration: underline;">{{ $l.name }}</a>{{ end }}
+</p>
+{{ end }}
+
 <script>
   function updateCountdown() {
     const targetElement = document.getElementById("countdown-target");
@@ -280,13 +289,13 @@
                     <h5 style="color: white; padding-left: 12px;"> Organizatorzy </h5> <br>
                     <div class="row">
                         <div class="col-md-6 col-sm-12">
-                            <img class="mx-auto d-none d-md-block" style="padding-top: 9px; padding-bottom: 55px;" src="{{ site.Params.logo_pmi | absURL }}" alt="PMI Poland Chapter – Oddział Kujawsko-Pomorski">
-                            <img class="mx-auto d-md-none d-sm-block" style="padding-left: 6px; padding-top: 9px; padding-bottom: 55px;" src="{{ site.Params.logo_pmi | absURL }}" alt="PMI Poland Chapter – Oddział Kujawsko-Pomorski">
+                            <img class="mx-auto d-none d-md-block" style="width: 185px; height: auto; padding-top: 9px; padding-bottom: 55px;" src="{{ site.Params.logo_pmi | absURL }}" alt="PMI Poland Chapter – Oddział Kujawsko-Pomorski">
+                            <img class="mx-auto d-md-none d-sm-block" style="width: 178px; height: auto; padding-left: 6px; padding-top: 9px; padding-bottom: 55px;" src="{{ site.Params.logo_pmi | absURL }}" alt="PMI Poland Chapter – Oddział Kujawsko-Pomorski">
                         </div> 
 
                         <div class="col-md-6 col-sm-12">
-                            <img class="mx-auto d-none d-md-block" style="padding-left: 50px;"src="{{ site.Params.logo_umk | absURL }}" alt="Wydział Nauk Ekonomicznych i Zarządzania UMK">
-                            <img class="mx-auto d-md-none d-sm-block" style="padding-left: 11px;"src="{{ site.Params.logo_umk | absURL }}" alt="Wydział Nauk Ekonomicznych i Zarządzania UMK">
+                            <img class="mx-auto d-none d-md-block" style="width: 263px; height: auto; padding-left: 50px;"src="{{ site.Params.logo_umk | absURL }}" alt="Wydział Nauk Ekonomicznych i Zarządzania UMK">
+                            <img class="mx-auto d-md-none d-sm-block" style="width: 209px; height: auto; padding-left: 11px;"src="{{ site.Params.logo_umk | absURL }}" alt="Wydział Nauk Ekonomicznych i Zarządzania UMK">
                         </div>
                     </div>
 

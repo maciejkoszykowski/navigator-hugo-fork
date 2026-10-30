@@ -1,8 +1,12 @@
 {{ define "main" }}
 
+  {{/* pasek zdjęć: nad hero (galeria.yml pasek.top: true, niski, bez nagłówka) albo pod hero */}}
+  {{ $pasekTop := false }}{{ with .Site.Data.galeria.pasek }}{{ $pasekTop = .top }}{{ end }}
+  {{ if $pasekTop }}{{ partial "galeria-pasek.html" . }}{{ end }}
+
   {{ partial "hero.html" . }}
 
-  {{ partial "galeria-pasek.html" . }}
+  {{ if not $pasekTop }}{{ partial "galeria-pasek.html" . }}{{ end }}
 
   <div id="opisKonferencji"></div>
 

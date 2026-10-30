@@ -37,8 +37,8 @@
 {{ $shortDescription := "" }}
 {{ with .Description }}{{ $shortDescription = . }}{{ end }}
 {{ if and .IsHome (not .Description) }}
-  {{ $pageTitle = "PM Connect Conf 2026 — Konferencja PM w erze AI, 24.10 Toruń" }}
-  {{ $shortDescription = "PM Connect Conf 2026 — konferencja PMI Poland Chapter i UMK w Toruniu o zarządzaniu projektami w erze AI. 24 października 2026, Toruń." }}
+  {{ $pageTitle = "PM Connect Conf 2027 — konferencja project managementu, 23.10.2027" }}
+  {{ $shortDescription = "PM Connect Conf 2027 — konferencja PMI Poland Chapter i UMK w Toruniu o zarządzaniu projektami. 23 października 2027." }}
 {{ else if not $shortDescription }}
   {{ with .Site.Params.description }}{{ $shortDescription = . }}{{ end }}
 {{ end }}
@@ -82,14 +82,21 @@
 {{ $eventData := dict
   "@context" "https://schema.org"
   "@type" "Event"
-  "name" "PM Connect Conf 2026"
-  "startDate" "2026-10-24T10:00:00+02:00"
-  "endDate" "2026-10-24T17:30:00+02:00"
+  "name" "PM Connect Conf 2027"
+  "startDate" "2027-10-23T09:40:00+02:00"
   "eventAttendanceMode" "https://schema.org/OfflineEventAttendanceMode"
   "eventStatus" "https://schema.org/EventScheduled"
   "description" $ogDescription
   "image" (slice (`images/og-image.png` | absURL))
-  "location" (dict
+  "organizer" (dict
+    "@type" "Organization"
+    "name" "PMI Poland Chapter — Kujawsko-Pomorskie Branch"
+    "url" .Site.BaseURL
+  )
+}}
+{{/* 2027: endDate usunięte (godzina końca nieznana). Miejsce jak w 2026 - tylko dla Google,
+     niezależnie od tego, czy sekcja Lokalizacja jest widoczna na stronie. */}}
+  {{ $eventData = merge $eventData (dict "location" (dict
     "@type" "Place"
     "name" "Wydział Nauk Ekonomicznych i Zarządzania UMK w Toruniu"
     "address" (dict
@@ -99,14 +106,8 @@
       "addressLocality" "Toruń"
       "addressCountry" "PL"
     )
-  )
-  "organizer" (dict
-    "@type" "Organization"
-    "name" "PMI Poland Chapter — Kujawsko-Pomorskie Branch"
-    "url" .Site.BaseURL
-  )
-}}
-{{ with $data.bilety }}{{ with index .item 0 }}
+  )) }}
+{{ with $data.bilety }}{{ if .enable }}{{ with index .item 0 }}
   {{/* validFrom taken from the Early Birds ticket's own "01 sierpnia 2026 – ..." range in
        bilety.yml's featurelist text - kept in sync by hand, same as startDate/endDate above,
        since that text isn't in a structured/parseable date field. */}}
@@ -118,14 +119,14 @@
     "availability" "https://schema.org/InStock"
     "validFrom" "2026-08-01"
   )) }}
-{{ end }}{{ end }}
-{{ with $data.prelegenci }}{{ with .item }}
+{{ end }}{{ end }}{{ end }}
+{{ with $data.prelegenci }}{{ if .enable }}{{ with .item }}
   {{ $performers := slice }}
   {{ range . }}
     {{ $performers = $performers | append (dict "@type" "Person" "name" .title) }}
   {{ end }}
   {{ $eventData = merge $eventData (dict "performer" $performers) }}
-{{ end }}{{ end }}
+{{ end }}{{ end }}{{ end }}
 <script type="application/ld+json">
 {{ $eventData | jsonify (dict "indent" "  ") | safeJS }}
 </script>
