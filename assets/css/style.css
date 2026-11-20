@@ -1259,67 +1259,67 @@ a:focus, a:hover {
   overflow: hidden;
 }
 
-.portfolio-block:before {
+/* Galeria: po najechaniu zdjęcie lekko się powiększa, w lewym dolnym rogu pojawia się różowy przycisk "zoom".
+   Całe zdjęcie jest linkiem do powiększenia (lightbox). */
+.portfolio-link {
+  display: block;
+  position: relative;
+  cursor: zoom-in;
+}
+
+.portfolio-link img {
+  transition: transform .5s ease;
+}
+
+.portfolio-link:after {
   content: '';
   position: absolute;
+  inset: 0;
+  background: rgba(20, 7, 39, .15);
   opacity: 0;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: #AA2896;
-  transition: .3s all;
-}
-
-.portfolio-block:hover:before {
-  opacity: 1;
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
-}
-
-.portfolio-block:hover .caption h4 {
-  -webkit-transform: translate3d(0, 0, 0);
-          transform: translate3d(0, 0, 0);
-}
-
-.portfolio-block:hover .caption {
-  opacity: 1;
-  visibility: visible;
-}
-
-.portfolio-block:hover .caption .search-icon {
-  opacity: 1;
-  visibility: visible;
+  transition: opacity .3s ease;
 }
 
 .portfolio-block .caption {
   position: absolute;
   bottom: 10%;
   left: 10%;
-  opacity: 0;
-  z-index: 9;
-  transition: all 0.3s ease-in-out;
-  visibility: hidden;
-}
-
-.portfolio-block .caption h4 {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.portfolio-block .caption h4 a {
-  color: #fff;
-}
-
-.portfolio-block .caption .search-icon {
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   background: #AA2896;
   color: #fff;
-  display: inline-block;
-  padding: 4px 13px;
-  font-size: 25px;
+  padding: 3px 9px;
+  font-size: 18px;
   border-radius: 30px;
   opacity: 0;
-  visibility: hidden;
+  transform: translateY(8px);
+  transition: opacity .3s ease, transform .3s ease;
+}
+
+.portfolio-link:hover img,
+.portfolio-link:focus-visible img {
+  transform: scale(1.06);
+}
+
+.portfolio-link:hover:after,
+.portfolio-link:focus-visible:after,
+.portfolio-link:hover .caption,
+.portfolio-link:focus-visible .caption {
+  opacity: 1;
+}
+
+.portfolio-link:hover .caption,
+.portfolio-link:focus-visible .caption {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portfolio-link img,
+  .portfolio-block .caption {
+    transition: none;
+  }
 }
 
 /*=================================================================

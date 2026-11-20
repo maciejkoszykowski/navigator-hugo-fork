@@ -39,13 +39,12 @@
     {{ range seq $item.image_count }}
         <div class="col-lg-2 col-md-3 col-4 px-0 filtr-item" data-category="{{ $item.category }}">
             <div class="portfolio-block">
-                <img class="img-fluid" src="{{ $item.title }}/thumbnails/{{ . }}_thumb.jpg" alt="PMCC {{ $item.title }} – zdjęcie {{ . }}" loading="lazy"
-                style="width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: center; display: block;">
-                <div class="caption">
-                    <a class="search-icon" href="{{ $item.title }}/web/{{ . }}.jpg" data-lightbox="galeria">
-                        <i class="tf-ion-ios-search-strong"></i> &nbsp;&nbsp; zoom
-                    </a>
-                </div>
+                {{/* całe zdjęcie to link do powiększenia; lupa pojawia się po najechaniu myszą */}}
+                <a class="portfolio-link" href="{{ $item.title }}/web/{{ . }}.jpg" data-lightbox="galeria">
+                    <img class="img-fluid" src="{{ $item.title }}/thumbnails/{{ . }}_thumb.jpg" alt="PMCC {{ $item.title }} – zdjęcie {{ . }}" loading="lazy"
+                    style="width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: center; display: block;">
+                    <span class="caption" aria-hidden="true"><i class="tf-ion-ios-search-strong"></i> zoom</span>
+                </a>
             </div>
         </div>
     {{ end }}
